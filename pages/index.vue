@@ -1,11 +1,15 @@
-<script setup>
-const message = ref("Test Deployment");
-</script>
+<script setup></script>
 
 <template>
-  <div>
-    <h1>{{ message }}</h1>
+  <div class="home">
+    <div class="upload"></div>
+    <div class="projects hi">
+      <p>Show previous projects stored in Drive here.</p>
+    </div>
   </div>
 </template>
 
-<style></style>
+<style lang="stylus" scoped>
+.projects
+  background hello
+</style>
