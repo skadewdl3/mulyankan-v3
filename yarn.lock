@@ -2819,11 +2819,6 @@ nuxi@3.0.0-rc.13:
   optionalDependencies:
     fsevents "~2.3.2"
 
-nuxt-stylus-resources-loader@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/nuxt-stylus-resources-loader/-/nuxt-stylus-resources-loader-2.0.0.tgz#7f2a35b0d42fbac2ba1a38f46b8ebfedd4ba5d22"
-  integrity sha512-/qr3PUUxJs9b+dWWV9XShKyndSMH4VzLphiBkzP1IiKQqWdv7RRyvIFihfVvsKMTHQzS0YCP/dN3eU+aeOO0Hg==
-
 nuxt@3.0.0-rc.13:
   version "3.0.0-rc.13"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-3.0.0-rc.13.tgz#30a14dbf4da1aa61b369c7ea93759e9e9b87d42c"
