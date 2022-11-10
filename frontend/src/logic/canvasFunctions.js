@@ -1,10 +1,17 @@
 import { fabric } from 'fabric'
 
-const addBackgroundImage = (fcanvas, src) => {
+// const scaleFactor = 0.25
+
+const addBackgroundImage = (fcanvas, src, pageWidth) => {
   fabric.Image.fromURL(src, img => {
+    let scaleFactor = pageWidth / img.width
+    console.log(scaleFactor)
+    let width = img.width * scaleFactor
+    let height = img.height * scaleFactor
+
     // Resize canvas to be size of background image
-    fcanvas.setWidth(img.width)
-    fcanvas.setHeight(img.height)
+    fcanvas.setWidth(width)
+    fcanvas.setHeight(height)
 
     // Add the background image to the canvas and send it to the back
     fcanvas.add(img)
@@ -16,17 +23,15 @@ const addBackgroundImage = (fcanvas, src) => {
       hasBorders: false, // Prevents the background image from having borders
       hasControls: false, // Prevents the background image from being resized/rotated
       hasRotatingPoint: false,
-      originX: 'center',
-      originY: 'center',
-      top: img.height / 2,
-      left: img.width / 2
+      scaleX: scaleFactor,
+      scaleY: scaleFactor
     })
   })
 }
 
-export const createCanvas = (id, src) => {
+export const createCanvas = (id, src, pageWidth) => {
   const fcanvas = new fabric.Canvas(id)
-  addBackgroundImage(fcanvas, src)
+  addBackgroundImage(fcanvas, src, pageWidth)
   fcanvas.renderAll()
   console.log(fcanvas)
   return fcanvas

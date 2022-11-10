@@ -19,7 +19,7 @@ export const pdfBinaryToImages = async data => {
 
   for (let i = 1; i <= doc.numPages; i++) {
     let page = await doc.getPage(i)
-    let viewport = page.getViewport({ scale: 2 })
+    let viewport = page.getViewport({ scale: 4 })
     let canvas = document.createElement('canvas')
     canvas.width = viewport.width
     canvas.height = viewport.height

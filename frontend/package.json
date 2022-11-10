@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "fabric": "^5.2.4",
+    "lodash.throttle": "^4.1.1",
     "pdfjs-dist": "^3.0.279",
     "stylus": "^0.59.0",
     "stylus-loader": "^7.1.0",
