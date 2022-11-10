@@ -4,7 +4,8 @@ import mutations from './mutations'
 export const store = createStore({
   state() {
     return {
-      imageSources: []
+      imageSources: [],
+      images: []
     }
   },
   mutations

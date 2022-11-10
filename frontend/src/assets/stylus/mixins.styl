@@ -21,3 +21,17 @@ atTablet()
 atDesktop()
   @media (min-width: 1200px)
     {block}
+
+// Used on most pages to set padding of root element
+container()
+  width 100%
+  min-height 100vh
+  height 100%
+  +mobile()
+    padding 2rem 1rem
+  +atMobile()
+    padding 2rem 5rem
+  +atTablet()
+    padding 4rem 8rem
+  +atDesktop()
+    padding 4rem 15rem
