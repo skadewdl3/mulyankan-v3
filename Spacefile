@@ -1,0 +1,12 @@
+v: 0
+micros:
+  - name: mulyankan-frontend
+    src: ./frontend
+    engine: vue
+    primary: true
+
+  - name: mulyankan-backend
+    src: ./backend
+    engine: nodejs16
+    path: api
+    run: "node index.js"
