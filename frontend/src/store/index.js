@@ -7,7 +7,8 @@ export const store = createStore({
       imageSources: [],
       images: [],
       showControls: false,
-      controlMode: 'preprocess'
+      controlMode: 'preprocess',
+      zoom: 1
     }
   },
   mutations

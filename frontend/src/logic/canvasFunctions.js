@@ -6,6 +6,7 @@ const addBackgroundImage = (fcanvas, src, pageWidth) => {
   fabric.Image.fromURL(src, img => {
     let scaleFactor = pageWidth / img.width
     console.log(scaleFactor)
+
     let width = img.width * scaleFactor
     let height = img.height * scaleFactor
 

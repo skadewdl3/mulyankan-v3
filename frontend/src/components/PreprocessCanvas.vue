@@ -22,32 +22,30 @@ watch(canvas, () => {
 })
 
 // This function watches for changes in the width of the page and resizes the canvas accordingly
-watch(
-  () => props.pageWidth,
-  () => {
-    if (!canvas) return
+watch([() => props.pageWidth, () => store.state.zoom], () => {
+  if (!canvas) return
 
-    const pageWidth = document.querySelector('.canvases').offsetWidth
+  const pageWidth = document.querySelector('.canvases').offsetWidth
 
-    store.state.images.map(fcanvas => {
-      let backgroundImage = fcanvas._objects[0]
-      let scaleFactor = pageWidth / fcanvas.width
-      let bgScaleFactor = pageWidth / backgroundImage.width
+  store.state.images.map(fcanvas => {
+    let zoom = store.state.zoom
+    let backgroundImage = fcanvas._objects[0]
+    let scaleFactor = (pageWidth / fcanvas.width) * zoom
+    let bgScaleFactor = (pageWidth / backgroundImage.width) * zoom
 
-      backgroundImage.set({
-        scaleX: bgScaleFactor,
-        scaleY: bgScaleFactor
-      })
-
-      fcanvas.setDimensions({
-        width: pageWidth,
-        height: fcanvas.height * scaleFactor
-      })
-
-      fcanvas.renderAll()
+    backgroundImage.set({
+      scaleX: bgScaleFactor,
+      scaleY: bgScaleFactor
     })
-  }
-)
+
+    fcanvas.setDimensions({
+      width: pageWidth * zoom,
+      height: fcanvas.height * scaleFactor
+    })
+
+    fcanvas.renderAll()
+  })
+})
 </script>
 
 <template>

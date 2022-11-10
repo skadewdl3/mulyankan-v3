@@ -35,8 +35,6 @@ onMounted(() => {
 
 <template>
   <div class="preprocess">
-    <div class="logo">Mulyankan</div>
-    <div class="title">Preprocess</div>
     <div class="canvases" ref="canvasContainer">
       <PreprocessCanvas
         v-for="(image, index) in store.state.imageSources"
@@ -52,13 +50,4 @@ onMounted(() => {
 .preprocess
   container()
   background neutral
-
-.logo
-  font-family megrim
-  font-size 2.5rem
-  font-weight bold
-  color primary
-.title
-  font-size 4rem
-  font-weight 700
 </style>
