@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import throttle from 'lodash.throttle'
@@ -29,6 +29,7 @@ onMounted(() => {
     router.push('/')
     return
   }
+  store.commit('setControls', { show: true, mode: 'preprocess' })
 })
 </script>
 

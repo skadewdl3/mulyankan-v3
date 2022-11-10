@@ -5,7 +5,9 @@ export const store = createStore({
   state() {
     return {
       imageSources: [],
-      images: []
+      images: [],
+      showControls: false,
+      controlMode: 'preprocess'
     }
   },
   mutations

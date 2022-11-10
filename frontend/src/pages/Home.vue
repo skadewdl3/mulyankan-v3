@@ -1,10 +1,15 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { pdfToBinaryString, pdfBinaryToImages } from '@/logic/pdfFunctions'
 const store = useStore()
 const router = useRouter()
+
+// Hide the controls bar by default
+onMounted(() => {
+  store.commit('setControls', { show: false })
+})
 
 const fileInput = ref(null)
 

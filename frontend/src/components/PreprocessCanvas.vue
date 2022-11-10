@@ -8,6 +8,7 @@ const canvas = ref(null)
 
 const props = defineProps(['index', 'src', 'pageWidth'])
 
+// Link the canvas element to fabric js when it is mounted
 watch(canvas, () => {
   if (!canvas) return
 
@@ -15,8 +16,9 @@ watch(canvas, () => {
   const pageWidth = document.querySelector('.canvases').offsetWidth
 
   let fcanvas = createCanvas(`canvas-${props.index}`, props.src, pageWidth)
+
+  // Store all fabric canvases in the store to easily manipulate them later
   store.commit('setImages', [...store.state.images, fcanvas])
-  console.log(store.state.images)
 })
 
 // This function watches for changes in the width of the page and resizes the canvas accordingly
