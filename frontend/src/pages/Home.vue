@@ -1,6 +1,10 @@
 <script setup>
-import { ref } from 'vue'
-import { pdfToBinaryString, pdfBinaryToImages } from './../logic/pdfFunctions'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { pdfToBinaryString, pdfBinaryToImages } from '@/logic/pdfFunctions'
+const store = useStore()
+const router = useRouter()
 
 const fileInput = ref(null)
 
@@ -12,7 +16,8 @@ const processFile = async e => {
   if (e.target.files.length === 0) return
   let pdfBinary = await pdfToBinaryString(e.target.files[0])
   let imgArr = await pdfBinaryToImages(pdfBinary)
-  console.log(imgArr)
+  store.commit('setImageSources', imgArr)
+  router.push('/preprocess')
 }
 </script>
 
