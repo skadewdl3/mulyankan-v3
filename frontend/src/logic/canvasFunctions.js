@@ -1,11 +1,8 @@
 import { fabric } from 'fabric'
 
-// const scaleFactor = 0.25
-
 const addBackgroundImage = (fcanvas, src, pageWidth) => {
   fabric.Image.fromURL(src, img => {
     let scaleFactor = pageWidth / img.width
-    console.log(scaleFactor)
 
     let width = img.width * scaleFactor
     let height = img.height * scaleFactor
@@ -34,6 +31,5 @@ export const createCanvas = (id, src, pageWidth) => {
   const fcanvas = new fabric.Canvas(id)
   addBackgroundImage(fcanvas, src, pageWidth)
   fcanvas.renderAll()
-  console.log(fcanvas)
   return fcanvas
 }

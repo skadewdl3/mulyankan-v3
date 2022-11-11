@@ -50,4 +50,5 @@ onMounted(() => {
 .preprocess
   container()
   background neutral
+  overflow auto
 </style>

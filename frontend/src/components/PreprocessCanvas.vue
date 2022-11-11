@@ -36,6 +36,8 @@ watch([() => props.pageWidth, () => store.state.zoom], () => {
     backgroundImage.set({
       scaleX: bgScaleFactor,
       scaleY: bgScaleFactor
+      // top: (backgroundImage.height * bgScaleFactor) / 2,
+      // left: (backgroundImage.width * bgScaleFactor) / 2
     })
 
     fcanvas.setDimensions({
@@ -55,4 +57,8 @@ watch([() => props.pageWidth, () => store.state.zoom], () => {
 <style lang="stylus">
 .canvas-container
   margin-bottom 1rem
+.canvases
+  display flex
+  flex-direction column
+  align-items center
 </style>

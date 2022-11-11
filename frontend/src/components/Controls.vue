@@ -1,6 +1,39 @@
 <script setup>
 import { useStore } from 'vuex'
 const store = useStore()
+
+const controlButtons = [
+  {
+    text: 'Rotate All Left',
+    icon: 'icon-rotate-all-left',
+    action: () => 'rotating all left'
+  },
+  {
+    text: 'Rotate All Right',
+    icon: 'icon-rotate-all-right',
+    action: () => 'rotating all right'
+  },
+  {
+    text: 'Reset Zoom',
+    icon: 'icon-reset-zoom',
+    action: () => store.commit('resetZoom')
+  },
+  {
+    text: 'Zoom In',
+    icon: 'icon-zoom-in',
+    action: () => store.commit('zoomIn')
+  },
+  {
+    text: 'Zoom Out',
+    icon: 'icon-zoom-out',
+    action: () => store.commit('zoomOut')
+  },
+  {
+    text: 'Editor',
+    icon: 'icon-arrow-right',
+    action: () => 'going to editor'
+  }
+]
 </script>
 
 <template>
@@ -14,9 +47,14 @@ const store = useStore()
           </div>
         </div>
         <div class="control-btns">
-          <button @click="store.commit('zoomIn')">Zoom In</button>
-          <button @click="store.commit('zoomOut')">Zoom Out</button>
-          <button>Editor</button>
+          <button
+            v-for="btn in controlButtons"
+            class="control-btn"
+            @click="btn.action"
+          >
+            <span class="control-btn-text">{{ btn.text }}</span>
+            <component :is="btn.icon" class="control-btn-icon" />
+          </button>
         </div>
       </div>
       <div class="controls__content">
@@ -63,16 +101,23 @@ const store = useStore()
       font-size 1.5rem
       text-transform capitalize
 
-  button
+  .control-btns
+    display flex
+  .control-btn
     padding 0.5rem 1rem
     background neutral
     border-radius 0.5rem
     font-size 1.5rem
     margin 0 1rem
     cursor pointer
+    display flex
+    align-items center
+    justify-content center
     transition all .2s ease-out
     &:hover
       background #eee
     &:last-child
       margin-right 0
+    &-icon
+      margin-left 0.5rem
 </style>

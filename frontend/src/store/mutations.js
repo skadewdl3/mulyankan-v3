@@ -29,6 +29,10 @@ const zoomIn = state => {
   state.zoom = roundOff(state.zoom + 0.1, 1)
 }
 
+const resetZoom = state => {
+  state.zoom = 1
+}
+
 const zoomOut = state => {
   if (state.zoom <= 0.2) return
   state.zoom = roundOff(state.zoom - 0.1, 1)
@@ -39,5 +43,6 @@ export default {
   setImages,
   setControls,
   zoomIn,
-  zoomOut
+  zoomOut,
+  resetZoom
 }

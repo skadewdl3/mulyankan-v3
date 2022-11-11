@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
     "fabric": "^5.2.4",
     "lodash.throttle": "^4.1.1",
     "pdfjs-dist": "^3.0.279",
