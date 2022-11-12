@@ -1,7 +1,9 @@
 <script setup>
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import { rotateCanvas } from '@/logic/canvasTransforms'
 const store = useStore()
+const router = useRouter()
 
 const controlButtons = [
   {
@@ -42,7 +44,8 @@ const controlButtons = [
   {
     text: 'Editor',
     icon: 'icon-arrow-right',
-    action: () => 'going to editor'
+    action: () => 'going to editor',
+    primary: true
   }
 ]
 </script>
@@ -53,6 +56,7 @@ const controlButtons = [
       <div class="controls__top">
         <div class="tabs">
           <div class="title">
+            <icon-arrow-left class="back-icon" @click="router.push('/')" />
             <span class="title__logo">Mulyankan</span
             ><span class="title__text">- {{ store.state.controlMode }}</span>
           </div>
@@ -60,8 +64,8 @@ const controlButtons = [
         <div class="control-btns">
           <button
             v-for="btn in controlButtons"
-            class="control-btn"
             @click="btn.action"
+            :class="`control-btn ${btn.primary ? 'control-btn-primary' : ''}`"
           >
             <span class="control-btn-text">{{ btn.text }}</span>
             <component :is="btn.icon" class="control-btn-icon" />
@@ -83,6 +87,14 @@ const controlButtons = [
   padding 0.5rem 2rem
   padding-bottom 0
   background neutral
+
+.back-icon
+  font-size 1.5rem
+  margin-right 1rem
+  cursor pointer
+  transition all .2s ease-out
+  &:hover
+    color primary
 .controls
   background #fff
   width 100%
@@ -125,10 +137,15 @@ const controlButtons = [
     align-items center
     justify-content center
     transition all .2s ease-out
+
     &:hover
       background #eee
     &:last-child
       margin-right 0
     &-icon
       margin-left 0.5rem
+    &-primary
+      &:hover
+        background primary
+        color #fff
 </style>

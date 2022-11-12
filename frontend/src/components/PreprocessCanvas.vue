@@ -11,6 +11,26 @@ const props = defineProps(['index', 'src', 'pageWidth'])
 
 const canvasControls = [
   {
+    icon: 'icon-up',
+    action: () => {
+      let newSources = [...store.state.imageSources]
+      let temp = newSources[props.index - 1]
+      newSources[props.index - 1] = newSources[props.index]
+      newSources[props.index] = temp
+      store.commit('setImageSources', newSources)
+    }
+  },
+  {
+    icon: 'icon-down',
+    action: () => {
+      let newSources = [...store.state.imageSources]
+      let temp = newSources[props.index + 1]
+      newSources[props.index + 1] = newSources[props.index]
+      newSources[props.index] = temp
+      store.commit('setImageSources', newSources)
+    }
+  },
+  {
     icon: 'icon-rotate-left',
     action: async () => {
       let newSources = await rotateCanvas(
@@ -32,6 +52,7 @@ const canvasControls = [
       store.commit('setImageSources', newSources)
     }
   },
+
   {
     icon: 'icon-delete',
     action: () => {
@@ -123,6 +144,4 @@ watch([() => props.pageWidth, () => store.state.zoom], () => {
       margin-left 0
     &:last-child
       margin-right 0
-    &-icon
-      margin-left 0.5rem
 </style>
