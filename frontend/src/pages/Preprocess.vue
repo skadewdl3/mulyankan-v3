@@ -3,7 +3,7 @@ import { onMounted, watch, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import throttle from 'lodash.throttle'
-import PreprocessCanvas from '../components/PreprocessCanvas.vue'
+import PreprocessCanvas from '@/components/preprocessing/PreprocessCanvas.vue'
 const store = useStore()
 const router = useRouter()
 
@@ -31,21 +31,17 @@ onMounted(() => {
   }
   store.commit('setControls', { show: true, mode: 'preprocess' })
 })
-
-watch([() => store.state.imageSources], () => {
-  rerenderKey.value++
-  store.commit('setImages', [])
-})
 </script>
 
 <template>
   <div class="preprocess">
-    <div class="canvases" ref="canvasContainer" :key="rerenderKey">
+    <div class="canvases" ref="canvasContainer">
       <PreprocessCanvas
         v-for="(image, index) in store.state.imageSources"
         :index="index"
         :src="image"
         :pageWidth="pageWidth"
+        :key="image"
       />
     </div>
   </div>

@@ -18,7 +18,8 @@ const canvasControls = [
       newSources[props.index - 1] = newSources[props.index]
       newSources[props.index] = temp
       store.commit('setImageSources', newSources)
-    }
+    },
+    condition: props.index > 0
   },
   {
     icon: 'icon-down',
@@ -28,7 +29,8 @@ const canvasControls = [
       newSources[props.index + 1] = newSources[props.index]
       newSources[props.index] = temp
       store.commit('setImageSources', newSources)
-    }
+    },
+    condition: props.index < store.state.imageSources.length - 1
   },
   {
     icon: 'icon-rotate-left',
@@ -80,7 +82,13 @@ watch(canvas, () => {
   )
 
   // Store all fabric canvases in the store to easily manipulate them later
-  store.commit('setImages', [...store.state.images, fcanvas])
+  if (store.state.images[props.index]) {
+    let temp = store.state.images
+    temp[props.index] = fcanvas
+    store.commit('setImages', temp)
+  } else {
+    store.commit('setImages', [...store.state.images, fcanvas])
+  }
 })
 
 // This function watches for changes in the width of the page and resizes the canvas accordingly
@@ -96,13 +104,15 @@ watch([() => props.pageWidth, () => store.state.zoom], () => {
 <template>
   <div class="canvas-controls-wrapper">
     <div class="canvas-controls">
-      <button
-        @click="btn.action"
-        v-for="btn in canvasControls"
-        class="control-btn"
-      >
-        <component :is="btn.icon" class="control-btn-icon"></component>
-      </button>
+      <template v-for="btn in canvasControls">
+        <button
+          @click="btn.action"
+          v-if="btn.condition === undefined || btn.condition"
+          class="control-btn"
+        >
+          <component :is="btn.icon" class="control-btn-icon"></component>
+        </button>
+      </template>
     </div>
   </div>
   <canvas ref="canvas" class="canvas" :id="`canvas-${index}`"></canvas>
