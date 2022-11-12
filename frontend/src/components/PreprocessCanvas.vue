@@ -51,7 +51,12 @@ watch(canvas, () => {
   const pageWidth = document.querySelector('.canvases').offsetWidth
 
   // Create the canvas using fabric js
-  let fcanvas = createCanvas(`canvas-${props.index}`, props.src, pageWidth)
+  let fcanvas = createCanvas(
+    `canvas-${props.index}`,
+    props.src,
+    pageWidth,
+    store.state.zoom
+  )
 
   // Store all fabric canvases in the store to easily manipulate them later
   store.commit('setImages', [...store.state.images, fcanvas])
