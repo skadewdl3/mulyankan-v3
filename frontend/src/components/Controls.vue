@@ -1,17 +1,28 @@
 <script setup>
 import { useStore } from 'vuex'
+import { rotateCanvas } from '@/logic/canvasTransforms'
 const store = useStore()
 
 const controlButtons = [
   {
     text: 'Rotate All Left',
     icon: 'icon-rotate-all-left',
-    action: () => 'rotating all left'
+    action: async () => {
+      store.commit(
+        'setImageSources',
+        await rotateCanvas(store.state.imageSources, 'left')
+      )
+    }
   },
   {
     text: 'Rotate All Right',
     icon: 'icon-rotate-all-right',
-    action: () => 'rotating all right'
+    action: async () => {
+      store.commit(
+        'setImageSources',
+        await rotateCanvas(store.state.imageSources, 'right')
+      )
+    }
   },
   {
     text: 'Reset Zoom',

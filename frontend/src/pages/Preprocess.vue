@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, watch, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import throttle from 'lodash.throttle'
@@ -8,6 +8,7 @@ const store = useStore()
 const router = useRouter()
 
 const canvasContainer = ref(null)
+const rerenderKey = ref(0)
 
 // Default values for the pageWidth is width of canvasContainer
 const pageWidth = ref(canvasContainer.value?.offsetWidth)
@@ -31,11 +32,18 @@ onMounted(() => {
   }
   store.commit('setControls', { show: true, mode: 'preprocess' })
 })
+
+watch(
+  () => store.state.imageSources,
+  () => {
+    rerenderKey.value++
+  }
+)
 </script>
 
 <template>
   <div class="preprocess">
-    <div class="canvases" ref="canvasContainer">
+    <div class="canvases" ref="canvasContainer" :key="rerenderKey">
       <PreprocessCanvas
         v-for="(image, index) in store.state.imageSources"
         :index="index"

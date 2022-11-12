@@ -2,6 +2,7 @@
 import { defineProps, watch, ref } from 'vue'
 import { createCanvas } from '@/logic/canvasFunctions'
 import { useStore } from 'vuex'
+import { resizeCanvas } from '@/logic/canvasTransforms'
 const store = useStore()
 
 const canvas = ref(null)
@@ -15,6 +16,7 @@ watch(canvas, () => {
   // Get the width of the users screen and set the canvas width accordingly
   const pageWidth = document.querySelector('.canvases').offsetWidth
 
+  // Create the canvas using fabric js
   let fcanvas = createCanvas(`canvas-${props.index}`, props.src, pageWidth)
 
   // Store all fabric canvases in the store to easily manipulate them later
@@ -24,29 +26,10 @@ watch(canvas, () => {
 // This function watches for changes in the width of the page and resizes the canvas accordingly
 watch([() => props.pageWidth, () => store.state.zoom], () => {
   if (!canvas) return
-
   const pageWidth = document.querySelector('.canvases').offsetWidth
-
-  store.state.images.map(fcanvas => {
-    let zoom = store.state.zoom
-    let backgroundImage = fcanvas._objects[0]
-    let scaleFactor = (pageWidth / fcanvas.width) * zoom
-    let bgScaleFactor = (pageWidth / backgroundImage.width) * zoom
-
-    backgroundImage.set({
-      scaleX: bgScaleFactor,
-      scaleY: bgScaleFactor
-      // top: (backgroundImage.height * bgScaleFactor) / 2,
-      // left: (backgroundImage.width * bgScaleFactor) / 2
-    })
-
-    fcanvas.setDimensions({
-      width: pageWidth * zoom,
-      height: fcanvas.height * scaleFactor
-    })
-
-    fcanvas.renderAll()
-  })
+  let fcanvas = store.state.images[props.index]
+  let zoom = store.state.zoom
+  resizeCanvas(fcanvas, zoom, pageWidth)
 })
 </script>
 
