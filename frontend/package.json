@@ -9,11 +9,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
+    "fabric": "^5.2.4",
+    "image-rotation": "^1.0.6",
+    "lodash.throttle": "^4.1.1",
     "pdfjs-dist": "^3.0.279",
     "stylus": "^0.59.0",
     "stylus-loader": "^7.1.0",
     "vite-plugin-string-replace": "^1.0.2",
-    "vue": "^3.2.41"
+    "vue": "^3.2.41",
+    "vue-router": "^4.1.6",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.2.0",

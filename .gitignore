@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 credentials.js
+.space
 
 # Editor directories and files
 .vscode/*
