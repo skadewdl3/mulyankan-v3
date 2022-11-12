@@ -2,6 +2,7 @@ import ImageRotation from 'image-rotation'
 
 export const resizeCanvas = (fcanvas, zoom, pageWidth) => {
   let orientation = fcanvas.width > fcanvas.height ? 'landscape' : 'portrait'
+  console.log(orientation)
 
   // BUG: Fix this shit where horizontal images are not being resized properly
 
@@ -21,8 +22,14 @@ export const resizeCanvas = (fcanvas, zoom, pageWidth) => {
   })
 
   fcanvas.setDimensions({
-    width: pageWidth * zoom,
-    height: fcanvas.height * scaleFactor
+    width:
+      orientation === 'portrait'
+        ? pageWidth * zoom
+        : fcanvas.width * scaleFactor,
+    height:
+      orientation === 'portrait'
+        ? fcanvas.height * scaleFactor
+        : pageWidth * zoom
   })
 
   fcanvas.renderAll()
