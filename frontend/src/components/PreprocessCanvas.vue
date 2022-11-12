@@ -2,12 +2,46 @@
 import { defineProps, watch, ref } from 'vue'
 import { createCanvas } from '@/logic/canvasFunctions'
 import { useStore } from 'vuex'
-import { resizeCanvas } from '@/logic/canvasTransforms'
+import { resizeCanvas, rotateCanvas } from '@/logic/canvasTransforms'
 const store = useStore()
 
 const canvas = ref(null)
 
 const props = defineProps(['index', 'src', 'pageWidth'])
+
+const canvasControls = [
+  {
+    icon: 'icon-rotate-left',
+    action: async () => {
+      let newSources = await rotateCanvas(
+        store.state.imageSources,
+        'left',
+        props.index
+      )
+      store.commit('setImageSources', newSources)
+    }
+  },
+  {
+    icon: 'icon-rotate-right',
+    action: async () => {
+      let newSources = await rotateCanvas(
+        store.state.imageSources,
+        'right',
+        props.index
+      )
+      store.commit('setImageSources', newSources)
+    }
+  },
+  {
+    icon: 'icon-delete',
+    action: () => {
+      let newSources = store.state.imageSources.filter(
+        (_, i) => i !== props.index
+      )
+      store.commit('setImageSources', newSources)
+    }
+  }
+]
 
 // Link the canvas element to fabric js when it is mounted
 watch(canvas, () => {
@@ -29,12 +63,22 @@ watch([() => props.pageWidth, () => store.state.zoom], () => {
   const pageWidth = document.querySelector('.canvases').offsetWidth
   let fcanvas = store.state.images[props.index]
   let zoom = store.state.zoom
-  console.log(store.state.images)
   resizeCanvas(fcanvas, zoom, pageWidth)
 })
 </script>
 
 <template>
+  <div class="canvas-controls-wrapper">
+    <div class="canvas-controls">
+      <button
+        @click="btn.action"
+        v-for="btn in canvasControls"
+        class="control-btn"
+      >
+        <component :is="btn.icon" class="control-btn-icon"></component>
+      </button>
+    </div>
+  </div>
   <canvas ref="canvas" class="canvas" :id="`canvas-${index}`"></canvas>
 </template>
 
@@ -45,4 +89,35 @@ watch([() => props.pageWidth, () => store.state.zoom], () => {
   display flex
   flex-direction column
   align-items center
+.canvas-controls-wrapper
+    display flex
+    width 100%
+    justify-content flex-end
+  .canvas-controls
+    background #fff
+    padding 0.5rem 1rem
+    border-radius 0.5rem
+    margin-bottom 0.5rem
+    display flex
+    justify-content flex-end
+    border solid 0.2rem rgba(#ccc, 0.5)
+  .control-btn
+    padding 0.5rem
+    background neutral
+    border-radius 0.5rem
+    font-size 1.5rem
+    margin 0 0.5rem
+    cursor pointer
+    display flex
+    align-items center
+    justify-content center
+    transition all .2s ease-out
+    &:hover
+      background #eee
+    &:first-child
+      margin-left 0
+    &:last-child
+      margin-right 0
+    &-icon
+      margin-left 0.5rem
 </style>

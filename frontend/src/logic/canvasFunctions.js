@@ -2,7 +2,11 @@ import { fabric } from 'fabric'
 
 const addBackgroundImage = (fcanvas, src, pageWidth) => {
   fabric.Image.fromURL(src, img => {
-    let scaleFactor = pageWidth / img.width
+    let orientation = img.width > img.height ? 'landscape' : 'portrait'
+    let scaleFactor =
+      orientation === 'portrait'
+        ? pageWidth / img.width
+        : pageWidth / img.height
 
     let width = img.width * scaleFactor
     let height = img.height * scaleFactor

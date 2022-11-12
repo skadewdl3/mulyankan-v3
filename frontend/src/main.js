@@ -8,7 +8,10 @@ import {
   SearchOutlined,
   ArrowRightOutlined,
   RedoOutlined,
-  UndoOutlined
+  UndoOutlined,
+  RotateRightOutlined,
+  RotateLeftOutlined,
+  DeleteOutlined
 } from '@ant-design/icons-vue'
 import './style.css'
 import App from './App.vue'
@@ -19,11 +22,18 @@ const app = createApp(App)
 app.use(router)
 app.use(store)
 
-app.component('icon-zoom-in', ZoomInOutlined)
-app.component('icon-zoom-out', ZoomOutOutlined)
-app.component('icon-reset-zoom', SearchOutlined)
-app.component('icon-arrow-right', ArrowRightOutlined)
-app.component('icon-rotate-all-right', RedoOutlined)
-app.component('icon-rotate-all-left', UndoOutlined)
+const icons = [
+  { name: 'icon-zoom-in', component: ZoomInOutlined },
+  { name: 'icon-zoom-out', component: ZoomOutOutlined },
+  { name: 'icon-reset-zoom', component: SearchOutlined },
+  { name: 'icon-arrow-right', component: ArrowRightOutlined },
+  { name: 'icon-rotate-all-right', component: RedoOutlined },
+  { name: 'icon-rotate-all-left', component: UndoOutlined },
+  { name: 'icon-rotate-right', component: RotateRightOutlined },
+  { name: 'icon-rotate-left', component: RotateLeftOutlined },
+  { name: 'icon-delete', component: DeleteOutlined }
+]
+
+icons.forEach(icon => app.component(icon.name, icon.component))
 
 app.mount('#app')

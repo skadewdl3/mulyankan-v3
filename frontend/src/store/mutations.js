@@ -27,7 +27,6 @@ const setControls = (state, { show = true, mode = 'preprocess' }) => {
 const zoomIn = state => {
   if (state.zoom >= 2) return
   state.zoom = roundOff(state.zoom + 0.1, 1)
-  console.log('zooming in')
 }
 
 const resetZoom = state => {
@@ -37,7 +36,6 @@ const resetZoom = state => {
 const zoomOut = state => {
   if (state.zoom <= 0.2) return
   state.zoom = roundOff(state.zoom - 0.1, 1)
-  console.log('zooming out')
 }
 
 export default {

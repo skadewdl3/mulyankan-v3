@@ -17,7 +17,6 @@ const pageWidth = ref(canvasContainer.value?.offsetWidth)
 const updatePageWidth = throttle(
   () => {
     pageWidth.value = canvasContainer.value?.offsetWidth
-    console.log('this ran')
   },
   300,
   { leading: false }
