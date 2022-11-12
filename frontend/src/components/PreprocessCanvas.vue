@@ -29,6 +29,7 @@ watch([() => props.pageWidth, () => store.state.zoom], () => {
   const pageWidth = document.querySelector('.canvases').offsetWidth
   let fcanvas = store.state.images[props.index]
   let zoom = store.state.zoom
+  console.log(store.state.images)
   resizeCanvas(fcanvas, zoom, pageWidth)
 })
 </script>

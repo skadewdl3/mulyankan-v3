@@ -33,12 +33,10 @@ onMounted(() => {
   store.commit('setControls', { show: true, mode: 'preprocess' })
 })
 
-watch(
-  () => store.state.imageSources,
-  () => {
-    rerenderKey.value++
-  }
-)
+watch([() => store.state.imageSources], () => {
+  rerenderKey.value++
+  store.commit('setImages', [])
+})
 </script>
 
 <template>
