@@ -20,7 +20,7 @@ const openFileInput = () => {
 const processFile = async e => {
   if (e.target.files.length === 0) return
   let pdfBinary = await pdfToBinaryString(e.target.files[0])
-  let imgArr = await pdfBinaryToImages(pdfBinary)
+  let imgArr = await pdfBinaryToImages(pdfBinary, 5, store)
   store.commit('setImageSources', imgArr)
   router.push('/preprocess')
 }
