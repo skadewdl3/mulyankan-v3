@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
-import mutations from './mutations'
+import mutations from '@/store/mutations'
+import actions from '@/store/actions'
 
 export const store = createStore({
   state() {
@@ -11,5 +12,6 @@ export const store = createStore({
       zoom: 1
     }
   },
-  mutations
+  mutations,
+  actions
 })

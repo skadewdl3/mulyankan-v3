@@ -14,11 +14,15 @@ export const pdfToBinaryString = file => {
   })
 }
 
-export const pdfBinaryToImages = async data => {
+export const pdfBinaryToImages = async (data, processNow, store) => {
   let imgArr = []
   let doc = await getDocument({ data }).promise
 
-  for (let i = 1; i <= doc.numPages; i++) {
+  let now = doc.numPages
+
+  if (doc.numPages > processNow) now = processNow
+
+  for (let i = 1; i <= now; i++) {
     let page = await doc.getPage(i)
 
     // Using greater scale gives better quality (when zooming in/out)
@@ -33,5 +37,8 @@ export const pdfBinaryToImages = async data => {
     await task.promise
     imgArr.push(canvas.toDataURL())
   }
+
+  if (doc.numPages > processNow) store.dispatch('lazyLoadPDF', { doc, now })
+
   return imgArr
 }
