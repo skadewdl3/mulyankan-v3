@@ -3,6 +3,8 @@ import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import StringReplace from 'vite-plugin-string-replace'
 
+let env = process.env.NODE_ENV || 'development'
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -10,10 +12,7 @@ export default defineConfig({
     StringReplace.default([
       {
         search: '%BASE_URL%',
-        replace:
-          process.env.NODE_ENV === 'development'
-            ? 'http://localhost:8080'
-            : '/api'
+        replace: env === 'development' ? 'http://localhost:8080' : '/api'
       }
     ])
   ],

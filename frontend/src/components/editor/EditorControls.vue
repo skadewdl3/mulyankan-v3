@@ -2,6 +2,7 @@
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { rotateCanvas } from '@/logic/canvasTransforms'
+import { savePDF } from '@/logic/pdfFunctions'
 const store = useStore()
 const router = useRouter()
 
@@ -42,13 +43,10 @@ const controlButtons = [
     action: () => store.commit('zoomOut')
   },
   {
-    text: 'Editor',
-    icon: 'icon-arrow-right',
+    text: 'Save To Drive',
+    icon: 'icon-save',
     action: () => {
-      if (store.state.images.length !== store.state.imageSources.length) return
-
-      console.log(store.state.images)
-      router.push('/editor')
+      savePDF(store.state.images)
     },
     primary: true
   }
@@ -70,11 +68,7 @@ const controlButtons = [
           <button
             v-for="btn in controlButtons"
             @click="btn.action"
-            :class="`control-btn ${btn.primary ? 'control-btn-primary' : ''} ${
-              store.state.images.length !== store.state.imageSources.length
-                ? 'control-btn-inactive'
-                : ''
-            }`"
+            :class="`control-btn ${btn.primary ? 'control-btn-primary' : ''}`"
           >
             <span class="control-btn-text">{{ btn.text }}</span>
             <component :is="btn.icon" class="control-btn-icon" />
@@ -161,9 +155,6 @@ const controlButtons = [
       margin-right 0
     &-icon
       margin-left 0.5rem
-    &-inactive
-      cursor not-allowed
-      opacity 0.5
     &-primary
       .control-btn-text
         display inline

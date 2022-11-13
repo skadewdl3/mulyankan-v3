@@ -53,19 +53,16 @@ export const rotateCanvas = async (
     })
   }
   // If index is provided, rotate only the canvas at that index
-  return new Promise((resolve, reject) => {
-    let temp = []
-    imageSources.forEach(async (src, i) => {
-      let r = new ImageRotation(src)
-      try {
-        let res = await r.generate(
-          i !== index ? 0 : direction === 'right' ? 90 : -90
-        )
-        temp.push(res)
-        if (temp.length === imageSources.length) resolve(temp)
-      } catch (err) {
-        reject(err)
-      }
-    })
+  return new Promise(async (resolve, reject) => {
+    let temp = imageSources
+    let src = temp[index]
+    let r = new ImageRotation(src)
+    try {
+      let res = await r.generate(direction === 'right' ? 90 : -90)
+      temp[index] = res
+      resolve(temp)
+    } catch (err) {
+      reject(err)
+    }
   })
 }

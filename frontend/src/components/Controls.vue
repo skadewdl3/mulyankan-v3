@@ -1,11 +1,13 @@
 <script setup>
 import { useStore } from 'vuex'
-import PreprocessControlsVue from '@/components/preprocessing/PreprocessControls.vue'
+import PreprocessControls from '@/components/preprocessing/PreprocessControls.vue'
+import EditorControls from '@/components/editor/EditorControls.vue'
 const store = useStore()
 </script>
 
 <template>
-  <PreprocessControlsVue v-if="store.state.controlMode === 'preprocess'" />
+  <PreprocessControls v-if="store.state.controlMode === 'preprocess'" />
+  <EditorControls v-if="store.state.controlMode === 'editor'" />
 </template>
 
 <style lang="stylus" scoped></style>
