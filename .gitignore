@@ -12,7 +12,6 @@ dist
 dist-ssr
 *.local
 credentials.js
-.space
 
 # Editor directories and files
 .vscode/*
@@ -24,3 +23,4 @@ credentials.js
 *.njsproj
 *.sln
 *.sw?
+.space/*
