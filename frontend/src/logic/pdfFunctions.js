@@ -53,14 +53,14 @@ export const savePDF = async fcanvases => {
     type: 'application/json;charset=utf-8'
   })
   // Then convert everything to json file
-  console.log(json)
+  console.log('saving: ', json)
   // Send to server
 
   // Upload blob as file object
-  const formData = new FormData()
-  formData.append('pdf', blob)
-  let res = await axios.post('%BASE_URL%/save', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  })
-  console.log(res)
+  // const formData = new FormData()
+  // formData.append('pdf', blob)
+  // let res = await axios.post('%BASE_URL%/save', formData, {
+  //   headers: { 'Content-Type': 'multipart/form-data' }
+  // })
+  // console.log(res)
 }

@@ -2,6 +2,7 @@
 import { onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import EditorCanvas from '@/components/editor/EditorCanvas.vue'
 
 const store = useStore()
 const router = useRouter()
@@ -11,11 +12,27 @@ onMounted(() => {
     router.push('/')
     return
   }
-  console.log('mounted')
+  ;('mounted')
   store.commit('setControls', { show: true, mode: 'editor' })
 })
 </script>
 
-<template></template>
+<template>
+  <div class="editor">
+    <div class="canvases" ref="canvasContainer">
+      <EditorCanvas
+        v-for="(fcanvas, index) in store.state.images"
+        :index="index"
+        :fcanvas="fcanvas"
+        :key="`${index}`"
+      />
+    </div>
+  </div>
+</template>
 
-<style lang="stylus" scoped></style>
+<style lang="stylus" scoped>
+.editor
+  container()
+  background neutral
+  overflow auto
+</style>

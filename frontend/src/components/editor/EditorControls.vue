@@ -1,32 +1,17 @@
 <script setup>
+import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { rotateCanvas } from '@/logic/canvasTransforms'
 import { savePDF } from '@/logic/pdfFunctions'
+
+import MarkingTab from '@/components/editor/tabs/MarkingTab.vue'
+import MathTab from '@/components/editor/tabs/MathTab.vue'
+
 const store = useStore()
 const router = useRouter()
+const currentTab = ref('marking')
 
 const controlButtons = [
-  {
-    text: 'Rotate All Left',
-    icon: 'icon-rotate-all-left',
-    action: async () => {
-      store.commit(
-        'setImageSources',
-        await rotateCanvas(store.state.imageSources, 'left')
-      )
-    }
-  },
-  {
-    text: 'Rotate All Right',
-    icon: 'icon-rotate-all-right',
-    action: async () => {
-      store.commit(
-        'setImageSources',
-        await rotateCanvas(store.state.imageSources, 'right')
-      )
-    }
-  },
   {
     text: 'Reset Zoom',
     icon: 'icon-reset-zoom',
@@ -51,6 +36,19 @@ const controlButtons = [
     primary: true
   }
 ]
+
+const tabs = [
+  {
+    name: 'Marking',
+    component: MarkingTab,
+    id: 'marking'
+  },
+  {
+    name: 'Math',
+    component: MathTab,
+    id: 'math'
+  }
+]
 </script>
 
 <template>
@@ -62,6 +60,11 @@ const controlButtons = [
             <icon-arrow-left class="back-icon" @click="router.push('/')" />
             <span class="title__logo">Mulyankan</span
             ><span class="title__text">- {{ store.state.controlMode }}</span>
+          </div>
+          <div class="separator"></div>
+          <div v-for="tab in tabs" class="tab" @click="currentTab = tab.id">
+            <span>{{ tab.name }}</span>
+            <div class="underline"></div>
           </div>
         </div>
         <div class="control-btns">
@@ -75,8 +78,9 @@ const controlButtons = [
           </button>
         </div>
       </div>
-      <div class="controls__content">
-        <div class="tab-content"></div>
+      <div class="controls-content">
+        <MarkingTab v-if="currentTab === 'marking'" />
+        <MathTab v-if="currentTab === 'math'" />
       </div>
     </div>
   </div>
@@ -114,6 +118,24 @@ const controlButtons = [
   .tabs
     display flex
     align-items center
+
+    .tab
+      font-size 1.5rem
+      margin 0 1rem
+      cursor pointer
+      .underline
+        transition all .2s ease-in-out
+        opacity 0
+        width 100%
+        height 0.1rem
+        background #ccc
+        transform scaleX(0)
+        border-radius 10rem
+      &:hover
+        .underline
+          transform scaleX(1)
+          opacity 1
+
   .title
     display flex
     align-items center
@@ -161,4 +183,13 @@ const controlButtons = [
       &:hover
         background primary
         color #fff
+
+.separator
+  height 2rem
+  width 0.1rem
+  background #ccc
+  margin 0 1rem
+
+.controls-content
+  padding 0.5rem 1rem
 </style>

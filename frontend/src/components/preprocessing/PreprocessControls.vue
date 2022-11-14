@@ -47,7 +47,6 @@ const controlButtons = [
     action: () => {
       if (store.state.images.length !== store.state.imageSources.length) return
 
-      console.log(store.state.images)
       router.push('/editor')
     },
     primary: true
