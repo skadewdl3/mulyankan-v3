@@ -20,7 +20,6 @@ watch([currentTab, activeTab], () => {
   activeTabEl.style.width = `${currentTabEl.offsetWidth + 20}px`
   activeTabEl.style.left = `${currentTabEl.offsetLeft - 10}px`
   activeTabEl.style.height = `${currentTabEl.offsetHeight + 16}px`
-  console.log(activeTabEl.style.width, activeTabEl.style.left)
 })
 
 const controlButtons = [

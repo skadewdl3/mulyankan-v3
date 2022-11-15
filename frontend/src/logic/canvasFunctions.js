@@ -44,7 +44,7 @@ export const createCanvas = (id, src, pageWidth, zoom) => {
   return fcanvas
 }
 
-export const loadCanvas = async (refCanvas, id, pageWidth, zoom) => {
+export const loadCanvas = async (refCanvas, id, pageWidth, zoom, getStyle) => {
   return new Promise((resolve, reject) => {
     let json = toRaw(refCanvas).toJSON()
     let fcanvas = new fabric.Canvas(id)
@@ -66,7 +66,8 @@ export const loadCanvas = async (refCanvas, id, pageWidth, zoom) => {
         width: img.width * scaleFactor,
         height: img.height * scaleFactor
       })
-      dropEventListener(fcanvas, zoom)
+      fcanvas.filterBackend = new fabric.WebglFilterBackend()
+      dropEventListener(fcanvas, zoom, getStyle)
       resolve(fcanvas)
     })
   })

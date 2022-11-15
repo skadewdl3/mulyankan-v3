@@ -100,3 +100,24 @@ export const rotateCanvas = async (
     }
   })
 }
+
+export const updateStyle = (
+  obj,
+  { fontSize, font: fontFamily, color: fill }
+) => {
+  if (obj.textType) {
+    obj.set({
+      fontSize,
+      fontFamily,
+      fill
+    })
+  } else if (obj.imgColor) {
+    obj.filters[0] = new fabric.Image.filters.BlendColor({
+      color: fill,
+      opacity: 0,
+      mode: 'tint'
+    })
+
+    obj.applyFilters()
+  }
+}

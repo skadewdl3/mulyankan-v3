@@ -42,11 +42,19 @@ const zoomOut = state => {
 }
 
 const setFont = (state, font) => {
-  state.font = font
+  state.style.font = font
 }
 
 const setColor = (state, color) => {
-  state.color = color
+  state.style.color = color
+}
+
+const setFontSize = (state, fontSize) => {
+  state.style.fontSize = fontSize
+}
+
+const forceRefresh = state => {
+  state.forceRefreshKey++
 }
 
 export default {
@@ -57,5 +65,7 @@ export default {
   zoomOut,
   resetZoom,
   setFont,
-  setColor
+  setColor,
+  setFontSize,
+  forceRefresh
 }

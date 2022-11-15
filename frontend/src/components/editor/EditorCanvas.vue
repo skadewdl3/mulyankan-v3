@@ -2,7 +2,7 @@
 import { defineProps, watch, ref } from 'vue'
 import { useStore } from 'vuex'
 import { loadCanvas } from '@/logic/canvasFunctions'
-import { resizeCanvas } from '@/logic/canvasTransforms'
+import { resizeCanvas, updateStyle } from '@/logic/canvasTransforms'
 
 const store = useStore()
 const canvas = ref(null)
@@ -17,7 +17,8 @@ watch(canvas, async () => {
     props.fcanvas,
     `canvas-${props.index}`,
     pageWidth,
-    store.state.zoom
+    store.state.zoom,
+    store.getters.getStyle
   )
 
   // Replaces the previous fcanvas with the regenrated fcanvas
@@ -35,6 +36,21 @@ watch([() => store.state.zoom], () => {
   let prevZoom = store.state.prevZoom
   resizeCanvas(fcanvas, zoom, prevZoom, pageWidth)
 })
+
+watch(
+  [
+    () => store.state.style.font,
+    () => store.state.style.fontSize,
+    () => store.state.style.color,
+    () => store.state.forceRefreshKey
+  ],
+  () => {
+    let fcanvas = store.state.images[props.index]
+    if (!fcanvas.getActiveObject()) return
+    updateStyle(fcanvas.getActiveObject(), store.state.style)
+    fcanvas.renderAll()
+  }
+)
 </script>
 
 <template>
