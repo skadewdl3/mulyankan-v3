@@ -41,11 +41,21 @@ const zoomOut = state => {
   state.zoom = roundOff(state.zoom - 0.1, 1)
 }
 
+const setFont = (state, font) => {
+  state.font = font
+}
+
+const setColor = (state, color) => {
+  state.color = color
+}
+
 export default {
   setImageSources,
   setImages,
   setControls,
   zoomIn,
   zoomOut,
-  resetZoom
+  resetZoom,
+  setFont,
+  setColor
 }

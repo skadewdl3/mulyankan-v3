@@ -10,7 +10,9 @@ export const store = createStore({
       showControls: false,
       controlMode: 'preprocess',
       zoom: 1,
-      prevZoom: null
+      prevZoom: null,
+      font: 'Poppins',
+      color: '#ff0000'
     }
   },
   mutations,

@@ -226,4 +226,6 @@ const tabs = [
   background #fff
   border-radius 0.5rem
   border solid 0.2rem rgba(#ccc, 0.5)
+  display flex
+  justify-content center
 </style>
