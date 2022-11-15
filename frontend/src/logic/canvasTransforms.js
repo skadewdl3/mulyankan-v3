@@ -1,6 +1,6 @@
 import ImageRotation from 'image-rotation'
 
-export const resizeCanvas = (fcanvas, zoom, pageWidth) => {
+export const resizeCanvas = (fcanvas, zoom, prevZoom, pageWidth) => {
   let orientation = fcanvas.width > fcanvas.height ? 'landscape' : 'portrait'
   let backgroundImage = fcanvas._objects[0]
   let scaleFactor =
@@ -26,6 +26,40 @@ export const resizeCanvas = (fcanvas, zoom, pageWidth) => {
       orientation === 'portrait'
         ? fcanvas.height * scaleFactor
         : pageWidth * zoom
+  })
+
+  fcanvas._objects.forEach((obj, i) => {
+    if (i === 0) return
+
+    /* Calculation for position of object after zooming
+    We have to calculate the position of the object relative to previous position and adjust by multiplying by certain factor
+
+    Hence,
+    obj.leftPrev    ---> prevZoom
+    obj.left        ---> zoom
+    
+    Hence, obj.left = obj.LeftPrev * (zoom / prevZoom).
+    Same logic applies to obj.top
+    */
+
+    /* Calculation of scaling for objects after zooming
+    We have to calculate how much to scale object relative to the previous zoom level.
+    
+    Hence,
+    obj.scaleXPrev    ---> prevZoom
+    obj.scaleX        ---> zoom
+
+    Hence, obj.scaleX = obj.scaleXPrev * (zoom / prevZoom).
+    Same logic applies to obj.scaleY
+    */
+
+    obj.set({
+      left: obj.left * (zoom / prevZoom),
+      top: obj.top * (zoom / prevZoom),
+      scaleX: obj.scaleX * (zoom / prevZoom),
+      scaleY: obj.scaleY * (zoom / prevZoom)
+    })
+    obj.setCoords()
   })
 
   fcanvas.renderAll()

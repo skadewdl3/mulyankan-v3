@@ -32,7 +32,8 @@ watch([() => store.state.zoom], () => {
   const pageWidth = document.querySelector('.canvases').offsetWidth
   let fcanvas = store.state.images[props.index]
   let zoom = store.state.zoom
-  resizeCanvas(fcanvas, zoom, pageWidth)
+  let prevZoom = store.state.prevZoom
+  resizeCanvas(fcanvas, zoom, prevZoom, pageWidth)
 })
 </script>
 

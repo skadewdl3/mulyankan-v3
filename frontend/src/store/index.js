@@ -9,7 +9,8 @@ export const store = createStore({
       images: [],
       showControls: false,
       controlMode: 'preprocess',
-      zoom: 1
+      zoom: 1,
+      prevZoom: null
     }
   },
   mutations,

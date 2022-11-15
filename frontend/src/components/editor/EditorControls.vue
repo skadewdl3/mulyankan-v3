@@ -62,7 +62,11 @@ const tabs = [
             ><span class="title__text">- {{ store.state.controlMode }}</span>
           </div>
           <div class="separator"></div>
-          <div v-for="tab in tabs" class="tab" @click="currentTab = tab.id">
+          <div
+            v-for="tab in tabs"
+            :class="`tab ${tab.id === currentTab ? 'tab-current' : ''}`"
+            @click="currentTab = tab.id"
+          >
             <span>{{ tab.name }}</span>
             <div class="underline"></div>
           </div>
@@ -125,7 +129,6 @@ const tabs = [
       cursor pointer
       .underline
         transition all .2s ease-in-out
-        opacity 0
         width 100%
         height 0.1rem
         background #ccc
@@ -134,7 +137,13 @@ const tabs = [
       &:hover
         .underline
           transform scaleX(1)
-          opacity 1
+      &:active
+        .underline
+          background primary
+      &-current
+        .underline
+          background primary
+          transform scaleX(1)
 
   .title
     display flex

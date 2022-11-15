@@ -1,5 +1,6 @@
 import { fabric } from 'fabric'
 import { toRaw } from 'vue'
+import { dropEventListener } from './canvasEventListeners'
 
 const backgroundImageConfig = {
   evented: false, // Prevents events from being fired on the background image
@@ -65,6 +66,7 @@ export const loadCanvas = async (refCanvas, id, pageWidth, zoom) => {
         width: img.width * scaleFactor,
         height: img.height * scaleFactor
       })
+      dropEventListener(fcanvas, zoom)
       resolve(fcanvas)
     })
   })
