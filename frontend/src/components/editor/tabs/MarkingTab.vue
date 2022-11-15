@@ -5,6 +5,8 @@ import CircleSymbol from '@/assets/images/circle.svg'
 import CrossSymbol from '@/assets/images/cross.svg'
 import UnderlineSymbol from '@/assets/images/underline.svg'
 import DoubleUnderlineSymbol from '@/assets/images/double-underline.svg'
+import TextboxIcon from '@/assets/images/textbox.svg'
+import MarkboxIcon from '@/assets/images/markbox.svg'
 
 const symbols = [
   {
@@ -33,20 +35,60 @@ const symbols = [
   }
 ]
 
-const selectSymbol = (e, symbolIndex) => {
-  e.dataTransfer.setData('id', `symbol-${symbols[symbolIndex].name}`)
+const addSymbol = (e, symbolIndex) => {
+  e.dataTransfer.setData('img', `symbol-${symbols[symbolIndex].name}`)
+}
+const addText = (e, textType) => {
+  e.dataTransfer.setData('text', `${textType}`)
 }
 </script>
 
 <template>
   <div class="marking-tab">
     <div class="section">
+      <div class="section-content text">
+        <div
+          class="textbox"
+          draggable="true"
+          @dragstart="e => addText(e, 'text')"
+        >
+          <img :src="TextboxIcon" draggable="true" alt="" class="textbox-img" />
+          <span draggable="true">Textbox</span>
+        </div>
+        <div
+          class="textbox"
+          draggable="true"
+          @dragstart="e => addText(e, 'mark')"
+        >
+          <img :src="MarkboxIcon" draggable="true" alt="" class="textbox-img" />
+          <span draggable="true">Markbox</span>
+        </div>
+      </div>
+      <div class="section-name">Text</div>
+    </div>
+    <div class="separator"></div>
+    <div class="section">
+      <div class="section-content">
+        <div class="font-dropdown">
+          <div class="font-dropdown-trigger"></div>
+          <ul class="font-list">
+            <li>Modern</li>
+            <li>Professional</li>
+            <li>Handwritten</li>
+            <li>Cursive</li>
+          </ul>
+        </div>
+      </div>
+      <div class="section-name">Font</div>
+    </div>
+    <div class="separator"></div>
+    <div class="section">
       <div class="section-content symbols">
         <div
           class="symbol"
           v-for="(symbol, i) in symbols"
           draggable="true"
-          @dragstart="e => selectSymbol(e, i)"
+          @dragstart="e => addSymbol(e, i)"
         >
           <img
             :src="symbol.src"
@@ -86,4 +128,22 @@ const selectSymbol = (e, symbolIndex) => {
   width 0.1rem
   background #ccc
   margin auto 1rem
+
+.text
+  display flex
+  justify-content space-between
+.textbox
+  display flex
+  align-items center
+  margin 0 1rem
+  cursor pointer
+  &:first-child
+    margin-left 0
+
+  span
+    font-size 1.5rem
+
+  &-img
+    margin-right 1rem
+    width 2.5rem
 </style>
