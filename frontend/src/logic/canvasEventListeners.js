@@ -27,7 +27,8 @@ const addImage = (fcanvas, id, coords, zoom, { color }) => {
   fcanvas.filterBackend = new fabric.WebglFilterBackend()
 
   // Create a fabric image from the source in assets folder
-  fabric.Image.fromURL(`/src/assets/images/${id}.svg`, function (img) {
+
+  fabric.Image.fromURL(`/images/${id}.svg`, function (img) {
     // Scale the image according to zoom level
     let scaleFactorX = (defaultImageConfig.width / img.width) * zoom
     let scaleFactorY = (defaultImageConfig.height / img.height) * zoom
