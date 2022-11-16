@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
-import Controls from '@/components/Controls.vue'
+
+import PreprocessControls from '@/components/preprocessing/PreprocessControls.vue'
+import EditorControls from '@/components/editor/EditorControls.vue'
 const store = useStore()
 
 const showControls = ref(false)
@@ -12,7 +14,12 @@ const setShowControls = val => {
 </script>
 
 <template>
-  <Controls v-if="store.state.showControls" />
+  <PreprocessControls
+    v-if="store.state.controlMode === 'preprocess' && store.state.showControls"
+  />
+  <EditorControls
+    v-if="store.state.controlMode === 'editor' && store.state.showControls"
+  />
   <router-view :setShowControls="setShowControls"></router-view>
 </template>
 

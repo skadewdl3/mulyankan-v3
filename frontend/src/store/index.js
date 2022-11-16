@@ -17,6 +17,10 @@ export const store = createStore({
         font: 'Poppins',
         fontSize: 40,
         color: '#ff0000'
+      },
+      marks: {
+        calculated: 0,
+        total: ''
       }
     }
   },

@@ -17,8 +17,7 @@ watch(canvas, async () => {
     props.fcanvas,
     `canvas-${props.index}`,
     pageWidth,
-    store.state.zoom,
-    store.getters.getStyle
+    store
   )
 
   // Replaces the previous fcanvas with the regenrated fcanvas

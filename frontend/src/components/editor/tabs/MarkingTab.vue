@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed, toRaw } from 'vue'
 import { useStore } from 'vuex'
 import ArrowSymbol from '@/assets/images/arrow.svg'
 import CheckSymbol from '@/assets/images/check.svg'
@@ -11,11 +11,13 @@ import TextboxIcon from '@/assets/images/textbox.svg'
 import MarkboxIcon from '@/assets/images/markbox.svg'
 
 import { Color, Solver } from '@/logic/colorCalculator'
+import { isNumber } from '@/store/actions'
 
 const store = useStore()
 
 const fontFamilyDropdownOpen = ref(false)
 const fontSizeDropdownOpen = ref(false)
+const marks = computed(() => store.state.marks.calculated)
 
 watch([fontFamilyDropdownOpen, fontSizeDropdownOpen], () => {
   const closeDropdown = () => {
@@ -130,6 +132,23 @@ const colors = [
   }
 ]
 
+const fontSizes = [...Array(40)].map((_, i) => (i === 0 ? 1 : 2 * i))
+
+const styleBtns = [
+  {
+    icon: 'icon-bold',
+    action: () => ''
+  },
+  {
+    icon: 'icon-italic',
+    action: () => ''
+  },
+  {
+    icon: 'icon-underline',
+    action: () => ''
+  }
+]
+
 const getFilter = col => {
   // Return the filter directly if it has already been calculated
   if (colors.filter(c => c.hex === col)[0].filter)
@@ -146,14 +165,18 @@ const getFilter = col => {
   return filter
 }
 
-const fontSizes = [...Array(40)].map((_, i) => (i === 0 ? 1 : 2 * i))
-
 const addSymbol = (e, symbolIndex) => {
   e.dataTransfer.setData('img', symbols[symbolIndex].name)
 }
+
 const addText = (e, textType) => {
   e.dataTransfer.setData('text', `${textType}`)
 }
+
+const quickMark = e => {
+  e.dataTransfer.setData('quickmark', JSON.stringify(toRaw(store.state.marks)))
+}
+
 const changeFont = font => {
   fontFamilyDropdownOpen.value = false
   if (store.state.style.font === font) {
@@ -162,6 +185,7 @@ const changeFont = font => {
   }
   store.commit('setFont', font)
 }
+
 const changeFontSize = fontSize => {
   fontSizeDropdownOpen.value = false
   if (store.state.style.fontSize === fontSize) {
@@ -178,23 +202,48 @@ const changeColor = color => {
   }
   store.commit('setColor', color)
 }
+const updateTotalMarks = val => {
+  if (isNumber(val)) {
+    store.commit('setTotalMarks', val)
+  }
+}
 </script>
 
 <template>
   <div class="marking-tab">
     <div class="section">
-      <div class="section-content automark-wrapper">
-        <div class="automark">
-          <div class="calculated-marks">
-            {{ this.store.state.marks ? this.store.state.marks : 0 }}
+      <div class="section-content quickmark-wrapper">
+        <div class="quickmark" draggable="true" @dragstart="e => quickMark(e)">
+          <div
+            class="calculated-marks"
+            draggable="true"
+            @dragstart="e => quickMark(e)"
+          >
+            {{ marks ? marks : 0 }}
           </div>
-          <div class="mark-separator">out of</div>
-          <div class="total-marks">
-            <input class="total-marks-input" type="text" />
+          <div
+            class="mark-separator"
+            draggable="true"
+            @dragstart="e => quickMark(e)"
+          >
+            out of
+          </div>
+          <div
+            class="total-marks"
+            draggable="true"
+            @dragstart="e => quickMark(e)"
+          >
+            <input
+              draggable="true"
+              @dragstart="e => quickMark(e)"
+              class="total-marks-input"
+              type="text"
+              @input="e => updateTotalMarks(e.target.value)"
+            />
           </div>
         </div>
       </div>
-      <div class="section-name">Auto-marking</div>
+      <div class="section-name">Quick Marking</div>
     </div>
     <div class="separator"></div>
     <div class="section">
@@ -277,6 +326,15 @@ const changeColor = color => {
             </li>
           </ul>
         </div>
+        <div class="text-style-btns">
+          <button
+            v-for="btn in styleBtns"
+            class="text-style-btn"
+            @click="btn.action"
+          >
+            <component :is="btn.icon" />
+          </button>
+        </div>
       </div>
       <div class="section-name">Font</div>
     </div>
@@ -337,7 +395,7 @@ const changeColor = color => {
   align-items center
   justify-content space-between
   &-content
-    margin 0.5rem 0
+    margin auto auto
   &-name
     font-size 1.2rem
     color #000
@@ -401,7 +459,10 @@ const changeColor = color => {
   top 0
   left 0
   background #fff
+  transition all .2s ease-in-out
   border solid 0.2rem rgba(#ccc,0.5)
+  &:hover
+    border solid 0.2rem #ccc
   border-radius 0.5rem
   transform-origin 50% 0
   transition all .2s ease-in-out
@@ -417,7 +478,10 @@ const changeColor = color => {
   position relative
   &-trigger
     font-size 1.3rem
+    transition all .2s ease-in-out
     border solid 0.2rem rgba(#ccc,0.5)
+    &:hover
+      border solid 0.2rem #ccc
     border-radius 0.5rem
     padding 0.5rem 1rem
     cursor pointer
@@ -450,7 +514,7 @@ const changeColor = color => {
       transition all .2s ease-in-out
       transform-origin 50% 50%
 
-.automark
+.quickmark
   display flex
   align-items center
   justify-content center
@@ -470,4 +534,20 @@ const changeColor = color => {
   text-align center
   width 4rem
   padding 0.5rem
+
+.text-style-btns
+  display flex
+  align-items center
+  justify-content center
+.text-style-btn
+  border solid 0.2rem rgba(#ccc,0.5)
+  background #fff
+  font-size 1.5rem
+  padding 0.5rem
+  border-radius 0.5rem
+  margin-left 0.5rem
+  cursor pointer
+  transition all .2s ease-in-out
+  &:hover
+    border solid 0.2rem #ccc
 </style>

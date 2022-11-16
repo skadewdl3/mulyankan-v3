@@ -1,6 +1,9 @@
 import { fabric } from 'fabric'
 import { toRaw } from 'vue'
-import { dropEventListener } from './canvasEventListeners'
+import {
+  dropEventListener,
+  textChangeEventListener
+} from './canvasEventListeners'
 
 const backgroundImageConfig = {
   evented: false, // Prevents events from being fired on the background image
@@ -44,7 +47,10 @@ export const createCanvas = (id, src, pageWidth, zoom) => {
   return fcanvas
 }
 
-export const loadCanvas = async (refCanvas, id, pageWidth, zoom, getStyle) => {
+export const loadCanvas = async (refCanvas, id, pageWidth, store) => {
+  let zoom = store.state.zoom
+  let getStyle = store.getters.getStyle
+  let updateMarks = () => store.dispatch('updateMarks')
   return new Promise((resolve, reject) => {
     let json = toRaw(refCanvas).toJSON()
     let fcanvas = new fabric.Canvas(id)
@@ -68,6 +74,7 @@ export const loadCanvas = async (refCanvas, id, pageWidth, zoom, getStyle) => {
       })
       fcanvas.filterBackend = new fabric.WebglFilterBackend()
       dropEventListener(fcanvas, zoom, getStyle)
+      textChangeEventListener(fcanvas, updateMarks)
       resolve(fcanvas)
     })
   })

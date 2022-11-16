@@ -14,6 +14,8 @@ const defaultImageConfig = {
 
 const defaultTextConfig = {
   width: 100,
+  quickMarkWidth: 300,
+  quickMarkHeight: 30,
   height: 30,
   fontSize: 40,
   fontFamily: 'Poppins',
@@ -63,18 +65,37 @@ const addTextbox = (
   textType,
   coords,
   zoom,
-  { fontSize, font: fontFamily, color: fill }
+  { fontSize, font: fontFamily, color: fill },
+  text = null
 ) => {
-  let textbox = new fabric.Textbox(textType === 'text' ? 'Text' : 'Mark', {
-    left: coords.x - defaultTextConfig.width / 2,
-    top: coords.y - defaultTextConfig.height / 2,
-    textType,
-    ...defaultObjectConfig,
-    ...defaultTextConfig,
-    fontSize,
-    fontFamily,
-    fill
-  })
+  console.log(textType)
+  let width =
+    textType === 'quickmark'
+      ? defaultTextConfig.quickMarkWidth
+      : defaultTextConfig.width
+  let height =
+    textType === 'quickmark'
+      ? defaultTextConfig.quickMarkHeight
+      : defaultTextConfig.height
+  let textbox = new fabric.Textbox(
+    text
+      ? text
+      : textType === 'text' || textType === 'quickmark'
+      ? 'Text'
+      : 'Mark',
+    {
+      left: coords.x - width / 2,
+      top: coords.y - height / 2,
+      textType,
+      ...defaultObjectConfig,
+      ...defaultTextConfig,
+      fontSize,
+      fontFamily,
+      width,
+      height,
+      fill
+    }
+  )
   fcanvas.add(textbox)
 }
 
@@ -96,6 +117,27 @@ export const dropEventListener = (fcanvas, zoom, getStyle) => {
 
       // Add the text to the canvas
       addTextbox(fcanvas, text, coords, zoom, style)
+    } else if (e.dataTransfer.getData('quickmark')) {
+      console.log('quick marking')
+      let marks = JSON.parse(e.dataTransfer.getData('quickmark'))
+      let marksText = `${marks.calculated} / ${
+        marks.total ? marks.total : 'Total'
+      }`
+      addTextbox(fcanvas, 'quickmark', coords, zoom, style, marksText)
     }
+  })
+}
+
+export const textChangeEventListener = (fcanvas, updateMarks) => {
+  fcanvas.on('text:changed', () => {
+    updateMarks()
+  })
+  fcanvas.on('object:added', ({ target }) => {
+    if (target.textType !== 'mark') return
+    updateMarks()
+  })
+  fcanvas.on('object:removed', ({ target }) => {
+    if (target.textType !== 'mark') return
+    updateMarks()
   })
 }

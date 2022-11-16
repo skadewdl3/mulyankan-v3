@@ -57,6 +57,14 @@ const forceRefresh = state => {
   state.forceRefreshKey++
 }
 
+const setCalculatedMarks = (state, marks) => {
+  state.marks.calculated = marks
+}
+
+const setTotalMarks = (state, marks) => {
+  state.marks.total = marks
+}
+
 export default {
   setImageSources,
   setImages,
@@ -67,5 +75,7 @@ export default {
   setFont,
   setColor,
   setFontSize,
-  forceRefresh
+  forceRefresh,
+  setCalculatedMarks,
+  setTotalMarks
 }
