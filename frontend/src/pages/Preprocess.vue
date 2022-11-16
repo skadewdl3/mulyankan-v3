@@ -1,28 +1,27 @@
 <script setup>
-import { onMounted, watch, ref } from 'vue'
+import { onMounted, watch, ref, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import throttle from 'lodash.throttle'
+// import throttle from 'lodash.throttle'
 import PreprocessCanvas from '@/components/preprocessing/PreprocessCanvas.vue'
 const store = useStore()
 const router = useRouter()
 
 const canvasContainer = ref(null)
-const rerenderKey = ref(0)
 
 // Default values for the pageWidth is width of canvasContainer
 const pageWidth = ref(canvasContainer.value?.offsetWidth)
 
 // Updates the pageWidth when window is resized (throttled to run only once every 300ms)
-const updatePageWidth = throttle(
-  () => {
-    pageWidth.value = canvasContainer.value?.offsetWidth
-  },
-  300,
-  { leading: false }
-)
+// const updatePageWidth = throttle(
+//   () => {
+//     pageWidth.value = canvasContainer.value?.offsetWidth
+//   },
+//   300,
+//   { leading: false }
+// )
 
-window.addEventListener('resize', updatePageWidth)
+// window.addEventListener('resize', updatePageWidth)
 
 onMounted(() => {
   if (store.state.imageSources.length === 0) {
@@ -41,7 +40,7 @@ onMounted(() => {
         :index="index"
         :src="image"
         :pageWidth="pageWidth"
-        :key="image"
+        :key="`${index}-${image}`"
       />
     </div>
   </div>

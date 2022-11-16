@@ -1,4 +1,5 @@
 import { getDocument } from 'pdfjs-dist'
+import axios from 'axios'
 
 export const pdfToBinaryString = file => {
   // Return a promise that resolves with the binary string
@@ -41,4 +42,25 @@ export const pdfBinaryToImages = async (data, processNow, store) => {
   if (doc.numPages > processNow) store.dispatch('lazyLoadPDF', { doc, now })
 
   return imgArr
+}
+
+export const savePDF = async fcanvases => {
+  // Convert fcanvases to json using fcanvas.toJSON('_objects')
+  let json = fcanvases.map(fcanvas => fcanvas.toJSON('_objects'))
+  const str = JSON.stringify(json)
+  const bytes = new TextEncoder().encode(str)
+  const blob = new Blob([bytes], {
+    type: 'application/json;charset=utf-8'
+  })
+  // Then convert everything to json file
+  console.log('saving: ', json)
+  // Send to server
+
+  // Upload blob as file object
+  // const formData = new FormData()
+  // formData.append('pdf', blob)
+  // let res = await axios.post('%BASE_URL%/save', formData, {
+  //   headers: { 'Content-Type': 'multipart/form-data' }
+  // })
+  // console.log(res)
 }

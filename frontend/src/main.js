@@ -14,7 +14,11 @@ import {
   DeleteOutlined,
   UpOutlined,
   DownOutlined,
-  ArrowLeftOutlined
+  ArrowLeftOutlined,
+  SaveOutlined,
+  UnderlineOutlined,
+  ItalicOutlined,
+  BoldOutlined
 } from '@ant-design/icons-vue'
 import './style.css'
 import App from './App.vue'
@@ -37,7 +41,11 @@ const icons = [
   { name: 'icon-rotate-left', component: RotateLeftOutlined },
   { name: 'icon-delete', component: DeleteOutlined },
   { name: 'icon-up', component: UpOutlined },
-  { name: 'icon-down', component: DownOutlined }
+  { name: 'icon-down', component: DownOutlined },
+  { name: 'icon-save', component: SaveOutlined },
+  { name: 'icon-bold', component: BoldOutlined },
+  { name: 'icon-italic', component: ItalicOutlined },
+  { name: 'icon-underline', component: UnderlineOutlined }
 ]
 
 icons.forEach(icon => app.component(icon.name, icon.component))

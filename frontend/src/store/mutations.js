@@ -26,16 +26,43 @@ const setControls = (state, { show = true, mode = 'preprocess' }) => {
 
 const zoomIn = state => {
   if (state.zoom >= 2) return
+  state.prevZoom = state.zoom
   state.zoom = roundOff(state.zoom + 0.1, 1)
 }
 
 const resetZoom = state => {
+  state.prevZoom = state.zoom
   state.zoom = 1
 }
 
 const zoomOut = state => {
   if (state.zoom <= 0.2) return
+  state.prevZoom = state.zoom
   state.zoom = roundOff(state.zoom - 0.1, 1)
+}
+
+const setFont = (state, font) => {
+  state.style.font = font
+}
+
+const setColor = (state, color) => {
+  state.style.color = color
+}
+
+const setFontSize = (state, fontSize) => {
+  state.style.fontSize = fontSize
+}
+
+const forceRefresh = state => {
+  state.forceRefreshKey++
+}
+
+const setCalculatedMarks = (state, marks) => {
+  state.marks.calculated = marks
+}
+
+const setTotalMarks = (state, marks) => {
+  state.marks.total = marks
 }
 
 export default {
@@ -44,5 +71,11 @@ export default {
   setControls,
   zoomIn,
   zoomOut,
-  resetZoom
+  resetZoom,
+  setFont,
+  setColor,
+  setFontSize,
+  forceRefresh,
+  setCalculatedMarks,
+  setTotalMarks
 }

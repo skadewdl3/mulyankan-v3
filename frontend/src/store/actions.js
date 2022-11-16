@@ -20,6 +20,36 @@ const lazyLoadPDF = (store, { doc, now }) => {
   }
 }
 
+/*
+isNumber code courtesy of: Dan
+Stackoverflow Post: https://stackoverflow.com/questions/175739/how-can-i-check-if-a-string-is-a-valid-number
+Dan's Profile: https://stackoverflow.com/users/17121/dan
+*/
+export const isNumber = str => {
+  // we only process strings!
+  if (typeof str != 'string') return false
+  // use type coercion to parse the entirety of the string (parseFloat alone does not do this)
+  // and ensure strings of whitespace fail
+  return !isNaN(str) && !isNaN(parseFloat(str))
+}
+
+// Update the marks on the canvas when any markbox changes
+const updateMarks = store => {
+  let markBoxes = []
+  store.state.images.forEach(fcanvas => {
+    fcanvas._objects.forEach(obj => {
+      if (obj.textType && obj.textType === 'mark') {
+        if (isNumber(obj.text)) {
+          markBoxes.push(obj.text)
+        }
+      }
+    })
+  })
+  let marks = markBoxes.reduce((acc, cur) => (acc += parseFloat(cur)), 0)
+  store.commit('setCalculatedMarks', marks)
+}
+
 export default {
-  lazyLoadPDF
+  lazyLoadPDF,
+  updateMarks
 }
