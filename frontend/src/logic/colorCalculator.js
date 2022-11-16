@@ -1,14 +1,26 @@
 /*
-Code is courtesy of: MultiplyByZer0
+RGB to CSS Filter code is courtesy of: MultiplyByZer0
 
 Stackoverflow Post: https://stackoverflow.com/questions/42966641/how-to-transform-black-into-any-given-color-using-only-css-filters/43960991#43960991
 
 MultiplyByZer0's profile: https://stackoverflow.com/users/2688027/multiplybyzer0
 */
 
+/*
+Hex to RGB code is courtesy of: Tim Down
+
+Stackoverflow Post: https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+
+Tim Down's profile: https://stackoverflow.com/users/96100/tim-down
+*/
 export class Color {
-  constructor(r, g, b) {
-    this.set(r, g, b)
+  constructor(hex, rgb = null) {
+    if (!hex) {
+      this.set(rgb.r, rgb.g, rgb.b)
+    } else {
+      let result = this.hexToRgb(hex)
+      this.set(result.r, result.g, result.b)
+    }
   }
   toString() {
     return `rgb(${Math.round(this.r)}, ${Math.round(this.g)}, ${Math.round(
@@ -20,6 +32,24 @@ export class Color {
     this.r = this.clamp(r)
     this.g = this.clamp(g)
     this.b = this.clamp(b)
+  }
+
+  hexToRgb(h) {
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    let hex = h.toString()
+    let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
+    hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+      return r + r + g + g + b + b
+    })
+
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        }
+      : null
   }
 
   hueRotate(angle = 0) {
@@ -167,7 +197,7 @@ export class Solver {
   constructor(target) {
     this.target = target
     this.targetHSL = target.hsl()
-    this.reusedColor = new Color(0, 0, 0) // Object pool
+    this.reusedColor = new Color(null, { r: 0, g: 0, b: 0 }) // Object pool
   }
 
   solve() {

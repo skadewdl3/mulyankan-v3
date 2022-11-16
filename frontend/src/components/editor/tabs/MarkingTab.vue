@@ -82,13 +82,6 @@ const fonts = [
   }
 ]
 
-const getFilter = (r, g, b) => {
-  let color = new Color(r, g, b)
-  let solver = new Solver(color)
-  let result = solver.solve()
-  return `brightness(0) saturate(100%) ${result.filter}`
-}
-
 const colors = [
   {
     name: 'red',
@@ -137,9 +130,20 @@ const colors = [
   }
 ]
 
-const getCurrentFilter = color => {
-  let currentColor = colors.filter(col => col.hex === color)[0]
-  return getFilter(currentColor.rgb.r, currentColor.rgb.g, currentColor.rgb.b)
+const getFilter = col => {
+  // Return the filter directly if it has already been calculated
+  if (colors.filter(c => c.hex === col)[0].filter)
+    return colors.filter(c => c.hex === col)[0].filter
+
+  // Calculate the filter
+  let color = new Color(col)
+  let solver = new Solver(color)
+  let result = solver.solve()
+  let filter = `brightness(0) saturate(100%) ${result.filter}`
+
+  // Store the filter in the color object
+  colors.filter(c => c.hex === col)[0].filter = filter
+  return filter
 }
 
 const fontSizes = [...Array(40)].map((_, i) => (i === 0 ? 1 : 2 * i))
@@ -178,6 +182,21 @@ const changeColor = color => {
 
 <template>
   <div class="marking-tab">
+    <div class="section">
+      <div class="section-content automark-wrapper">
+        <div class="automark">
+          <div class="calculated-marks">
+            {{ this.store.state.marks ? this.store.state.marks : 0 }}
+          </div>
+          <div class="mark-separator">out of</div>
+          <div class="total-marks">
+            <input class="total-marks-input" type="text" />
+          </div>
+        </div>
+      </div>
+      <div class="section-name">Auto-marking</div>
+    </div>
+    <div class="separator"></div>
     <div class="section">
       <div class="section-content text">
         <div
@@ -272,7 +291,7 @@ const changeColor = color => {
         >
           <img
             :style="{
-              filter: getCurrentFilter(store.state.style.color)
+              filter: getFilter(store.state.style.color)
             }"
             :src="symbol.src"
             :alt="symbol.name"
@@ -430,4 +449,25 @@ const changeColor = color => {
       background #fff
       transition all .2s ease-in-out
       transform-origin 50% 50%
+
+.automark
+  display flex
+  align-items center
+  justify-content center
+  font-size 1.5rem
+  border solid 0.2rem rgba(#ccc,0.5)
+  border-radius 0.5rem
+  padding 0.5rem 1rem
+  cursor pointer
+  div
+    margin-right 2rem
+    &:last-child
+      margin-right 0
+
+.total-marks-input
+  border-bottom solid 0.2rem rgba(#ccc,0.5)
+  font-size 1.5rem
+  text-align center
+  width 4rem
+  padding 0.5rem
 </style>
