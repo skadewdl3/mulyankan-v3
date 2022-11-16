@@ -18,7 +18,9 @@ import {
   SaveOutlined,
   UnderlineOutlined,
   ItalicOutlined,
-  BoldOutlined
+  BoldOutlined,
+  CopyOutlined,
+  FormOutlined
 } from '@ant-design/icons-vue'
 import './style.css'
 import App from './App.vue'
@@ -45,7 +47,9 @@ const icons = [
   { name: 'icon-save', component: SaveOutlined },
   { name: 'icon-bold', component: BoldOutlined },
   { name: 'icon-italic', component: ItalicOutlined },
-  { name: 'icon-underline', component: UnderlineOutlined }
+  { name: 'icon-underline', component: UnderlineOutlined },
+  { name: 'icon-copy', component: CopyOutlined },
+  { name: 'icon-paste', component: FormOutlined }
 ]
 
 icons.forEach(icon => app.component(icon.name, icon.component))

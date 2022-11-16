@@ -68,7 +68,6 @@ const addTextbox = (
   { fontSize, font: fontFamily, color: fill },
   text = null
 ) => {
-  console.log(textType)
   let width =
     textType === 'quickmark'
       ? defaultTextConfig.quickMarkWidth
@@ -99,11 +98,12 @@ const addTextbox = (
   fcanvas.add(textbox)
 }
 
-export const dropEventListener = (fcanvas, zoom, getStyle) => {
+export const dropEventListener = (fcanvas, setActiveCanvas, zoom, getStyle) => {
   fcanvas.on('drop', ({ e }) => {
     // Get coordinates of drop event
     let coords = fcanvas.getPointer(e)
     let style = getStyle
+    setActiveCanvas()
 
     if (e.dataTransfer.getData('img')) {
       // Get the image id from the dataTransfer object
@@ -118,7 +118,6 @@ export const dropEventListener = (fcanvas, zoom, getStyle) => {
       // Add the text to the canvas
       addTextbox(fcanvas, text, coords, zoom, style)
     } else if (e.dataTransfer.getData('quickmark')) {
-      console.log('quick marking')
       let marks = JSON.parse(e.dataTransfer.getData('quickmark'))
       let marksText = `${marks.calculated} / ${
         marks.total ? marks.total : 'Total'
@@ -139,5 +138,40 @@ export const textChangeEventListener = (fcanvas, updateMarks) => {
   fcanvas.on('object:removed', ({ target }) => {
     if (target.textType !== 'mark') return
     updateMarks()
+  })
+}
+
+export const clickEventListener = (
+  fcanvas,
+  index,
+  setActiveCanvas,
+  setMenu,
+  getMenu
+) => {
+  // This weird array makes sure that the elements
+  // on which event listener is added are not undefined
+  // and have classList property
+  Array.from(document.querySelector('.canvases').childNodes)
+    .filter(el => el && el.classList)
+    [index].addEventListener('contextmenu', e => {
+      // Setting canvas as active is used to make sure
+      // that copied/pasted/deleted element is from the same canvas
+
+      setActiveCanvas()
+      e.preventDefault()
+      setMenu({
+        show: true, // Show the menu
+        coords: { x: e.pageX, y: e.pageY } // Get coordinates of right click
+      })
+    })
+
+  document.addEventListener('click', () => {
+    // If the menu is open, hide it when clicked anywhere on the screen
+    if (getMenu().show) {
+      setMenu({
+        ...getMenu(),
+        show: false
+      })
+    }
   })
 }

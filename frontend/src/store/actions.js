@@ -49,7 +49,18 @@ const updateMarks = store => {
   store.commit('setCalculatedMarks', marks)
 }
 
+const setActiveCanvas = (store, index) => {
+  store.state.images.forEach((fcanvas, i) => {
+    if (i === index) {
+      fcanvas.active = true
+    } else {
+      fcanvas.active = false
+    }
+  })
+}
+
 export default {
   lazyLoadPDF,
-  updateMarks
+  updateMarks,
+  setActiveCanvas
 }

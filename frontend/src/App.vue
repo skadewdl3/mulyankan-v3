@@ -1,9 +1,10 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 
 import PreprocessControls from '@/components/preprocessing/PreprocessControls.vue'
 import EditorControls from '@/components/editor/EditorControls.vue'
+import Menu from '@/components/Menu.vue'
 const store = useStore()
 
 const showControls = ref(false)
@@ -14,6 +15,7 @@ const setShowControls = val => {
 </script>
 
 <template>
+  <Menu />
   <PreprocessControls
     v-if="store.state.controlMode === 'preprocess' && store.state.showControls"
   />

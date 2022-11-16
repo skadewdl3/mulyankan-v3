@@ -91,7 +91,7 @@ const controlButtons = [
 .controls__wrapper
   position sticky
   top 0
-  z-index 100
+  z-index 15
   padding 0.5rem 2rem
   padding-bottom 0
   background neutral

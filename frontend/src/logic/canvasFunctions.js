@@ -1,6 +1,7 @@
 import { fabric } from 'fabric'
 import { toRaw } from 'vue'
 import {
+  clickEventListener,
   dropEventListener,
   textChangeEventListener
 } from './canvasEventListeners'
@@ -47,13 +48,13 @@ export const createCanvas = (id, src, pageWidth, zoom) => {
   return fcanvas
 }
 
-export const loadCanvas = async (refCanvas, id, pageWidth, store) => {
+export const loadCanvas = async (refCanvas, index, pageWidth, store) => {
   let zoom = store.state.zoom
   let getStyle = store.getters.getStyle
   let updateMarks = () => store.dispatch('updateMarks')
   return new Promise((resolve, reject) => {
     let json = toRaw(refCanvas).toJSON()
-    let fcanvas = new fabric.Canvas(id)
+    let fcanvas = new fabric.Canvas(`canvas-${index}`)
     fcanvas.loadFromJSON(json, () => {
       fcanvas.renderAll()
       let img = fcanvas._objects[0]
@@ -73,8 +74,20 @@ export const loadCanvas = async (refCanvas, id, pageWidth, store) => {
         height: img.height * scaleFactor
       })
       fcanvas.filterBackend = new fabric.WebglFilterBackend()
-      dropEventListener(fcanvas, zoom, getStyle)
+      dropEventListener(
+        fcanvas,
+        () => store.dispatch('setActiveCanvas', index),
+        zoom,
+        getStyle
+      )
       textChangeEventListener(fcanvas, updateMarks)
+      clickEventListener(
+        fcanvas,
+        index,
+        () => store.dispatch('setActiveCanvas', index),
+        menu => store.commit('setMenu', menu),
+        () => store.state.menu
+      )
       resolve(fcanvas)
     })
   })

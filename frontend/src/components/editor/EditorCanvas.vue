@@ -13,12 +13,7 @@ watch(canvas, async () => {
   const pageWidth = document.querySelector('.canvases').offsetWidth
 
   // Loads the fcanvas from the rotated/transformed images
-  let fcanvas = await loadCanvas(
-    props.fcanvas,
-    `canvas-${props.index}`,
-    pageWidth,
-    store
-  )
+  let fcanvas = await loadCanvas(props.fcanvas, props.index, pageWidth, store)
 
   // Replaces the previous fcanvas with the regenrated fcanvas
   let temp = store.state.images
