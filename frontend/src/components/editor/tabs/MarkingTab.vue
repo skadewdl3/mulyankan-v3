@@ -1,17 +1,17 @@
 <script setup>
 import { ref, watch, computed, toRaw } from 'vue'
 import { useStore } from 'vuex'
-import ArrowSymbol from '@/assets/images/arrow.svg'
-import CheckSymbol from '@/assets/images/check.svg'
-import CircleSymbol from '@/assets/images/circle.svg'
-import CrossSymbol from '@/assets/images/cross.svg'
-import UnderlineSymbol from '@/assets/images/underline.svg'
-import DoubleUnderlineSymbol from '@/assets/images/double-underline.svg'
-import TextboxIcon from '@/assets/images/textbox.svg'
-import MarkboxIcon from '@/assets/images/markbox.svg'
+import ArrowSymbol from './../../../assets/images/arrow.svg'
+import CheckSymbol from './../../../assets/images/check.svg'
+import CircleSymbol from './../../../assets/images/circle.svg'
+import CrossSymbol from './../../../assets/images/cross.svg'
+import UnderlineSymbol from './../../..//assets/images/underline.svg'
+import DoubleUnderlineSymbol from './../../../assets/images/double-underline.svg'
+import TextboxIcon from './../../../assets/images/textbox.svg'
+import MarkboxIcon from './../../../assets/images/markbox.svg'
 
-import { Color, Solver } from '@/logic/colorCalculator'
-import { isNumber } from '@/store/actions'
+import { Color, Solver } from './../../../logic/colorCalculator'
+import { isNumber } from './../../../store/actions'
 
 const store = useStore()
 
