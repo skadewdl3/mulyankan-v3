@@ -1,6 +1,6 @@
 import { fabric } from 'fabric'
 
-const defaultObjectConfig = {
+export const defaultObjectConfig = {
   fireRightClick: true,
   transparentCorners: false,
   cornerColor: '#6c5ce7',
@@ -105,7 +105,6 @@ const addTextbox = (
 }
 
 export const addCopiedObject = (fcanvas, coords, obj, zoom) => {
-  console.log(obj.zoom)
   // Make this later
   if (obj.type === 'image') {
     fabric.util.enlivenObjects([obj], objects => {

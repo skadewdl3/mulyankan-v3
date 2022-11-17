@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, watch, ref, onUnmounted } from 'vue'
+import { onMounted, ref, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 // import throttle from 'lodash.throttle'
@@ -29,6 +29,10 @@ onMounted(() => {
     return
   }
   store.commit('setControls', { show: true, mode: 'preprocess' })
+})
+
+onUnmounted(() => {
+  store.commit('setControls', { show: false, mode: 'preprocess' })
 })
 </script>
 

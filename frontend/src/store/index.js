@@ -11,7 +11,7 @@ export const store = createStore({
       showControls: false,
       controlMode: 'preprocess',
       zoom: 1,
-      prevZoom: null,
+      prevZoom: 1,
       forceRefreshKey: 0,
       style: {
         font: 'Poppins',

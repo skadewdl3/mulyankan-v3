@@ -41,6 +41,10 @@ const zoomOut = state => {
   state.zoom = roundOff(state.zoom - 0.1, 1)
 }
 
+const maxZoom = state => {
+  state.zoom = 4
+}
+
 const setFont = (state, font) => {
   state.style.font = font
 }
@@ -87,5 +91,6 @@ export default {
   setCalculatedMarks,
   setTotalMarks,
   setMenu,
-  setClipboard
+  setClipboard,
+  maxZoom
 }

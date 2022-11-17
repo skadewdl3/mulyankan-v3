@@ -3,6 +3,7 @@ import { toRaw } from 'vue'
 import {
   addCopiedObject,
   clickEventListener,
+  defaultObjectConfig,
   dropEventListener,
   textChangeEventListener
 } from './canvasEventListeners'
@@ -54,10 +55,14 @@ export const loadCanvas = async (refCanvas, index, pageWidth, store) => {
   let getStyle = store.getters.getStyle
   let updateMarks = () => store.dispatch('updateMarks')
   return new Promise((resolve, reject) => {
-    let json = toRaw(refCanvas).toJSON()
+    let json = toRaw(refCanvas).toJSON(['imgColor', 'textType', 'zoom', 'id'])
     let fcanvas = new fabric.Canvas(`canvas-${index}`)
     fcanvas.loadFromJSON(json, () => {
       fcanvas.renderAll()
+      fcanvas._objects.forEach((obj, i) => {
+        if (i === 0) return
+        obj.set(defaultObjectConfig)
+      })
       let img = fcanvas._objects[0]
 
       let orientation = img.width > img.height ? 'landscape' : 'portrait'
@@ -111,7 +116,5 @@ export const pasteFromClipboard = (fcanvas, clipboard, coords, zoom) => {
   // Implement this later
   if (clipboard.length === 0) return
   let recentCopy = clipboard[clipboard.length - 1]
-  console.log(coords)
   addCopiedObject(fcanvas, coords, recentCopy, zoom)
-  console.log('pasting from clipboard')
 }
