@@ -65,6 +65,14 @@ const setTotalMarks = (state, marks) => {
   state.marks.total = marks
 }
 
+const setMenu = (state, menu) => {
+  state.menu = menu
+}
+
+const setClipboard = (state, clipboard) => {
+  state.clipboard = clipboard
+}
+
 export default {
   setImageSources,
   setImages,
@@ -77,5 +85,7 @@ export default {
   setFontSize,
   forceRefresh,
   setCalculatedMarks,
-  setTotalMarks
+  setTotalMarks,
+  setMenu,
+  setClipboard
 }

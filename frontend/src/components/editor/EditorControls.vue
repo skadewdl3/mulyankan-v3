@@ -6,6 +6,7 @@ import { savePDF } from '@/logic/pdfFunctions'
 
 import MarkingTab from '@/components/editor/tabs/MarkingTab.vue'
 import MathTab from '@/components/editor/tabs/MathTab.vue'
+import ClipboardTab from '@/components/editor/tabs/ClipboardTab.vue'
 
 const store = useStore()
 const router = useRouter()
@@ -55,6 +56,11 @@ const tabs = [
     id: 'marking'
   },
   {
+    name: 'Clipboard',
+    component: ClipboardTab,
+    id: 'clipboard'
+  },
+  {
     name: 'Math',
     component: MathTab,
     id: 'math'
@@ -101,6 +107,7 @@ const tabs = [
       <div class="controls-content">
         <MarkingTab v-if="currentTab === 'marking'" />
         <MathTab v-if="currentTab === 'math'" />
+        <ClipboardTab v-if="currentTab === 'clipboard'" />
       </div>
     </div>
   </div>
@@ -110,11 +117,16 @@ const tabs = [
 .controls__wrapper
   position sticky
   top 0
-  z-index 100
-  padding 0.5rem 2rem
-  padding-bottom 0
+  z-index 15
+  +atTablet()
+    padding 0.5rem
+    padding-top 0
+    padding-bottom 0
+  +atDesktop()
+    padding 0.5rem 2rem
+    padding-top 0
+    padding-bottom 0
   background neutral
-  padding-top 0
 
 .back-icon
   font-size 1.5rem

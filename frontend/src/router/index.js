@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/pages/Home.vue'
-import Preprocess from '@/pages/Preprocess.vue'
-import Editor from '@/pages/Editor.vue'
 
 const routes = [
   {
@@ -12,12 +10,12 @@ const routes = [
   {
     path: '/preprocess',
     name: 'preprocess',
-    component: Preprocess
+    component: () => import('@/pages/Preprocess.vue')
   },
   {
     path: '/editor',
     name: 'editor',
-    component: Editor
+    component: () => import('@/pages/Editor.vue')
   }
 ]
 

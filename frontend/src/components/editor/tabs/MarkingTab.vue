@@ -1,17 +1,17 @@
 <script setup>
 import { ref, watch, computed, toRaw } from 'vue'
 import { useStore } from 'vuex'
-import ArrowSymbol from '@/assets/images/arrow.svg'
-import CheckSymbol from '@/assets/images/check.svg'
-import CircleSymbol from '@/assets/images/circle.svg'
-import CrossSymbol from '@/assets/images/cross.svg'
-import UnderlineSymbol from '@/assets/images/underline.svg'
-import DoubleUnderlineSymbol from '@/assets/images/double-underline.svg'
-import TextboxIcon from '@/assets/images/textbox.svg'
-import MarkboxIcon from '@/assets/images/markbox.svg'
+import ArrowSymbol from './../../../assets/images/arrow.svg'
+import CheckSymbol from './../../../assets/images/check.svg'
+import CircleSymbol from './../../../assets/images/circle.svg'
+import CrossSymbol from './../../../assets/images/cross.svg'
+import UnderlineSymbol from './../../..//assets/images/underline.svg'
+import DoubleUnderlineSymbol from './../../../assets/images/double-underline.svg'
+import TextboxIcon from './../../../assets/images/textbox.svg'
+import MarkboxIcon from './../../../assets/images/markbox.svg'
 
-import { Color, Solver } from '@/logic/colorCalculator'
-import { isNumber } from '@/store/actions'
+import { getFilter } from './../../../logic/colorCalculator'
+import { isNumber } from './../../../store/actions'
 
 const store = useStore()
 
@@ -148,22 +148,6 @@ const styleBtns = [
     action: () => ''
   }
 ]
-
-const getFilter = col => {
-  // Return the filter directly if it has already been calculated
-  if (colors.filter(c => c.hex === col)[0].filter)
-    return colors.filter(c => c.hex === col)[0].filter
-
-  // Calculate the filter
-  let color = new Color(col)
-  let solver = new Solver(color)
-  let result = solver.solve()
-  let filter = `brightness(0) saturate(100%) ${result.filter}`
-
-  // Store the filter in the color object
-  colors.filter(c => c.hex === col)[0].filter = filter
-  return filter
-}
 
 const addSymbol = (e, symbolIndex) => {
   e.dataTransfer.setData('img', symbols[symbolIndex].name)
@@ -349,7 +333,7 @@ const updateTotalMarks = val => {
         >
           <img
             :style="{
-              filter: getFilter(store.state.style.color)
+              filter: getFilter(store.state.style.color, colors)
             }"
             :src="symbol.src"
             :alt="symbol.name"
@@ -405,32 +389,58 @@ const updateTotalMarks = val => {
 .symbol
   cursor pointer
   width 2.5rem
-  margin 0 1rem
+  +atTablet()
+    margin 0 0.5rem
+  +atDesktop()
+    margin 0 1rem
   img
     width 100%
 .separator
   height 3.5rem
   width 0.1rem
   background #ccc
-  margin auto 2rem
+  +atTablet()
+    margin auto 1rem
+  +atDesktop()
+    margin auto 2rem
+
 
 .text
   display flex
   justify-content space-between
+  +atTablet()
+    flex-direction column
+  +atDesktop()
+    flex-direction row
 .textbox
   display flex
   align-items center
-  margin 0 1rem
   cursor pointer
-  &:first-child
-    margin-left 0
+  +atTablet()
+    margin 0.5rem auto
+    &:first-child
+      margin-top 0
+    &:last-child
+      margin-bottom 0
+  +atDesktop()
+    margin 0 1rem
+    &:first-child
+      margin-left 0
+    &:last-child
+      margin-right 0
 
   span
-    font-size 1.5rem
+    +atTablet()
+      font-size 1.2rem
+    +atDesktop()
+      font-size 1.5rem
 
   &-img
     margin-right 1rem
-    width 2.5rem
+    +atTablet()
+      width 2rem
+    +atDesktop()
+      width 2.5rem
 
 .font
   display flex
@@ -491,11 +501,16 @@ const updateTotalMarks = val => {
 .colors
   display flex
   .color
-    width 3rem
-    height 3rem
+    +atTablet()
+      width 2.5rem
+      height 2.5rem
+      margin 0 0.5rem
+    +atDesktop()
+      width 3rem
+      height 3rem
+      margin 0 1rem
     border-radius 0.5rem
     cursor pointer
-    margin 0 1rem
     &:first-child
       margin-left 0
     &:last-child
@@ -504,11 +519,14 @@ const updateTotalMarks = val => {
     align-items center
     justify-content center
     &-patch
-
       top 50%
       left 50%
-      width 2rem
-      height 2rem
+      +atTablet()
+        width 1.5rem
+        height 1.5rem
+      +atDesktop()
+        width 2rem
+        height 2rem
       border-radius 0.3rem
       background #fff
       transition all .2s ease-in-out

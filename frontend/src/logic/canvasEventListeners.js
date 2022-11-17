@@ -27,7 +27,8 @@ const addImage = (fcanvas, id, coords, zoom, { color }) => {
   fcanvas.filterBackend = new fabric.WebglFilterBackend()
 
   // Create a fabric image from the source in assets folder
-  fabric.Image.fromURL(`/src/assets/images/${id}.svg`, function (img) {
+
+  fabric.Image.fromURL(`/images/${id}.svg`, function (img) {
     // Scale the image according to zoom level
     let scaleFactorX = (defaultImageConfig.width / img.width) * zoom
     let scaleFactorY = (defaultImageConfig.height / img.height) * zoom
@@ -41,7 +42,9 @@ const addImage = (fcanvas, id, coords, zoom, { color }) => {
       scaleY: scaleFactorY,
       defaultScaleX: scaleFactorX,
       defaultScaleY: scaleFactorY,
-      imgColor: color
+      imgColor: color,
+      id,
+      zoom
     })
 
     fcanvas.add(img)
@@ -68,7 +71,6 @@ const addTextbox = (
   { fontSize, font: fontFamily, color: fill },
   text = null
 ) => {
-  console.log(textType)
   let width =
     textType === 'quickmark'
       ? defaultTextConfig.quickMarkWidth
@@ -93,19 +95,66 @@ const addTextbox = (
       fontFamily,
       width,
       height,
-      fill
+      fill,
+      zoom,
+      scaleX: zoom,
+      scaleY: zoom
     }
   )
   fcanvas.add(textbox)
 }
 
-export const dropEventListener = (fcanvas, zoom, getStyle) => {
+export const addCopiedObject = (fcanvas, coords, obj, zoom) => {
+  console.log(obj.zoom)
+  // Make this later
+  if (obj.type === 'image') {
+    fabric.util.enlivenObjects([obj], objects => {
+      let img = objects[0]
+      img.set({
+        ...defaultObjectConfig,
+        scaleX: img.scaleX * (zoom / obj.zoom),
+        scaleY: img.scaleY * (zoom / obj.zoom)
+      })
+      img.set({
+        left: coords.x - (img.width * img.scaleX) / 2,
+        top: coords.y - (img.height * img.scaleY) / 2
+      })
+      fcanvas.add(img)
+    })
+  } else if (obj.type === 'textbox') {
+    fabric.util.enlivenObjects([obj], objects => {
+      let textbox = objects[0]
+      textbox.set({
+        ...defaultObjectConfig,
+        scaleX: textbox.scaleX * (zoom / obj.zoom),
+        scaleY: textbox.scaleY * (zoom / obj.zoom)
+      })
+      textbox.set({
+        left: coords.x - (textbox.width * textbox.scaleX) / 2,
+        top: coords.y - (textbox.height * textbox.scaleY) / 2,
+        textType: obj.textType
+      })
+      fcanvas.add(textbox)
+    })
+  }
+}
+
+export const dropEventListener = (
+  fcanvas,
+  setActiveCanvas,
+  getZoom,
+  getStyle
+) => {
   fcanvas.on('drop', ({ e }) => {
     // Get coordinates of drop event
     let coords = fcanvas.getPointer(e)
     let style = getStyle
-
-    if (e.dataTransfer.getData('img')) {
+    let zoom = getZoom()
+    setActiveCanvas()
+    if (e.dataTransfer.getData('copy')) {
+      let obj = JSON.parse(e.dataTransfer.getData('copy'))
+      addCopiedObject(fcanvas, coords, obj, zoom)
+    } else if (e.dataTransfer.getData('img')) {
       // Get the image id from the dataTransfer object
       let id = e.dataTransfer.getData('img')
 
@@ -118,7 +167,6 @@ export const dropEventListener = (fcanvas, zoom, getStyle) => {
       // Add the text to the canvas
       addTextbox(fcanvas, text, coords, zoom, style)
     } else if (e.dataTransfer.getData('quickmark')) {
-      console.log('quick marking')
       let marks = JSON.parse(e.dataTransfer.getData('quickmark'))
       let marksText = `${marks.calculated} / ${
         marks.total ? marks.total : 'Total'
@@ -139,5 +187,49 @@ export const textChangeEventListener = (fcanvas, updateMarks) => {
   fcanvas.on('object:removed', ({ target }) => {
     if (target.textType !== 'mark') return
     updateMarks()
+  })
+}
+
+export const clickEventListener = (
+  fcanvas,
+  index,
+  setActiveCanvas,
+  setMenu,
+  getMenu
+) => {
+  fcanvas.on('mouse:down', e => {
+    if (e.button === 3) {
+      setMenu({
+        ...getMenu(),
+        pasteCoords: e.pointer
+      })
+    }
+  })
+  // This weird array makes sure that the elements
+  // on which event listener is added are not undefined
+  // and have classList property
+  Array.from(document.querySelector('.canvases').childNodes)
+    .filter(el => el && el.classList)
+    [index].addEventListener('contextmenu', e => {
+      // Setting canvas as active is used to make sure
+      // that copied/pasted/deleted element is from the same canvas
+
+      setActiveCanvas()
+      e.preventDefault()
+      setMenu({
+        ...getMenu(),
+        show: true, // Show the menu
+        coords: { x: e.pageX, y: e.pageY } // Get coordinates of right click
+      })
+    })
+
+  document.addEventListener('click', () => {
+    // If the menu is open, hide it when clicked anywhere on the screen
+    if (getMenu().show) {
+      setMenu({
+        ...getMenu(),
+        show: false
+      })
+    }
   })
 }

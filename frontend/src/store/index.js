@@ -21,7 +21,16 @@ export const store = createStore({
       marks: {
         calculated: 0,
         total: ''
-      }
+      },
+      menu: {
+        show: false,
+        coords: { x: 0, y: 0 },
+        pasteCoords: {
+          x: 0,
+          y: 0
+        }
+      },
+      clipboard: []
     }
   },
   mutations,
