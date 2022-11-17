@@ -1,6 +1,7 @@
 import { fabric } from 'fabric'
 import { toRaw } from 'vue'
 import {
+  addCopiedObject,
   clickEventListener,
   dropEventListener,
   textChangeEventListener
@@ -73,11 +74,12 @@ export const loadCanvas = async (refCanvas, index, pageWidth, store) => {
         width: img.width * scaleFactor,
         height: img.height * scaleFactor
       })
+      fcanvas.fireRightClick = true
       fcanvas.filterBackend = new fabric.WebglFilterBackend()
       dropEventListener(
         fcanvas,
         () => store.dispatch('setActiveCanvas', index),
-        zoom,
+        () => store.state.zoom,
         getStyle
       )
       textChangeEventListener(fcanvas, updateMarks)
@@ -91,4 +93,25 @@ export const loadCanvas = async (refCanvas, index, pageWidth, store) => {
       resolve(fcanvas)
     })
   })
+}
+
+export const deleteSelectedObject = fcanvas => {
+  let selectedObj = fcanvas.getActiveObject()
+  fcanvas.remove(selectedObj)
+}
+
+export const copySelectedObject = (fcanvas, addToClipboard) => {
+  let selectedObj = fcanvas
+    .getActiveObject()
+    .toJSON(['imgColor', 'textType', 'id', 'zoom'])
+  addToClipboard(selectedObj)
+}
+
+export const pasteFromClipboard = (fcanvas, clipboard, coords, zoom) => {
+  // Implement this later
+  if (clipboard.length === 0) return
+  let recentCopy = clipboard[clipboard.length - 1]
+  console.log(coords)
+  addCopiedObject(fcanvas, coords, recentCopy, zoom)
+  console.log('pasting from clipboard')
 }

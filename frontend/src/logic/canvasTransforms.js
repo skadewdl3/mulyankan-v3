@@ -57,7 +57,8 @@ export const resizeCanvas = (fcanvas, zoom, prevZoom, pageWidth) => {
       left: obj.left * (zoom / prevZoom),
       top: obj.top * (zoom / prevZoom),
       scaleX: obj.scaleX * (zoom / prevZoom),
-      scaleY: obj.scaleY * (zoom / prevZoom)
+      scaleY: obj.scaleY * (zoom / prevZoom),
+      zoom
     })
     obj.setCoords()
   })
@@ -117,6 +118,7 @@ export const updateStyle = (
       opacity: 0,
       mode: 'tint'
     })
+    obj.imgColor = fill
 
     obj.applyFilters()
   }

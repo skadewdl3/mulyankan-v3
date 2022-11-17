@@ -24,8 +24,13 @@ export const store = createStore({
       },
       menu: {
         show: false,
-        coords: { x: 0, y: 0 }
-      }
+        coords: { x: 0, y: 0 },
+        pasteCoords: {
+          x: 0,
+          y: 0
+        }
+      },
+      clipboard: []
     }
   },
   mutations,

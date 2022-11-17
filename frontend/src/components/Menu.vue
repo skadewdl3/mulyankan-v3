@@ -1,6 +1,11 @@
 <script setup>
 import { watch, ref } from 'vue'
 import { useStore } from 'vuex'
+import {
+  deleteSelectedObject,
+  copySelectedObject,
+  pasteFromClipboard
+} from '../logic/canvasFunctions'
 
 const store = useStore()
 
@@ -10,17 +15,26 @@ const items = [
   {
     name: 'Copy',
     icon: 'icon-copy',
-    action: () => console.log(store.getters.getActiveCanvas)
+    action: () =>
+      copySelectedObject(store.getters.getActiveCanvas, selectedObj =>
+        store.dispatch('addToClipboard', selectedObj)
+      )
   },
   {
     name: 'Paste',
     icon: 'icon-paste',
-    action: () => ''
+    action: () =>
+      pasteFromClipboard(
+        store.getters.getActiveCanvas,
+        store.state.clipboard,
+        store.state.menu.pasteCoords,
+        store.state.zoom
+      )
   },
   {
     name: 'Delete',
     icon: 'icon-delete',
-    action: () => ''
+    action: () => deleteSelectedObject(store.getters.getActiveCanvas)
   }
 ]
 

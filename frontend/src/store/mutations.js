@@ -69,6 +69,10 @@ const setMenu = (state, menu) => {
   state.menu = menu
 }
 
+const setClipboard = (state, clipboard) => {
+  state.clipboard = clipboard
+}
+
 export default {
   setImageSources,
   setImages,
@@ -82,5 +86,6 @@ export default {
   forceRefresh,
   setCalculatedMarks,
   setTotalMarks,
-  setMenu
+  setMenu,
+  setClipboard
 }

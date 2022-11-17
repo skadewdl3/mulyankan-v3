@@ -13,6 +13,27 @@ Stackoverflow Post: https://stackoverflow.com/questions/5623838/rgb-to-hex-and-h
 
 Tim Down's profile: https://stackoverflow.com/users/96100/tim-down
 */
+
+export const getFilter = (col, colors = null) => {
+  // Return the filter directly if it has already been calculated
+  if (colors) {
+    if (colors.filter(c => c.hex === col)[0].filter)
+      return colors.filter(c => c.hex === col)[0].filter
+  }
+
+  // Calculate the filter
+  let color = new Color(col)
+  let solver = new Solver(color)
+  let result = solver.solve()
+  let filter = `brightness(0) saturate(100%) ${result.filter}`
+
+  // Store the filter in the color object
+  if (colors) {
+    colors.filter(c => c.hex === col)[0].filter = filter
+  }
+  return filter
+}
+
 export class Color {
   constructor(hex, rgb = null) {
     if (!hex) {

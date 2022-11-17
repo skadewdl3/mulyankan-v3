@@ -42,7 +42,9 @@ const addImage = (fcanvas, id, coords, zoom, { color }) => {
       scaleY: scaleFactorY,
       defaultScaleX: scaleFactorX,
       defaultScaleY: scaleFactorY,
-      imgColor: color
+      imgColor: color,
+      id,
+      zoom
     })
 
     fcanvas.add(img)
@@ -93,20 +95,66 @@ const addTextbox = (
       fontFamily,
       width,
       height,
-      fill
+      fill,
+      zoom,
+      scaleX: zoom,
+      scaleY: zoom
     }
   )
   fcanvas.add(textbox)
 }
 
-export const dropEventListener = (fcanvas, setActiveCanvas, zoom, getStyle) => {
+export const addCopiedObject = (fcanvas, coords, obj, zoom) => {
+  console.log(obj.zoom)
+  // Make this later
+  if (obj.type === 'image') {
+    fabric.util.enlivenObjects([obj], objects => {
+      let img = objects[0]
+      img.set({
+        ...defaultObjectConfig,
+        scaleX: img.scaleX * (zoom / obj.zoom),
+        scaleY: img.scaleY * (zoom / obj.zoom)
+      })
+      img.set({
+        left: coords.x - (img.width * img.scaleX) / 2,
+        top: coords.y - (img.height * img.scaleY) / 2
+      })
+      fcanvas.add(img)
+    })
+  } else if (obj.type === 'textbox') {
+    fabric.util.enlivenObjects([obj], objects => {
+      let textbox = objects[0]
+      textbox.set({
+        ...defaultObjectConfig,
+        scaleX: textbox.scaleX * (zoom / obj.zoom),
+        scaleY: textbox.scaleY * (zoom / obj.zoom)
+      })
+      textbox.set({
+        left: coords.x - (textbox.width * textbox.scaleX) / 2,
+        top: coords.y - (textbox.height * textbox.scaleY) / 2,
+        textType: obj.textType
+      })
+      fcanvas.add(textbox)
+    })
+  }
+}
+
+export const dropEventListener = (
+  fcanvas,
+  setActiveCanvas,
+  getZoom,
+  getStyle
+) => {
   fcanvas.on('drop', ({ e }) => {
     // Get coordinates of drop event
     let coords = fcanvas.getPointer(e)
     let style = getStyle
+    let zoom = getZoom()
     setActiveCanvas()
-
-    if (e.dataTransfer.getData('img')) {
+    if (e.dataTransfer.getData('copy')) {
+      let obj = JSON.parse(e.dataTransfer.getData('copy'))
+      addCopiedObject(fcanvas, coords, obj, zoom)
+    } else if (e.dataTransfer.getData('img')) {
       // Get the image id from the dataTransfer object
       let id = e.dataTransfer.getData('img')
 
@@ -149,6 +197,14 @@ export const clickEventListener = (
   setMenu,
   getMenu
 ) => {
+  fcanvas.on('mouse:down', e => {
+    if (e.button === 3) {
+      setMenu({
+        ...getMenu(),
+        pasteCoords: e.pointer
+      })
+    }
+  })
   // This weird array makes sure that the elements
   // on which event listener is added are not undefined
   // and have classList property
@@ -161,6 +217,7 @@ export const clickEventListener = (
       setActiveCanvas()
       e.preventDefault()
       setMenu({
+        ...getMenu(),
         show: true, // Show the menu
         coords: { x: e.pageX, y: e.pageY } // Get coordinates of right click
       })

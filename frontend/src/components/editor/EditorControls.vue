@@ -56,14 +56,14 @@ const tabs = [
     id: 'marking'
   },
   {
-    name: 'Math',
-    component: MathTab,
-    id: 'math'
-  },
-  {
     name: 'Clipboard',
     component: ClipboardTab,
     id: 'clipboard'
+  },
+  {
+    name: 'Math',
+    component: MathTab,
+    id: 'math'
   }
 ]
 </script>
@@ -118,10 +118,15 @@ const tabs = [
   position sticky
   top 0
   z-index 15
-  padding 0.5rem 2rem
-  padding-bottom 0
+  +atTablet()
+    padding 0.5rem
+    padding-top 0
+    padding-bottom 0
+  +atDesktop()
+    padding 0.5rem 2rem
+    padding-top 0
+    padding-bottom 0
   background neutral
-  padding-top 0
 
 .back-icon
   font-size 1.5rem

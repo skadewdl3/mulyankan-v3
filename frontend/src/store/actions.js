@@ -59,8 +59,19 @@ const setActiveCanvas = (store, index) => {
   })
 }
 
+const addToClipboard = (store, obj) => {
+  store.commit('setClipboard', [...store.state.clipboard, obj])
+}
+
+const deleteFromClipboard = (store, index) => {
+  let temp = store.state.clipboard.filter((_, i) => i !== index)
+  store.commit('setClipboard', temp)
+}
+
 export default {
   lazyLoadPDF,
   updateMarks,
-  setActiveCanvas
+  setActiveCanvas,
+  addToClipboard,
+  deleteFromClipboard
 }
