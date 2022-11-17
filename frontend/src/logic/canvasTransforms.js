@@ -1,31 +1,18 @@
 import ImageRotation from 'image-rotation'
 
-export const resizeCanvas = (fcanvas, zoom, prevZoom, pageWidth) => {
-  let orientation = fcanvas.width > fcanvas.height ? 'landscape' : 'portrait'
+export const resizeCanvas = (fcanvas, zoom, prevZoom) => {
+  let scaleFactor = zoom / prevZoom
+
   let backgroundImage = fcanvas._objects[0]
-  let scaleFactor =
-    (orientation === 'portrait'
-      ? pageWidth / fcanvas.width
-      : pageWidth / fcanvas.height) * zoom
-  let bgScaleFactor =
-    (orientation === 'portrait'
-      ? pageWidth / backgroundImage.width
-      : pageWidth / backgroundImage.height) * zoom
 
   backgroundImage.set({
-    scaleX: bgScaleFactor,
-    scaleY: bgScaleFactor
+    scaleX: backgroundImage.scaleX * scaleFactor,
+    scaleY: backgroundImage.scaleY * scaleFactor
   })
 
   fcanvas.setDimensions({
-    width:
-      orientation === 'portrait'
-        ? pageWidth * zoom
-        : fcanvas.width * scaleFactor,
-    height:
-      orientation === 'portrait'
-        ? fcanvas.height * scaleFactor
-        : pageWidth * zoom
+    width: fcanvas.width * scaleFactor,
+    height: fcanvas.height * scaleFactor
   })
 
   fcanvas._objects.forEach((obj, i) => {
@@ -38,7 +25,7 @@ export const resizeCanvas = (fcanvas, zoom, prevZoom, pageWidth) => {
     obj.leftPrev    ---> prevZoom
     obj.left        ---> zoom
     
-    Hence, obj.left = obj.LeftPrev * (zoom / prevZoom).
+    Hence, obj.left = obj.LeftPrev * (scaleFactor).
     Same logic applies to obj.top
     */
 
@@ -49,15 +36,15 @@ export const resizeCanvas = (fcanvas, zoom, prevZoom, pageWidth) => {
     obj.scaleXPrev    ---> prevZoom
     obj.scaleX        ---> zoom
 
-    Hence, obj.scaleX = obj.scaleXPrev * (zoom / prevZoom).
+    Hence, obj.scaleX = obj.scaleXPrev * (scaleFactor).
     Same logic applies to obj.scaleY
     */
 
     obj.set({
-      left: obj.left * (zoom / prevZoom),
-      top: obj.top * (zoom / prevZoom),
-      scaleX: obj.scaleX * (zoom / prevZoom),
-      scaleY: obj.scaleY * (zoom / prevZoom),
+      left: obj.left * scaleFactor,
+      top: obj.top * scaleFactor,
+      scaleX: obj.scaleX * scaleFactor,
+      scaleY: obj.scaleY * scaleFactor,
       zoom
     })
     obj.setCoords()

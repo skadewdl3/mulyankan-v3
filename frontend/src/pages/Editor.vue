@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import EditorCanvas from '@/components/editor/EditorCanvas.vue'
@@ -14,6 +14,10 @@ onMounted(() => {
   }
   ;('mounted')
   store.commit('setControls', { show: true, mode: 'editor' })
+})
+
+onUnmounted(() => {
+  store.commit('setControls', { show: false, mode: 'editor' })
 })
 </script>
 

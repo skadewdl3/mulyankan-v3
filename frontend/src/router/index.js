@@ -16,6 +16,11 @@ const routes = [
     path: '/editor',
     name: 'editor',
     component: () => import('@/pages/Editor.vue')
+  },
+  {
+    path: '/download',
+    name: 'download',
+    component: () => import('@/pages/Download.vue')
   }
 ]
 

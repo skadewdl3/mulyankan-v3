@@ -46,6 +46,14 @@ const controlButtons = [
       savePDF(store.state.images)
     },
     primary: true
+  },
+  {
+    text: 'Download',
+    icon: 'icon-download',
+    action: () => {
+      router.push('/download')
+    },
+    primary: true
   }
 ]
 
