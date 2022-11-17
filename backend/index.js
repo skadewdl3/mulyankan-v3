@@ -21,8 +21,11 @@ app.post('/save', async (req, res) => {
   const pdfDrive = deta.Drive('test')
   const pdfBase = deta.Base('test')
   console.log(req.files.pdf.data)
-  let list = await uploadJSON(pdfDrive, pdfBase, req.files.pdf.data)
-  res.json({ message: 'File uploaded successfully', list })
+  res.json({
+    received: req.files.pdf.data.toString()
+  })
+  // let list = await uploadJSON(pdfDrive, pdfBase, req.files.pdf.data)
+  // res.json({ message: 'File uploaded successfully', list })
 })
 
 const port = process.env.PORT || 8080

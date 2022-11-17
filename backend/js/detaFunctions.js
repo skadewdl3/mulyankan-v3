@@ -2,9 +2,7 @@ const { v4: uuid } = require('uuid')
 
 const uploadJSON = async (drive, base, data) => {
   let id = uuid()
-  drive.put(`hello.json`, {
-    data: 'hi'
-  })
+  drive.put(`${id}.json`, { data })
 }
 
 module.exports = {
