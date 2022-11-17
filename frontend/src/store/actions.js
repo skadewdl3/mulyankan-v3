@@ -68,10 +68,17 @@ const deleteFromClipboard = (store, index) => {
   store.commit('setClipboard', temp)
 }
 
+const addPreprocessInstruction = (store, instruction) => {
+  let newInstructions = [...store.state.preprocessInstructions, instruction]
+  store.commit('setPreprocessInstructions', newInstructions)
+  console.log(store.state.preprocessInstructions)
+}
+
 export default {
   lazyLoadPDF,
   updateMarks,
   setActiveCanvas,
   addToClipboard,
-  deleteFromClipboard
+  deleteFromClipboard,
+  addPreprocessInstruction
 }

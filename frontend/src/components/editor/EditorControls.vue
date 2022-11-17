@@ -43,7 +43,7 @@ const controlButtons = [
     text: 'Save To Drive',
     icon: 'icon-save',
     action: () => {
-      savePDF(store.state.images)
+      // savePDF(store.state.images)
     },
     primary: true
   },

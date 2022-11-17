@@ -1,4 +1,5 @@
 import ImageRotation from 'image-rotation'
+import { rotate } from './preprocessInstructions'
 
 export const resizeCanvas = (fcanvas, zoom, prevZoom) => {
   let scaleFactor = zoom / prevZoom
@@ -56,7 +57,8 @@ export const resizeCanvas = (fcanvas, zoom, prevZoom) => {
 export const rotateCanvas = async (
   imageSources,
   direction,
-  index = undefined
+  addPreprocessInstruction,
+  { index, id }
 ) => {
   // If index is not provided, rotate all canvases
   if (typeof index !== 'number') {
@@ -65,9 +67,13 @@ export const rotateCanvas = async (
       imageSources.forEach(async src => {
         let r = new ImageRotation(src)
         try {
-          let res = await r.generate(direction === 'right' ? 90 : -90)
+          let angle = direction === 'right' ? 90 : -90
+          let res = await r.generate(angle)
           temp.push(res)
-          if (temp.length === imageSources.length) resolve(temp)
+          if (temp.length === imageSources.length) {
+            resolve(temp)
+            addPreprocessInstruction(rotate(angle))
+          }
         } catch (err) {
           reject(err)
         }
@@ -80,9 +86,11 @@ export const rotateCanvas = async (
     let src = temp[index]
     let r = new ImageRotation(src)
     try {
-      let res = await r.generate(direction === 'right' ? 90 : -90)
+      let angle = direction === 'right' ? 90 : -90
+      let res = await r.generate(angle)
       temp[index] = res
       resolve(temp)
+      addPreprocessInstruction(rotate(angle, id))
     } catch (err) {
       reject(err)
     }

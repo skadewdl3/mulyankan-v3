@@ -7,6 +7,7 @@ export const store = createStore({
   state() {
     return {
       imageSources: [],
+      projectID: '',
       images: [],
       showControls: false,
       controlMode: 'preprocess',
@@ -30,7 +31,8 @@ export const store = createStore({
           y: 0
         }
       },
-      clipboard: []
+      clipboard: [],
+      preprocessInstructions: []
     }
   },
   mutations,

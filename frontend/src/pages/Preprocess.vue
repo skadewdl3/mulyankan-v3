@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, onUnmounted } from 'vue'
+import { onMounted, ref, onUnmounted, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 // import throttle from 'lodash.throttle'
@@ -23,7 +23,14 @@ const pageWidth = ref(canvasContainer.value?.offsetWidth)
 
 // window.addEventListener('resize', updatePageWidth)
 
-onMounted(() => {
+watch(
+  () => store.state.imageSources,
+  () => {
+    store.commit('forceRefresh')
+  }
+)
+
+onMounted(async () => {
   if (store.state.imageSources.length === 0) {
     router.push('/')
     return
@@ -40,11 +47,12 @@ onUnmounted(() => {
   <div class="preprocess">
     <div class="canvases" ref="canvasContainer">
       <PreprocessCanvas
-        v-for="(image, index) in store.state.imageSources"
+        v-for="(data, index) in store.state.imageSources"
         :index="index"
-        :src="image"
+        :src="data.src"
+        :id="data.id"
         :pageWidth="pageWidth"
-        :key="`${index}-${image}`"
+        :key="`${data.id}-${data.src}-${store.state.forceRefreshKey}`"
       />
     </div>
   </div>

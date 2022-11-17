@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { downloadPDF } from '../logic/pdfFunctions'
@@ -23,7 +23,11 @@ const updateProgress = val => {
 
 const download = () => {
   store.commit('maxZoom')
-  downloadPDF(store.state.images, updateProgress)
+  downloadPDF(
+    store.state.images,
+    updateProgress,
+    store.state.preprocessInstructions
+  )
   store.commit('resetZoom')
 }
 

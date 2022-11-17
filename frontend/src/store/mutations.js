@@ -77,6 +77,14 @@ const setClipboard = (state, clipboard) => {
   state.clipboard = clipboard
 }
 
+const setPreprocessInstructions = (state, instructions) => {
+  state.preprocessInstructions = instructions
+}
+
+const setProjectID = (state, projectID) => {
+  state.projectID = projectID
+}
+
 export default {
   setImageSources,
   setImages,
@@ -92,5 +100,7 @@ export default {
   setTotalMarks,
   setMenu,
   setClipboard,
-  maxZoom
+  maxZoom,
+  setPreprocessInstructions,
+  setProjectID
 }

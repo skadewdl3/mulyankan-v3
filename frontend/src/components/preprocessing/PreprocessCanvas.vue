@@ -3,11 +3,12 @@ import { defineProps, watch, ref } from 'vue'
 import { createCanvas } from '@/logic/canvasFunctions'
 import { useStore } from 'vuex'
 import { resizeCanvas, rotateCanvas } from '@/logic/canvasTransforms'
+import { del, switchPlaces } from '@/logic/preprocessInstructions'
 const store = useStore()
 
 const canvas = ref(null)
 
-const props = defineProps(['index', 'src', 'pageWidth'])
+const props = defineProps(['index', 'src', 'pageWidth', 'id'])
 
 const canvasControls = [
   {
@@ -17,6 +18,15 @@ const canvasControls = [
       let temp = newSources[props.index - 1]
       newSources[props.index - 1] = newSources[props.index]
       newSources[props.index] = temp
+
+      store.dispatch(
+        'addPreprocessInstruction',
+        switchPlaces(
+          store.state.images[props.index].id,
+          store.state.images[props.index - 1].id
+        )
+      )
+
       store.commit('setImageSources', newSources)
     },
     condition: props.index > 0
@@ -28,30 +38,56 @@ const canvasControls = [
       let temp = newSources[props.index + 1]
       newSources[props.index + 1] = newSources[props.index]
       newSources[props.index] = temp
+
       store.commit('setImageSources', newSources)
+      store.dispatch(
+        'addPreprocessInstruction',
+        switchPlaces(
+          store.state.images[props.index].id,
+          store.state.images[props.index + 1].id
+        )
+      )
     },
     condition: props.index < store.state.imageSources.length - 1
   },
   {
     icon: 'icon-rotate-left',
     action: async () => {
+      // Only give arrays of datarurls to rotateCanvas
       let newSources = await rotateCanvas(
-        store.state.imageSources,
+        store.state.imageSources.map(s => s.src),
         'left',
-        props.index
+        instruction => store.dispatch('addPreprocessInstruction', instruction),
+        { index: props.index, id: props.id }
       )
-      store.commit('setImageSources', newSources)
+
+      // Replace the old dataurls with the new ones
+      let imgSources = newSources.map((src, i) => {
+        return {
+          src,
+          id: store.state.imageSources[i].id
+        }
+      })
+      store.commit('setImageSources', imgSources)
     }
   },
   {
     icon: 'icon-rotate-right',
     action: async () => {
       let newSources = await rotateCanvas(
-        store.state.imageSources,
+        store.state.imageSources.map(s => s.src),
         'right',
-        props.index
+        instruction => store.dispatch('addPreprocessInstruction', instruction),
+        { index: props.index, id: props.id }
       )
-      store.commit('setImageSources', newSources)
+      // Replace the old dataurls with the new ones
+      let imgSources = newSources.map((src, i) => {
+        return {
+          src,
+          id: store.state.imageSources[i].id
+        }
+      })
+      store.commit('setImageSources', imgSources)
     }
   },
 
@@ -61,7 +97,11 @@ const canvasControls = [
       let newSources = store.state.imageSources.filter(
         (_, i) => i !== props.index
       )
+      let newImages = store.state.images.filter((_, i) => i !== props.index)
+      store.dispatch('addPreprocessInstruction', del(props.id))
       store.commit('setImageSources', newSources)
+
+      store.commit('setImages', newImages)
     }
   }
 ]
@@ -75,7 +115,8 @@ watch(canvas, () => {
 
   // Create the canvas using fabric js
   let fcanvas = createCanvas(
-    `canvas-${props.index}`,
+    `${store.state.projectID}-${props.index}`,
+    `${store.state.projectID}-${props.index}`,
     props.src,
     pageWidth,
     store.state.zoom
@@ -116,7 +157,11 @@ watch([() => props.pageWidth, () => store.state.zoom], () => {
       </template>
     </div>
   </div>
-  <canvas ref="canvas" class="canvas" :id="`canvas-${index}`"></canvas>
+  <canvas
+    ref="canvas"
+    class="canvas"
+    :id="`${store.state.projectID}-${props.index}`"
+  ></canvas>
 </template>
 
 <style lang="stylus">

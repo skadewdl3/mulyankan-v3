@@ -16,7 +16,7 @@ const backgroundImageConfig = {
   hasRotatingPoint: false
 }
 
-const addBackgroundImage = (fcanvas, src, pageWidth, zoom) => {
+const addBackgroundImage = (fcanvas, src, pageWidth, zoom, mode = 'new') => {
   fabric.Image.fromURL(src, img => {
     let orientation = img.width > img.height ? 'landscape' : 'portrait'
     let scaleFactor =
@@ -32,6 +32,9 @@ const addBackgroundImage = (fcanvas, src, pageWidth, zoom) => {
     fcanvas.setHeight(height)
 
     // Add the background image to the canvas and send it to the back
+    if (mode === 'resume') {
+      fcanvas._objects = []
+    }
     fcanvas.add(img)
     fcanvas.sendToBack(img)
     let backgroundImg = fcanvas._objects[0]
@@ -43,9 +46,11 @@ const addBackgroundImage = (fcanvas, src, pageWidth, zoom) => {
   })
 }
 
-export const createCanvas = (id, src, pageWidth, zoom) => {
-  const fcanvas = new fabric.Canvas(id)
+export const createCanvas = (canvasID, projectID, src, pageWidth, zoom) => {
+  console.log(canvasID)
+  const fcanvas = new fabric.Canvas(canvasID)
   addBackgroundImage(fcanvas, src, pageWidth, zoom)
+  fcanvas.id = projectID
   fcanvas.renderAll()
   return fcanvas
 }
@@ -96,6 +101,37 @@ export const loadCanvas = async (refCanvas, index, pageWidth, store) => {
         () => store.state.menu
       )
       resolve(fcanvas)
+    })
+  })
+}
+
+export const resumeCanvases = (pages, addToImages) => {
+  // Converts fcanvas from json to fcanvas (which are not linked to canvas element)
+  // loadCanvas has to be called after this to actually show fcanvas
+  return new Promise((resolve, reject) => {
+    pages.forEach((json, i) => {
+      console.log(json)
+      delete json.id
+      delete json.objects
+      let canvas = document.createElement('canvas')
+      canvas.id = `canvas-${i}`
+      document.body.appendChild(canvas)
+      let fcanvas = new fabric.Canvas(`canvas-${i}`)
+      fcanvas.loadFromDatalessJSON(json, () => {
+        let width = fcanvas._objects[0].width
+        let height = fcanvas._objects[0].height
+        fcanvas.setDimensions({
+          width,
+          height
+        })
+        fabric.util.enlivenObjects(objects, () => {
+          console.log('enlivened')
+          addToImages(fcanvas)
+          if (i === pages.length - 1) {
+            resolve()
+          }
+        })
+      })
     })
   })
 }

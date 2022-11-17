@@ -10,20 +10,38 @@ const controlButtons = [
     text: 'Rotate All Left',
     icon: 'icon-rotate-all-left',
     action: async () => {
-      store.commit(
-        'setImageSources',
-        await rotateCanvas(store.state.imageSources, 'left')
+      let newSources = await rotateCanvas(
+        store.state.imageSources.map(s => s.src),
+        'left',
+        instruction => store.dispatch('addPreprocessInstruction', instruction),
+        { id: undefined, index: undefined }
       )
+      let imgSources = newSources.map((src, i) => {
+        return {
+          src,
+          id: store.state.imageSources[i].id
+        }
+      })
+      store.commit('setImageSources', imgSources)
     }
   },
   {
     text: 'Rotate All Right',
     icon: 'icon-rotate-all-right',
     action: async () => {
-      store.commit(
-        'setImageSources',
-        await rotateCanvas(store.state.imageSources, 'right')
+      let newSources = await rotateCanvas(
+        store.state.imageSources.map(s => s.src),
+        'right',
+        instruction => store.dispatch('addPreprocessInstruction', instruction),
+        { id: undefined, index: undefined }
       )
+      let imgSources = newSources.map((src, i) => {
+        return {
+          src,
+          id: store.state.imageSources[i].id
+        }
+      })
+      store.commit('setImageSources', imgSources)
     }
   },
   {
