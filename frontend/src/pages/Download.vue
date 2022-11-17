@@ -2,7 +2,7 @@
 import { ref, watch, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { downloadPDF } from '@/logic/pdfFunctions '
+import { downloadPDF } from '../logic/pdfFunctions'
 const router = useRouter()
 const store = useStore()
 
