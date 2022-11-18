@@ -17,33 +17,37 @@ const backgroundImageConfig = {
 }
 
 const addBackgroundImage = (fcanvas, src, pageWidth, zoom, mode = 'new') => {
-  fabric.Image.fromURL(src, img => {
-    let orientation = img.width > img.height ? 'landscape' : 'portrait'
-    let scaleFactor =
-      (orientation === 'portrait'
-        ? pageWidth / img.width
-        : pageWidth / img.height) * zoom
+  fabric.Image.fromURL(
+    src,
+    img => {
+      let orientation = img.width > img.height ? 'landscape' : 'portrait'
+      let scaleFactor =
+        (orientation === 'portrait'
+          ? pageWidth / img.width
+          : pageWidth / img.height) * zoom
 
-    let width = img.width * scaleFactor
-    let height = img.height * scaleFactor
+      let width = img.width * scaleFactor
+      let height = img.height * scaleFactor
 
-    // Resize canvas to be size of background image
-    fcanvas.setWidth(width)
-    fcanvas.setHeight(height)
+      // Resize canvas to be size of background image
+      fcanvas.setWidth(width)
+      fcanvas.setHeight(height)
 
-    // Add the background image to the canvas and send it to the back
-    if (mode === 'resume') {
-      fcanvas._objects = []
-    }
-    fcanvas.add(img)
-    fcanvas.sendToBack(img)
-    let backgroundImg = fcanvas._objects[0]
-    backgroundImg.set({
-      ...backgroundImageConfig,
-      scaleX: scaleFactor,
-      scaleY: scaleFactor
-    })
-  })
+      // Add the background image to the canvas and send it to the back
+      if (mode === 'resume') {
+        fcanvas._objects = []
+      }
+      fcanvas.add(img)
+      fcanvas.sendToBack(img)
+      let backgroundImg = fcanvas._objects[0]
+      backgroundImg.set({
+        ...backgroundImageConfig,
+        scaleX: scaleFactor,
+        scaleY: scaleFactor
+      })
+    },
+    { crossOrigin: 'anonymous' }
+  )
 }
 
 export const createCanvas = (canvasID, projectID, src, pageWidth, zoom) => {

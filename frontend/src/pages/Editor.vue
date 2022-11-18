@@ -23,7 +23,7 @@ onUnmounted(() => {
 
 const callback = () => {
   console.log('ok')
-  // updateSavedPDF(store)
+  updateSavedPDF(store)
 }
 </script>
 

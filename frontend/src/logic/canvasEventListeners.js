@@ -28,39 +28,43 @@ const addImage = (fcanvas, id, coords, zoom, { color }) => {
 
   // Create a fabric image from the source in assets folder
 
-  fabric.Image.fromURL(`/images/${id}.svg`, function (img) {
-    // Scale the image according to zoom level
-    let scaleFactorX = (defaultImageConfig.width / img.width) * zoom
-    let scaleFactorY = (defaultImageConfig.height / img.height) * zoom
-    img.set({
-      ...defaultObjectConfig,
-      left: coords.x - (img.width * scaleFactorX) / 2,
-      top: coords.y - (img.height * scaleFactorY) / 2,
-      defaultLeft: coords.x - (img.width * scaleFactorX) / 2,
-      defaultTop: coords.y - (img.height * scaleFactorY) / 2,
-      scaleX: scaleFactorX,
-      scaleY: scaleFactorY,
-      defaultScaleX: scaleFactorX,
-      defaultScaleY: scaleFactorY,
-      imgColor: color,
-      id,
-      zoom
-    })
+  fabric.Image.fromURL(
+    `/images/${id}.svg`,
+    function (img) {
+      // Scale the image according to zoom level
+      let scaleFactorX = (defaultImageConfig.width / img.width) * zoom
+      let scaleFactorY = (defaultImageConfig.height / img.height) * zoom
+      img.set({
+        ...defaultObjectConfig,
+        left: coords.x - (img.width * scaleFactorX) / 2,
+        top: coords.y - (img.height * scaleFactorY) / 2,
+        defaultLeft: coords.x - (img.width * scaleFactorX) / 2,
+        defaultTop: coords.y - (img.height * scaleFactorY) / 2,
+        scaleX: scaleFactorX,
+        scaleY: scaleFactorY,
+        defaultScaleX: scaleFactorX,
+        defaultScaleY: scaleFactorY,
+        imgColor: color,
+        id,
+        zoom
+      })
 
-    fcanvas.add(img)
+      fcanvas.add(img)
 
-    // Apply selected color filter to image
-    img.filters[0] = new fabric.Image.filters.BlendColor({
-      color,
-      mode: 'tint',
-      opacity: 0
-    })
+      // Apply selected color filter to image
+      img.filters[0] = new fabric.Image.filters.BlendColor({
+        color,
+        mode: 'tint',
+        opacity: 0
+      })
 
-    img.applyFilters()
+      img.applyFilters()
 
-    // Add image to canvas
-    fcanvas.renderAll()
-  })
+      // Add image to canvas
+      fcanvas.renderAll()
+    },
+    { crossOrigin: 'anonymous' }
+  )
 }
 
 const addTextbox = (

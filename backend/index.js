@@ -6,13 +6,12 @@ const { updatePDF, uploadPDF, getProject } = require('./js/detaFunctions')
 const { Deta } = require('deta')
 const { projectKey } = require('./js/credentials')
 
-const deta = Deta(projectKey)
-
-const getDeta = id => {
-  return {
-    drive: deta.Drive(id),
-    base: deta.Base(id)
-  }
+let env = process.env.NODE_ENV || 'development'
+let deta
+if (env === 'development') {
+  deta = Deta(projectKey)
+} else {
+  deta = Deta()
 }
 
 const app = express()
@@ -25,14 +24,17 @@ app.get('/', (req, res) => {
 })
 
 app.post('/save', async (req, res) => {
-  const { drive, base } = getDeta('test')
+  let base = deta.Base('test')
+  let drive = deta.Drive('test')
   console.log(req.files.pdf)
   let id = await uploadPDF(drive, base, req.files.pdf)
   res.json({ id })
 })
 
 app.post('/update/:id', async (req, res) => {
-  const { drive } = getDeta('test')
+  let base = deta.Base('test')
+  let drive = deta.Drive('test')
+
   let id = req.params.id
   console.log(req.files.pdf.data)
   await updatePDF(drive, id, req.files.pdf.data)
@@ -40,13 +42,17 @@ app.post('/update/:id', async (req, res) => {
 })
 
 app.get('/projects', async (req, res) => {
-  const { base } = getDeta('test')
+  let base = deta.Base('test')
+  let drive = deta.Drive('test')
+
   let projects = await base.fetch()
   res.json(projects)
 })
 
 app.get('/getproject/:id', async (req, res) => {
-  const { drive, base } = getDeta('test')
+  let base = deta.Base('test')
+  let drive = deta.Drive('test')
+
   let id = req.params.id
   let r = await getProject(drive, base, id)
   res.json(r)
