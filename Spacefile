@@ -1,0 +1,14 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+micros:
+    - name: frontend
+      src: frontend
+      engine: vue
+      primary: true
+
+    - name: backend
+      src: backend
+      engine: nodejs16
+      primary: false
+      run: "node index.js"
+      path: api

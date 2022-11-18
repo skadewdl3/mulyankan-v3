@@ -1,0 +1,37 @@
+mobile()
+  @media (max-width: 640px)
+    {block}
+
+tablet()
+  @media (max-width: 800px)
+    {block}
+
+desktop()
+  @media (max-width: 1200px)
+    {block}
+
+atMobile()
+  @media (min-width: 640px)
+    {block}
+
+atTablet()
+  @media (min-width: 800px)
+    {block}
+
+atDesktop()
+  @media (min-width: 1200px)
+    {block}
+
+// Used on most pages to set padding of root element
+container()
+  width 100%
+  min-height 100vh
+  height 100%
+  +mobile()
+    padding 2rem 1rem
+  +atMobile()
+    padding 2rem 5rem
+  +atTablet()
+    padding 4rem 8rem
+  +atDesktop()
+    padding 4rem 15rem
