@@ -7,7 +7,7 @@ import { resizeCanvas, updateStyle } from '@/logic/canvasTransforms'
 const store = useStore()
 const canvas = ref(null)
 
-const props = defineProps(['index', 'fcanvas'])
+const props = defineProps(['index', 'fcanvas', 'isLast', 'callback'])
 
 watch(canvas, async () => {
   const pageWidth = document.querySelector('.canvases').offsetWidth
@@ -19,6 +19,9 @@ watch(canvas, async () => {
   let temp = store.state.images
   temp[props.index] = fcanvas
   store.commit('setImages', temp)
+  if (props.isLast) {
+    props.callback()
+  }
 })
 
 // This function watches for changes in the width of the page and resizes the canvas accordingly

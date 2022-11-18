@@ -74,14 +74,17 @@ const getProject = async id => {
     await loadFile(pdfBinary)
   } else {
     let jsonBinary = bufferToArrayBuffer(result.buffer.data)
-    let { pages, preprocess } = await binaryStringToJSON(
-      jsonBinary,
-      val => (progress.value = val)
-    )
-    await resumeCanvases(pages, val =>
-      store.commit('setImages', [...store.state.images, val])
-    )
+    let { pages, preprocess, style, marks, clipboard } =
+      await binaryStringToJSON(jsonBinary, val => (progress.value = val))
+    let images = await resumeCanvases(pages)
+    store.commit('setImages', images)
     store.commit('setPreprocessInstructions', preprocess)
+    store.commit('setFont', style.font)
+    store.commit('setFontSize', style.fontSize)
+    store.commit('setColor', style.color)
+    store.commit('setCalculatedMarks', marks.calculated)
+    store.commit('setClipboard', clipboard)
+    store.commit('setTotalMarks', marks.total)
     router.push('/editor')
     // console.log(binaryStringToJSON(jsonBinary))
   }

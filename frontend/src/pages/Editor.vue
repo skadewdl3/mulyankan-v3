@@ -15,16 +15,16 @@ onMounted(() => {
   }
   ;('mounted')
   store.commit('setControls', { show: true, mode: 'editor' })
-  updateSavedPDF(
-    store.state.images,
-    store.state.preprocessInstructions,
-    store.state.projectID
-  )
 })
 
 onUnmounted(() => {
   store.commit('setControls', { show: false, mode: 'editor' })
 })
+
+const callback = () => {
+  console.log('ok')
+  // updateSavedPDF(store)
+}
 </script>
 
 <template>
@@ -35,6 +35,8 @@ onUnmounted(() => {
         :index="index"
         :fcanvas="fcanvas"
         :key="`${index}`"
+        :callback="callback"
+        :isLast="index === store.state.images.length - 1"
       />
     </div>
   </div>
@@ -45,4 +47,14 @@ onUnmounted(() => {
   container()
   background neutral
   overflow auto
+
+.canvases
+  display flex
+  flex-direction column
+  align-items center
+</style>
+
+<style lang="stylus">
+.canvas-container
+  margin-bottom 1rem
 </style>

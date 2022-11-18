@@ -81,36 +81,54 @@ export const savePDF = async file => {
   return data.id
 }
 
-export const updateSavedPDF = async (
-  fcanvases,
-  preprocessInstructions,
-  projectID
-) => {
-  // Convert fcanvases to json using fcanvas.toJSON('_objects')
+export const updateSavedPDF = store => {
+  return new Promise(async (resolve, reject) => {
+    let {
+      images: fcanvases,
+      preprocessInstructions: preprocess,
+      projectID,
+      style,
+      marks,
+      clipboard
+    } = toRaw(store.state)
+    // Convert fcanvases to json using fcanvas.toJSON('_objects')
 
-  let json = {
-    pages: fcanvases.map(fcanvas =>
-      fcanvas.toJSON(['_objects', 'imgColor', 'textType', 'id'])
-    ),
-    preprocess: toRaw(preprocessInstructions)
-  }
+    let pages = fcanvases.reduce((acc, fcanvas) => {
+      let objects = fcanvas._objects.map(obj =>
+        obj.toJSON(['imgColor', 'textType', 'id', 'zoom'])
+      )
+      let id = fcanvas.id
+      acc = [...acc, { id, objects }]
+      return acc
+    }, [])
 
-  // Convert json to blob
-  const str = JSON.stringify(json)
-  const bytes = new TextEncoder().encode(str)
-  const blob = new Blob([bytes], {
-    type: 'application/json;charset=utf-8'
+    let json = {
+      pages,
+      preprocess,
+      style,
+      marks,
+      clipboard
+    }
+
+    // Convert json to blob
+    const str = JSON.stringify(json)
+    const bytes = new TextEncoder().encode(str)
+    const blob = new Blob([bytes], {
+      type: 'application/json;charset=utf-8'
+    })
+
+    // Add blob to formData
+    const formData = new FormData()
+    formData.append('pdf', blob)
+
+    // Send formData to server
+    let { data } = await axios
+      .post(`%BASE_URL%/update/${projectID}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      })
+      .catch(err => reject(err))
+    resolve(data)
   })
-
-  // Add blob to formData
-  const formData = new FormData()
-  formData.append('pdf', blob)
-
-  // Send formData to server
-  let { data } = await axios.post(`%BASE_URL%/update/${projectID}`, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  })
-  console.log(JSON.parse(data.received))
 }
 
 export const downloadPDF = async (fcanvases, updateProgress) => {

@@ -105,37 +105,31 @@ export const loadCanvas = async (refCanvas, index, pageWidth, store) => {
   })
 }
 
-export const resumeCanvases = (pages, addToImages) => {
+export const resumeCanvases = pages => {
+  let fcanvases = []
   // Converts fcanvas from json to fcanvas (which are not linked to canvas element)
   // loadCanvas has to be called after this to actually show fcanvas
   return new Promise((resolve, reject) => {
-    pages.forEach((json, i) => {
-      console.log(json)
-      delete json.id
-      delete json.objects
-      let canvas = document.createElement('canvas')
-      canvas.id = `canvas-${i}`
-      document.body.appendChild(canvas)
-      let fcanvas = new fabric.Canvas(`canvas-${i}`)
-      fcanvas.loadFromDatalessJSON(json, () => {
-        let width = fcanvas._objects[0].width
-        let height = fcanvas._objects[0].height
+    pages.forEach(({ objects: objectJSON, id }, i) => {
+      let fcanvas = new fabric.Canvas()
+
+      fabric.util.enlivenObjects(objectJSON, objects => {
+        let bg = objects[0]
         fcanvas.setDimensions({
-          width,
-          height
+          height: bg.height,
+          width: bg.width
         })
-        fabric.util.enlivenObjects(objects, () => {
-          console.log('enlivened')
-          addToImages(fcanvas)
-          if (i === pages.length - 1) {
-            resolve()
-          }
+        objects.forEach(obj => {
+          obj.set(defaultObjectConfig)
+          fcanvas.add(obj)
         })
+        fcanvas.id = id
+        fcanvases.push(fcanvas)
+        if (i === pages.length - 1) resolve(fcanvases)
       })
     })
   })
 }
-
 export const deleteSelectedObject = fcanvas => {
   let selectedObj = fcanvas.getActiveObject()
   fcanvas.remove(selectedObj)

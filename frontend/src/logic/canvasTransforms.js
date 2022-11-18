@@ -99,22 +99,26 @@ export const rotateCanvas = async (
 
 export const updateStyle = (
   obj,
-  { fontSize, font: fontFamily, color: fill }
+  { fontSize, font: fontFamily, color: fill, changed }
 ) => {
   if (obj.textType) {
-    obj.set({
-      fontSize,
-      fontFamily,
-      fill
-    })
+    if (changed === 'fontSize') {
+      obj.set({ fontSize })
+    } else if (changed === 'fontFamily') {
+      obj.set({ fontFamily })
+    } else if (changed === 'color') {
+      obj.set({ fill })
+    }
   } else if (obj.imgColor) {
-    obj.filters[0] = new fabric.Image.filters.BlendColor({
-      color: fill,
-      opacity: 0,
-      mode: 'tint'
-    })
-    obj.imgColor = fill
+    if (changed === 'color') {
+      obj.filters[0] = new fabric.Image.filters.BlendColor({
+        color: fill,
+        opacity: 0,
+        mode: 'tint'
+      })
+      obj.imgColor = fill
 
-    obj.applyFilters()
+      obj.applyFilters()
+    }
   }
 }

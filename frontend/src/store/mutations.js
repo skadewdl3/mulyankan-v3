@@ -47,14 +47,17 @@ const maxZoom = state => {
 
 const setFont = (state, font) => {
   state.style.font = font
+  state.style.changed = 'fontFamily'
 }
 
 const setColor = (state, color) => {
   state.style.color = color
+  state.style.changed = 'color'
 }
 
 const setFontSize = (state, fontSize) => {
   state.style.fontSize = fontSize
+  state.style.changed = 'fontSize'
 }
 
 const forceRefresh = state => {

@@ -219,6 +219,7 @@ const updateTotalMarks = val => {
           >
             <input
               draggable="true"
+              :value="store.state.marks.total"
               @dragstart="e => quickMark(e)"
               class="total-marks-input"
               type="text"

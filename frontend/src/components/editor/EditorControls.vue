@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { savePDF } from '@/logic/pdfFunctions'
+import { updateSavedPDF } from '@/logic/pdfFunctions'
 
 import MarkingTab from '@/components/editor/tabs/MarkingTab.vue'
 import MathTab from '@/components/editor/tabs/MathTab.vue'
@@ -12,6 +12,7 @@ const store = useStore()
 const router = useRouter()
 const currentTab = ref('marking')
 const activeTab = ref(null)
+const saving = ref(false)
 
 watch([currentTab, activeTab], () => {
   if (!currentTab.value || !activeTab.value) return
@@ -42,9 +43,14 @@ const controlButtons = [
   {
     text: 'Save To Drive',
     icon: 'icon-save',
-    action: () => {
+    action: async () => {
+      saving.value = true
+      let res = await updateSavedPDF(store)
+      if (res) saving.value = false
       // savePDF(store.state.images)
     },
+    loadIcon: 'icon-loading',
+    shoudLoadOnSave: true,
     primary: true
   },
   {
@@ -108,7 +114,12 @@ const tabs = [
             :class="`control-btn ${btn.primary ? 'control-btn-primary' : ''}`"
           >
             <span class="control-btn-text">{{ btn.text }}</span>
-            <component :is="btn.icon" class="control-btn-icon" />
+            <component
+              v-if="btn.shoudLoadOnSave && saving"
+              :is="btn.loadIcon"
+              class="control-btn-icon"
+            />
+            <component v-else :is="btn.icon" class="control-btn-icon" />
           </button>
         </div>
       </div>
