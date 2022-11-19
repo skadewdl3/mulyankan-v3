@@ -5,7 +5,7 @@ import { marked } from 'marked'
 
 let docs = ref({})
 let docMarkdown = ref('')
-let doc = computed(() => marked(docMarkdown.value))
+let doc = computed(() => marked.parse(docMarkdown.value))
 
 onMounted(async () => {
   let { data } = await axios.get('%BASE_URL%/docs')
@@ -19,7 +19,12 @@ const fetchDoc = async (itemName, subItemName = null) => {
     ? subItemName
     : Object.keys(docs.value[itemName])[0]
   console.log(category, subcategory)
-  let { data } = await axios.get(`%BASE_URL%/getdoc/${category}/${subcategory}`)
+  let { data } = await axios.post(`%BASE_URL%/getdoc`, {
+    data: {
+      category,
+      subcategory
+    }
+  })
   docMarkdown.value = data.doc
   console.log(data)
 }
@@ -67,4 +72,5 @@ const fetchDoc = async (itemName, subItemName = null) => {
 
 .doc
   margin-left 5rem
+  font-size 1rem
 </style>
