@@ -17,6 +17,7 @@ const router = useRouter()
 const projects = ref([])
 const gettingProjects = ref(false)
 const deletingProject = ref(null)
+const fetchingProject = ref(false)
 const dots = ref('')
 const nav = ref(null)
 const stickyNav = ref(false)
@@ -71,6 +72,7 @@ const loadFile = async pdfBinary => {
 }
 
 const getProject = async id => {
+  fetchingProject.value = true
   let { data: result } = await axios.get(`%BASE_URL%/getproject/${id}`)
   store.commit('setProjectID', id)
   if (result.type === 'pdf') {
@@ -92,6 +94,7 @@ const getProject = async id => {
     router.push('/editor')
     // console.log(binaryStringToJSON(jsonBinary))
   }
+  fetchingProject.value = false
 }
 
 const deleteProject = async id => {
@@ -200,7 +203,9 @@ watch(nav, () => {
               }
             "
           >
-            <icon-delete v-if="deletingProject !== project.key" />
+            <icon-delete
+              v-if="deletingProject !== project.key && !fetchingProject"
+            />
             <icon-loading v-else />
           </button>
         </div>
