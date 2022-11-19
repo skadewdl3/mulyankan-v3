@@ -10,6 +10,7 @@ const {
 } = require('./js/detaFunctions')
 const { Deta } = require('deta')
 const { projectKey } = require('./js/credentials')
+const { docsStructure } = require('./js/docs')
 
 let env = process.env.NODE_ENV || 'development'
 let deta
@@ -69,6 +70,10 @@ app.get('/deleteproject/:id', async (req, res) => {
   let id = req.params.id
   let r = await deleteProject(drive, base, id)
   res.json(r)
+})
+
+app.get('/docs', async (req, res) => {
+  res.json(docsStructure)
 })
 
 const port = process.env.PORT || 8080
