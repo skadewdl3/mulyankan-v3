@@ -10,7 +10,9 @@ const {
 } = require('./js/detaFunctions')
 const { Deta } = require('deta')
 const { projectKey } = require('./js/credentials')
-const { docsStructure } = require('./js/docs')
+const { getDocs, docsStructure } = require('./js/docs')
+
+let docs = getDocs()
 
 let env = process.env.NODE_ENV || 'development'
 let deta
@@ -49,10 +51,7 @@ app.post('/update/:id', async (req, res) => {
 
 app.get('/projects', async (req, res) => {
   let base = deta.Base('test')
-  let drive = deta.Drive('test')
-
   let projects = await base.fetch()
-  res.json(projects)
 })
 
 app.get('/getproject/:id', async (req, res) => {
@@ -63,6 +62,7 @@ app.get('/getproject/:id', async (req, res) => {
   let r = await getProject(drive, base, id)
   res.json(r)
 })
+
 app.get('/deleteproject/:id', async (req, res) => {
   let base = deta.Base('test')
   let drive = deta.Drive('test')
@@ -74,6 +74,20 @@ app.get('/deleteproject/:id', async (req, res) => {
 
 app.get('/docs', async (req, res) => {
   res.json(docsStructure)
+})
+
+app.post('/getdoc', async (req, res) => {
+  const category = req.body.data.category
+  const subcategory = req.body.data.subcategory
+  console.log(category, subcategory)
+  console.log(docs[category][subcategory])
+  const doc = docs[category][subcategory]
+  res.json({ doc })
+})
+
+app.get('/refreshdocs', (req, res) => {
+  docs = getDocs()
+  res.json({ message: 'Docs refreshed' })
 })
 
 const port = process.env.PORT || 8080
