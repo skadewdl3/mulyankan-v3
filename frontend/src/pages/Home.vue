@@ -16,6 +16,7 @@ const router = useRouter()
 
 const projects = ref([])
 const gettingProjects = ref(false)
+const deletingProject = ref(null)
 const dots = ref('')
 const nav = ref(null)
 const stickyNav = ref(false)
@@ -94,10 +95,16 @@ const getProject = async id => {
 }
 
 const deleteProject = async id => {
+  deletingProject.value = id
   console.log(id)
   let res = await axios.get(`%BASE_URL%/deleteproject/${id}`)
   let { data } = await axios.get('%BASE_URL%/projects')
   projects.value = data.items
+  deletingProject.value = null
+}
+
+const goToDocs = () => {
+  router.push('/docs')
 }
 
 watch(gettingProjects, () => {
@@ -128,11 +135,17 @@ watch(nav, () => {
 
 <template>
   <div class="home">
-    <div ref="nav">
-      <div class="logo">Mulyankan</div>
-      <div class="title">Your Projects</div>
-
-      <button class="file-upload-btn" @click="openFileInput">Upload</button>
+    <div ref="nav" class="nav">
+      <div class="nav-left">
+        <div class="logo">Mulyankan</div>
+        <div class="title">Your Projects</div>
+        <button class="file-upload-btn" @click="openFileInput">Upload</button>
+      </div>
+      <div class="nav-right">
+        <span class="text" @click="goToDocs"
+          >Confused? 👉🏻 <span class="cta">Docs</span>
+        </span>
+      </div>
     </div>
     <div
       :class="`nav-sticky ${
@@ -177,6 +190,9 @@ watch(nav, () => {
         </div>
         <div class="project-content project-right">
           <button
+            :class="`delete-btn ${
+              deletingProject === project.key ? 'delete-btn-inactive' : ''
+            }`"
             @click="
               e => {
                 e.stopImmediatePropagation()
@@ -184,7 +200,8 @@ watch(nav, () => {
               }
             "
           >
-            <icon-delete />
+            <icon-delete v-if="deletingProject !== project.key" />
+            <icon-loading v-else />
           </button>
         </div>
       </div>
@@ -194,8 +211,29 @@ watch(nav, () => {
 
 <style lang="stylus" scoped>
 .home
-  background neutral
   container()
+
+.nav
+  display flex
+  align-items center
+  justify-content space-between
+
+  .nav-right
+    .text
+      display flex
+      align-items center
+      justify-content center
+      color #747d8c
+      font-size 1.7rem
+      font-weight 300
+
+      .cta
+        transition all .2s ease-out
+        cursor pointer
+        &:hover
+          font-size 2.3rem
+          font-weight bold
+          color #000
 
 .nav-sticky
   position sticky
@@ -269,4 +307,18 @@ watch(nav, () => {
 
 .project-content
   display flex
+.delete-btn
+  background red
+  padding 0.5rem
+  border-radius 0.5rem
+  background #fff
+  transition all .2s ease-in-out
+  cursor pointer
+  &:hover
+    background #eee
+  &-inactive
+    cursor not-allowed
+    opacity 0.5
+    &:hover
+      background #fff
 </style>
