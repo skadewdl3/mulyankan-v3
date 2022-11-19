@@ -19,7 +19,7 @@ export default defineConfig({
         replace:
           env === 'development'
             ? ''
-            : 'https://dev-seal-mulyankan.skadewdl3.deta.app/'
+            : 'https://dev-seal-mulyankan.skadewdl3.deta.app'
       }
     ])
   ],

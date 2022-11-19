@@ -66,6 +66,8 @@ export const loadCanvas = async (refCanvas, index, pageWidth, store) => {
   let updateMarks = () => store.dispatch('updateMarks')
   return new Promise((resolve, reject) => {
     if (refCanvas.rawObjects) {
+      console.log('here 1')
+      refCanvas.rawObjects.forEach(obj => console.log(obj))
       fabric.util.enlivenObjects(refCanvas.rawObjects, objects => {
         refCanvas._objects = objects
         let json = toRaw(refCanvas).toJSON([
@@ -74,6 +76,7 @@ export const loadCanvas = async (refCanvas, index, pageWidth, store) => {
           'zoom',
           'id'
         ])
+        console.log('here 2')
         let fcanvas = new fabric.Canvas(`canvas-${index}`)
 
         fcanvas.loadFromJSON(json, () => {
@@ -166,7 +169,20 @@ export const resumeCanvases = pages => {
     pages.forEach(({ objects: objectJSON, id }, i) => {
       let fcanvas = new fabric.Canvas()
       console.log('processing')
-      fcanvas.rawObjects = objectJSON
+      let newRawObjetcs = objectJSON.map((obj, i) => {
+        if (i === 0) return obj
+        if (obj.type === 'image') {
+          let srcs = obj.src.split('/')
+          let src = `%IMG_URL%/images/${srcs[srcs.length - 1]}`
+          return {
+            ...obj,
+            src
+          }
+        } else {
+          return obj
+        }
+      })
+      fcanvas.rawObjects = newRawObjetcs
       fcanvases.push(fcanvas)
       if (i === pages.length - 1) resolve(fcanvases)
     })
