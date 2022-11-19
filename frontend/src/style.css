@@ -18,3 +18,25 @@ html {
 body {
   font-family: 'Poppins', sans-serif;
 }
+
+/* Styles for the documentation */
+
+.doc p {
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.doc h1 {
+  font-size: 3rem;
+  font-weight: 400;
+}
+
+.doc h2 {
+  font-size: 2.5rem;
+  font-weight: 400;
+}
+
+.doc h3 {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
