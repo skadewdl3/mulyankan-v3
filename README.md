@@ -21,18 +21,18 @@ ________________________________________________________________________________
 # I've got a feature request / I found a bug !
 
 We're always looking forward to adding new features and squashing existing bugs. You can contact us below and we'll be sure to respond ASAP.
-- [] [sohamk10@gmail.com](mailto:sohamk10@gmail.com)
-- [] [Discord - skadewdl3#7795](https://discord.com/users/skadewdl3#7795)
+- [ ] [sohamk10@gmail.com](mailto:sohamk10@gmail.com)
+- [ ] [Discord - skadewdl3#7795](https://discord.com/users/skadewdl3#7795)
 
 _____________________________________________________________________________________________________
 
 # Feature Roadmap / Progress
 
-- [] First Release (coming soon)
-- [] Cloud Saving (work in progress)
-- [] Clipboard (work in progress)
-- [] Math Equation Editor
-- [] Better Download Qualtiy (Server Processing)
+- [ ] First Release (coming soon)
+- [ ] Cloud Saving (work in progress)
+- [ ] Clipboard (work in progress)
+- [ ] Math Equation Editor
+- [ ] Better Download Qualtiy (Server Processing)
 
 ______________________________________________________________________________________________________
 
