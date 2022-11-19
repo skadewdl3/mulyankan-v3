@@ -52,6 +52,7 @@ app.post('/update/:id', async (req, res) => {
 app.get('/projects', async (req, res) => {
   let base = deta.Base('test')
   let projects = await base.fetch()
+  res.json(projects)
 })
 
 app.get('/getproject/:id', async (req, res) => {
