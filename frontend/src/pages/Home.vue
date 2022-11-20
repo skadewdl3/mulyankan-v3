@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { changeLanguage, translate } from '@/logic/translator'
 import {
   pdfToBinaryString,
   pdfBinaryToImages,
@@ -24,6 +25,15 @@ const stickyNav = ref(false)
 
 let dotsInterval = null
 
+onBeforeMount(async () => {
+  let { data } = await axios.post('%BASE_URL%/getlang', {
+    data: {
+      locale: 'en'
+    }
+  })
+  store.state.fallbackTranslation = data.translation
+})
+
 // Hide the controls bar by default
 onMounted(async () => {
   store.commit('setControls', { show: false })
@@ -35,6 +45,8 @@ onMounted(async () => {
     projects.value = data.items
     gettingProjects.value = false
   }, 2000)
+
+  console.log(translate('Home.projectsTitl'))
 })
 
 const fileInput = ref(null)
@@ -141,13 +153,19 @@ watch(nav, () => {
     <div ref="nav" class="nav">
       <div class="nav-left">
         <div class="logo">Mulyankan</div>
-        <div class="title">Your Projects</div>
-        <button class="file-upload-btn" @click="openFileInput">Upload</button>
+        <div class="title">{{ $t('Home.projectsTitle') }}</div>
+        <button class="file-upload-btn" @click="openFileInput">
+          {{ $t('Home.upload') }}
+        </button>
       </div>
       <div class="nav-right">
         <span class="text" @click="goToDocs"
-          >Confused? 👉🏻 <span class="cta">Docs</span>
+          >{{ $t('Home.confused') }} 👉🏻
+          <span class="cta">{{ $t('Home.docs') }}</span>
         </span>
+        <span class="text" @click="changeLanguage('mr')">{{
+          $t('Home.changeLanguage')
+        }}</span>
       </div>
     </div>
     <div
@@ -173,9 +191,11 @@ watch(nav, () => {
     />
     <div class="projects-loading" v-if="projects.length === 0">
       <span v-if="!gettingProjects">
-        No projects found. Upload a PDF to get started.
+        {{ $t('Home.noProjects') }}
       </span>
-      <span v-if="gettingProjects"> Loading Projects {{ dots }} </span>
+      <span v-if="gettingProjects">
+        {{ $t('Home.loadingProjects') }} {{ dots }}
+      </span>
     </div>
     <div class="projects" v-if="projects.length > 0">
       <div

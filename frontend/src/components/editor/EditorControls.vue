@@ -26,22 +26,22 @@ watch([currentTab, activeTab], () => {
 
 const controlButtons = [
   {
-    text: 'Reset Zoom',
+    text: 'Editor.resetZoom',
     icon: 'icon-reset-zoom',
     action: () => store.commit('resetZoom')
   },
   {
-    text: 'Zoom In',
+    text: 'Editor.zoomIn',
     icon: 'icon-zoom-in',
     action: () => store.commit('zoomIn')
   },
   {
-    text: 'Zoom Out',
+    text: 'Editor.zoomOut',
     icon: 'icon-zoom-out',
     action: () => store.commit('zoomOut')
   },
   {
-    text: 'Save To Drive',
+    text: 'Editor.saveToCloud',
     icon: 'icon-save',
     action: async () => {
       saving.value = true
@@ -54,7 +54,7 @@ const controlButtons = [
     primary: true
   },
   {
-    text: 'Download',
+    text: 'Editor.download',
     icon: 'icon-download',
     action: () => {
       router.push('/download')
@@ -65,17 +65,17 @@ const controlButtons = [
 
 const tabs = [
   {
-    name: 'Marking',
+    name: 'Editor.marking',
     component: MarkingTab,
     id: 'marking'
   },
   {
-    name: 'Clipboard',
+    name: 'Editor.clipboard',
     component: ClipboardTab,
     id: 'clipboard'
   },
   {
-    name: 'Math',
+    name: 'Editor.math',
     component: MathTab,
     id: 'math'
   }
@@ -90,7 +90,7 @@ const tabs = [
           <div class="title">
             <icon-arrow-left class="back-icon" @click="router.push('/')" />
             <span class="title__logo">Mulyankan</span
-            ><span class="title__text">- {{ store.state.controlMode }}</span>
+            ><span class="title__text">- {{ $t('Editor.editor') }}</span>
           </div>
           <div class="separator"></div>
           <div class="tabs">
@@ -102,7 +102,7 @@ const tabs = [
               }`"
               @click="currentTab = tab.id"
             >
-              <span>{{ tab.name }}</span>
+              <span>{{ $t(tab.name) }}</span>
               <div class="underline"></div>
             </div>
           </div>
@@ -113,7 +113,7 @@ const tabs = [
             @click="btn.action"
             :class="`control-btn ${btn.primary ? 'control-btn-primary' : ''}`"
           >
-            <span class="control-btn-text">{{ btn.text }}</span>
+            <span class="control-btn-text">{{ $t(btn.text) }}</span>
             <component
               v-if="btn.shoudLoadOnSave && saving"
               :is="btn.loadIcon"

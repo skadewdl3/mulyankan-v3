@@ -228,7 +228,7 @@ const updateTotalMarks = val => {
           </div>
         </div>
       </div>
-      <div class="section-name">Quick Marking</div>
+      <div class="section-name">{{ $t('MarkingTab.quickMarkingSection') }}</div>
     </div>
     <div class="separator"></div>
     <div class="section">
@@ -239,7 +239,7 @@ const updateTotalMarks = val => {
           @dragstart="e => addText(e, 'text')"
         >
           <img :src="TextboxIcon" draggable="true" alt="" class="textbox-img" />
-          <span draggable="true">Textbox</span>
+          <span draggable="true">{{ $t('MarkingTab.textbox') }}</span>
         </div>
         <div
           class="textbox"
@@ -247,10 +247,10 @@ const updateTotalMarks = val => {
           @dragstart="e => addText(e, 'mark')"
         >
           <img :src="MarkboxIcon" draggable="true" alt="" class="textbox-img" />
-          <span draggable="true">Markbox</span>
+          <span draggable="true">{{ $t('MarkingTab.markbox') }}</span>
         </div>
       </div>
-      <div class="section-name">Text</div>
+      <div class="section-name">{{ $t('MarkingTab.textSection') }}</div>
     </div>
     <div class="separator"></div>
     <div class="section">
@@ -321,7 +321,7 @@ const updateTotalMarks = val => {
           </button>
         </div>
       </div>
-      <div class="section-name">Font</div>
+      <div class="section-name">{{ $t('MarkingTab.fontSection') }}</div>
     </div>
     <div class="separator"></div>
     <div class="section">
@@ -344,7 +344,7 @@ const updateTotalMarks = val => {
           />
         </div>
       </div>
-      <div class="section-name">Symbols</div>
+      <div class="section-name">{{ $t('MarkingTab.symbolsSection') }}</div>
     </div>
     <div class="separator"></div>
     <div class="section">
@@ -366,7 +366,7 @@ const updateTotalMarks = val => {
           ></div>
         </div>
       </div>
-      <div class="section-name">Colors</div>
+      <div class="section-name">{{ $t('MarkingTab.colorsSection') }}</div>
     </div>
   </div>
 </template>
