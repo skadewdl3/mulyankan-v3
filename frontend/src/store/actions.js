@@ -1,7 +1,9 @@
 // Called if the PDF has more than 5 pages
 // Loads PDF pages past 5 in the background while showing the first 5
 
-const lazyLoadPDF = (store, { doc, now }) => {
+//now = 5
+
+const lazyLoadPDF = (store, { doc, now, projectID }) => {
   for (let i = now + 1; i <= doc.numPages; i++) {
     doc.getPage(i).then(page => {
       let viewport = page.getViewport({ scale: 4 })
@@ -13,7 +15,10 @@ const lazyLoadPDF = (store, { doc, now }) => {
       task.promise.then(() => {
         store.commit('setImageSources', [
           ...store.state.imageSources,
-          canvas.toDataURL()
+          {
+            src: canvas.toDataURL(),
+            id: `${projectID}-${now}`
+          }
         ])
       })
     })

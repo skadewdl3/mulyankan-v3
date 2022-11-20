@@ -2,7 +2,7 @@
 import { ref, onMounted, watch, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { changeLanguage, translate } from '@/logic/translator'
+import { changeLanguage } from '@/logic/translator'
 import {
   pdfToBinaryString,
   pdfBinaryToImages,
@@ -18,7 +18,7 @@ const router = useRouter()
 const projects = ref([])
 const gettingProjects = ref(false)
 const deletingProject = ref(null)
-const fetchingProject = ref(false)
+const fetchingProject = ref(null)
 const dots = ref('')
 const nav = ref(null)
 const stickyNav = ref(false)
@@ -45,8 +45,6 @@ onMounted(async () => {
     projects.value = data.items
     gettingProjects.value = false
   }, 2000)
-
-  console.log(translate('Home.projectsTitl'))
 })
 
 const fileInput = ref(null)
@@ -59,7 +57,7 @@ const processFile = async e => {
   if (e.target.files.length === 0) return
   let pdfBinary = await pdfToBinaryString(e.target.files[0])
   let projectID = await savePDF(e.target.files[0])
-  let imgArr = await pdfBinaryToImages(pdfBinary, 5, store)
+  let imgArr = await pdfBinaryToImages(pdfBinary, 5, store, projectID)
   let imgSources = imgArr.map((src, i) => {
     return {
       src,
@@ -84,7 +82,7 @@ const loadFile = async pdfBinary => {
 }
 
 const getProject = async id => {
-  fetchingProject.value = true
+  fetchingProject.value = id
   let { data: result } = await axios.get(`%BASE_URL%/getproject/${id}`)
   store.commit('setProjectID', id)
   if (result.type === 'pdf') {
@@ -104,9 +102,8 @@ const getProject = async id => {
     store.commit('setClipboard', clipboard)
     store.commit('setTotalMarks', marks.total)
     router.push('/editor')
-    // console.log(binaryStringToJSON(jsonBinary))
   }
-  fetchingProject.value = false
+  fetchingProject.value = null
 }
 
 const deleteProject = async id => {
@@ -176,10 +173,12 @@ watch(nav, () => {
       <div class="nav-left">
         <div class="logo">Mulyankan</div>
         <span> - </span>
-        <div class="title">Your Projects</div>
+        <div class="title">{{ $t('Home.projectsTitle') }}</div>
       </div>
       <div class="nav-right">
-        <button class="file-upload-btn" @click="openFileInput">Upload</button>
+        <button class="file-upload-btn" @click="openFileInput">
+          {{ $t('Home.upload') }}
+        </button>
       </div>
     </div>
     <input
@@ -224,7 +223,10 @@ watch(nav, () => {
             "
           >
             <icon-delete
-              v-if="deletingProject !== project.key && !fetchingProject"
+              v-if="
+                deletingProject !== project.key &&
+                fetchingProject !== project.key
+              "
             />
             <icon-loading v-else />
           </button>

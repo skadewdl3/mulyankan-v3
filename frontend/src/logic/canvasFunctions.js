@@ -16,7 +16,7 @@ const backgroundImageConfig = {
   hasRotatingPoint: false
 }
 
-const addBackgroundImage = (fcanvas, src, pageWidth, zoom, mode = 'new') => {
+const addBackgroundImage = (fcanvas, src, pageWidth, zoom) => {
   fabric.Image.fromURL(
     src,
     img => {
@@ -33,25 +33,21 @@ const addBackgroundImage = (fcanvas, src, pageWidth, zoom, mode = 'new') => {
       fcanvas.setWidth(width)
       fcanvas.setHeight(height)
 
-      // Add the background image to the canvas and send it to the back
-      if (mode === 'resume') {
-        fcanvas._objects = []
-      }
-      fcanvas.add(img)
-      fcanvas.sendToBack(img)
-      let backgroundImg = fcanvas._objects[0]
-      backgroundImg.set({
+      img.set({
         ...backgroundImageConfig,
         scaleX: scaleFactor,
         scaleY: scaleFactor
       })
+
+      // Add the background image to the canvas and send it to the back
+      fcanvas.add(img)
+      fcanvas.sendToBack(img)
     },
     { crossOrigin: 'anonymous' }
   )
 }
 
 export const createCanvas = (canvasID, projectID, src, pageWidth, zoom) => {
-  console.log(canvasID)
   const fcanvas = new fabric.Canvas(canvasID)
   addBackgroundImage(fcanvas, src, pageWidth, zoom)
   fcanvas.id = projectID
@@ -60,14 +56,11 @@ export const createCanvas = (canvasID, projectID, src, pageWidth, zoom) => {
 }
 
 export const loadCanvas = async (refCanvas, index, pageWidth, store) => {
-  console.log('loading')
   let zoom = store.state.zoom
   let getStyle = store.getters.getStyle
   let updateMarks = () => store.dispatch('updateMarks')
   return new Promise((resolve, reject) => {
     if (refCanvas.rawObjects) {
-      console.log('here 1')
-      refCanvas.rawObjects.forEach(obj => console.log(obj))
       fabric.util.enlivenObjects(refCanvas.rawObjects, objects => {
         refCanvas._objects = objects
         let json = toRaw(refCanvas).toJSON([
@@ -76,11 +69,9 @@ export const loadCanvas = async (refCanvas, index, pageWidth, store) => {
           'zoom',
           'id'
         ])
-        console.log('here 2')
         let fcanvas = new fabric.Canvas(`canvas-${index}`)
 
         fcanvas.loadFromJSON(json, () => {
-          console.log('loaded')
           fcanvas.renderAll()
           fcanvas._objects.forEach((obj, i) => {
             if (i === 0) return
@@ -118,7 +109,6 @@ export const loadCanvas = async (refCanvas, index, pageWidth, store) => {
       let json = toRaw(refCanvas).toJSON(['imgColor', 'textType', 'zoom', 'id'])
       let fcanvas = new fabric.Canvas(`canvas-${index}`)
       fcanvas.loadFromJSON(json, () => {
-        console.log('loaded')
         fcanvas.renderAll()
         fcanvas._objects.forEach((obj, i) => {
           if (i === 0) return
@@ -168,7 +158,6 @@ export const resumeCanvases = pages => {
   return new Promise((resolve, reject) => {
     pages.forEach(({ objects: objectJSON, id }, i) => {
       let fcanvas = new fabric.Canvas()
-      console.log('processing')
       let newRawObjetcs = objectJSON.map((obj, i) => {
         if (i === 0) return obj
         if (obj.type === 'image') {

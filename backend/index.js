@@ -11,8 +11,10 @@ const {
 const { Deta } = require('deta')
 const { projectKey } = require('./js/credentials')
 const { getDocs, docsStructure } = require('./js/docs')
+const { languages, getTranslations } = require('./js/translations')
 
 let docs = getDocs()
+let translations = getTranslations()
 
 let env = process.env.NODE_ENV || 'development'
 let deta
@@ -67,7 +69,6 @@ app.get('/getproject/:id', async (req, res) => {
 app.get('/deleteproject/:id', async (req, res) => {
   let base = deta.Base('test')
   let drive = deta.Drive('test')
-
   let id = req.params.id
   let r = await deleteProject(drive, base, id)
   res.json(r)
@@ -77,11 +78,20 @@ app.get('/docs', async (req, res) => {
   res.json(docsStructure)
 })
 
+app.get('/languages', async (req, res) => {
+  res.json(languages)
+})
+
+app.post('/getlang', async (req, res) => {
+  const locale = req.body.data.locale
+  if (!translations[locale]) res.json({ error: 'Language not found' })
+  console.log(translations[locale])
+  res.json(translations[locale])
+})
+
 app.post('/getdoc', async (req, res) => {
   const category = req.body.data.category
   const subcategory = req.body.data.subcategory
-  console.log(category, subcategory)
-  console.log(docs[category][subcategory])
   const doc = docs[category][subcategory]
   res.json({ doc })
 })
@@ -89,6 +99,11 @@ app.post('/getdoc', async (req, res) => {
 app.get('/refreshdocs', (req, res) => {
   docs = getDocs()
   res.json({ message: 'Docs refreshed' })
+})
+
+app.get('/refreshtl', (req, res) => {
+  translations = getTranslations()
+  res.json({ message: 'Translations refreshed' })
 })
 
 const port = process.env.PORT || 8080

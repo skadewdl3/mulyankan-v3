@@ -1,10 +1,23 @@
 <script setup>
+import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { rotateCanvas } from '@/logic/canvasTransforms'
 const store = useStore()
 const router = useRouter()
 
+const controlsInactive = ref(true)
+
+watch(
+  () => store.state.images,
+  () => {
+    if (store.state.images.length === store.state.numPages) {
+      controlsInactive.value = false
+    } else {
+      controlsInactive.value = true
+    }
+  }
+)
 const controlButtons = [
   {
     text: 'Preprocess.rotateAllLeft',
@@ -90,9 +103,7 @@ const controlButtons = [
             v-for="btn in controlButtons"
             @click="btn.action"
             :class="`control-btn ${btn.primary ? 'control-btn-primary' : ''} ${
-              store.state.images.length !== store.state.imageSources.length
-                ? 'control-btn-inactive'
-                : ''
+              controlsInactive ? 'control-btn-inactive' : ''
             }`"
           >
             <span class="control-btn-text">{{ $t(btn.text) }}</span>

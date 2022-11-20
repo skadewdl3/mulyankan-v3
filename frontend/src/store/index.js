@@ -35,7 +35,8 @@ export const store = createStore({
       clipboard: [],
       preprocessInstructions: [],
       translation: {},
-      fallbackTranslation: {}
+      fallbackTranslation: {},
+      numPages: null
     }
   },
   mutations,
