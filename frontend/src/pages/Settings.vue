@@ -128,18 +128,6 @@ const goBack = () => {
 <style scoped lang="stylus">
 .settings
   container()
-
-.logo
-  font-family megrim
-  font-size 2.5rem
-  font-weight bold
-  color primary
-  display flex
-  align-items center
-.title
-  font-size 4rem
-  font-weight 700
-
 .settings-section
   margin-top 2rem
   padding 1rem 2rem

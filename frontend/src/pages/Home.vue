@@ -1,4 +1,5 @@
 <script setup>
+import Setup from '@/pages/Setup.vue'
 import { ref, onMounted, watch, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -302,15 +303,6 @@ watch(nav, () => {
     .title
       font-size 2rem
       font-weight 400
-
-.logo
-  font-family megrim
-  font-size 2.5rem
-  font-weight bold
-  color primary
-.title
-  font-size 4rem
-  font-weight 700
 
 .file-upload-btn
   background primary
