@@ -1,0 +1,53 @@
+{
+  "Home": {
+    "projectsTitle": "Ваши проекты",
+    "upload": "Загрузить",
+    "confused": "Вопросы ?",
+    "docs": "Документация",
+    "customisation": "Кастомизация ?",
+    "settings": "Настройки",
+    "noProjects": "Проекты не найдены. Загрузите PDF файл, чтобы начать",
+    "loadingProjects": "Загружаем проекты"
+  },
+  "Preprocess": {
+    "preprocess": "Предварительная обработка",
+    "editor": "Редактор",
+    "zoomIn": "Приблизить",
+    "zoomOut": "Отдалить",
+    "resetZoom": "Стандартное увеличение",
+    "rotateAllRight": "Перевернуть на право",
+    "rotateAllLeft": "Перевернуть на лево"
+  },
+  "Editor": {
+    "editor": "Редактор",
+    "marking": "Значки",
+    "clipboard": "Буфер обмена",
+    "math": "Математика",
+    "resetZoom": "Стандартное увеличение",
+    "zoomIn": "Приблизить",
+    "zoomOut": "Отдалить",
+    "saveToCloud": "Сохранить в облако",
+    "download": "Скачать"
+  },
+  "MarkingTab": {
+    "textbox": "Блок текста",
+    "markbox": "Блок заметок",
+    "quickMarkingSection": "Быстрые заметки",
+    "textSection": "Текст",
+    "fontSection": "Шрифт",
+    "symbolsSection": "Символы",
+    "colorsSection": "Цвета"
+  },
+  "ClipboardTab": {
+    "empty": "Буфер обмена пуст. Когда вы что-то скопируете, оно отобразиться тут."
+  },
+
+  "Download": {
+    "title": "Скачать",
+    "download": "Скачать"
+  },
+  "Settings": {
+    "title": "Найстройки",
+    "changeLanguage": "Изменить настройки по умолчанию"
+  }
+}
