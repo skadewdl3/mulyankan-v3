@@ -14,3 +14,8 @@ micros:
       primary: false
       run: "node index.js"
       path: api
+      presets:
+        env:
+          - name: NODE_ENV
+            description: Sets the nodejs environment to production
+            default: production

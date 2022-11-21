@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import router from './router/index'
 import { store } from './store/index'
+import { translate } from './logic/translator'
 import { GlobalWorkerOptions } from 'pdfjs-dist'
 import {
   ZoomInOutlined,
@@ -34,6 +35,8 @@ const app = createApp(App)
 
 app.use(router)
 app.use(store)
+
+app.config.globalProperties.$t = translate
 
 const icons = [
   { name: 'icon-zoom-in', component: ZoomInOutlined },

@@ -88,6 +88,14 @@ const setProjectID = (state, projectID) => {
   state.projectID = projectID
 }
 
+const setNumPages = (state, val) => {
+  state.numPages = val
+}
+
+const setDefaultSettings = (state, val) => {
+  state.defaultSettings = val
+}
+
 export default {
   setImageSources,
   setImages,
@@ -105,5 +113,7 @@ export default {
   setClipboard,
   maxZoom,
   setPreprocessInstructions,
-  setProjectID
+  setProjectID,
+  setNumPages,
+  setDefaultSettings
 }

@@ -33,7 +33,15 @@ export const store = createStore({
         }
       },
       clipboard: [],
-      preprocessInstructions: []
+      preprocessInstructions: [],
+      defaultLocale: 'en',
+      translation: {},
+      fallbackTranslation: {},
+      numPages: null,
+      defaultSettings: {
+        locale: 'en',
+        color: '#ff0000'
+      }
     }
   },
   mutations,

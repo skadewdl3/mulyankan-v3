@@ -41,12 +41,11 @@ export const pdfToBinaryString = file => {
   })
 }
 
-export const pdfBinaryToImages = async (data, processNow, store) => {
+export const pdfBinaryToImages = async (data, processNow, store, projectID) => {
   let imgArr = []
   let doc = await getDocument({ data }).promise
-
   let now = doc.numPages
-
+  store.commit('setNumPages', doc.numPages)
   if (doc.numPages > processNow) now = processNow
 
   for (let i = 1; i <= now; i++) {
@@ -65,7 +64,8 @@ export const pdfBinaryToImages = async (data, processNow, store) => {
     imgArr.push(canvas.toDataURL())
   }
 
-  if (doc.numPages > processNow) store.dispatch('lazyLoadPDF', { doc, now })
+  if (doc.numPages > processNow)
+    store.dispatch('lazyLoadPDF', { doc, now, projectID })
 
   return imgArr
 }

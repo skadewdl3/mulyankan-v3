@@ -1,13 +1,26 @@
 <script setup>
+import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { rotateCanvas } from '@/logic/canvasTransforms'
 const store = useStore()
 const router = useRouter()
 
+const controlsInactive = ref(true)
+
+watch(
+  () => store.state.images,
+  () => {
+    if (store.state.images.length === store.state.numPages) {
+      controlsInactive.value = false
+    } else {
+      controlsInactive.value = true
+    }
+  }
+)
 const controlButtons = [
   {
-    text: 'Rotate All Left',
+    text: 'Preprocess.rotateAllLeft',
     icon: 'icon-rotate-all-left',
     action: async () => {
       let newSources = await rotateCanvas(
@@ -26,7 +39,7 @@ const controlButtons = [
     }
   },
   {
-    text: 'Rotate All Right',
+    text: 'Preprocess.rotateAllRight',
     icon: 'icon-rotate-all-right',
     action: async () => {
       let newSources = await rotateCanvas(
@@ -45,22 +58,22 @@ const controlButtons = [
     }
   },
   {
-    text: 'Reset Zoom',
+    text: 'Preprocess.resetZoom',
     icon: 'icon-reset-zoom',
     action: () => store.commit('resetZoom')
   },
   {
-    text: 'Zoom In',
+    text: 'Preprocess.zoomIn',
     icon: 'icon-zoom-in',
     action: () => store.commit('zoomIn')
   },
   {
-    text: 'Zoom Out',
+    text: 'Preprocess.zoomOut',
     icon: 'icon-zoom-out',
     action: () => store.commit('zoomOut')
   },
   {
-    text: 'Editor',
+    text: 'Preprocess.editor',
     icon: 'icon-arrow-right',
     action: () => {
       if (store.state.images.length !== store.state.imageSources.length) return
@@ -80,7 +93,9 @@ const controlButtons = [
           <div class="title">
             <icon-arrow-left class="back-icon" @click="router.push('/')" />
             <span class="title__logo">Mulyankan</span
-            ><span class="title__text">- {{ store.state.controlMode }}</span>
+            ><span class="title__text"
+              >- {{ $t('Preprocess.preprocess') }}</span
+            >
           </div>
         </div>
         <div class="control-btns">
@@ -88,12 +103,10 @@ const controlButtons = [
             v-for="btn in controlButtons"
             @click="btn.action"
             :class="`control-btn ${btn.primary ? 'control-btn-primary' : ''} ${
-              store.state.images.length !== store.state.imageSources.length
-                ? 'control-btn-inactive'
-                : ''
+              controlsInactive ? 'control-btn-inactive' : ''
             }`"
           >
-            <span class="control-btn-text">{{ btn.text }}</span>
+            <span class="control-btn-text">{{ $t(btn.text) }}</span>
             <component :is="btn.icon" class="control-btn-icon" />
           </button>
         </div>

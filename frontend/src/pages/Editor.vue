@@ -3,7 +3,6 @@ import { onMounted, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import EditorCanvas from '@/components/editor/EditorCanvas.vue'
-import { updateSavedPDF } from '@/logic/pdfFunctions'
 
 const store = useStore()
 const router = useRouter()

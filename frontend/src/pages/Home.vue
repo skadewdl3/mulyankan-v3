@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import {
@@ -17,12 +17,29 @@ const router = useRouter()
 const projects = ref([])
 const gettingProjects = ref(false)
 const deletingProject = ref(null)
-const fetchingProject = ref(false)
+const fetchingProject = ref(null)
 const dots = ref('')
 const nav = ref(null)
 const stickyNav = ref(false)
 
 let dotsInterval = null
+
+onBeforeMount(async () => {
+  let { data: settingsList } = await axios.get('%BASE_URL%/settings')
+  let settings = settingsList.items.reduce((acc, setting) => {
+    acc[setting.key] = setting.value
+    return acc
+  }, {})
+  console.log(settings)
+  store.commit('setDefaultSettings', settings)
+
+  let { data } = await axios.post('%BASE_URL%/getlang', {
+    data: {
+      locale: store.state.defaultSettings.locale
+    }
+  })
+  store.state.fallbackTranslation = data.translation
+})
 
 // Hide the controls bar by default
 onMounted(async () => {
@@ -47,7 +64,7 @@ const processFile = async e => {
   if (e.target.files.length === 0) return
   let pdfBinary = await pdfToBinaryString(e.target.files[0])
   let projectID = await savePDF(e.target.files[0])
-  let imgArr = await pdfBinaryToImages(pdfBinary, 5, store)
+  let imgArr = await pdfBinaryToImages(pdfBinary, 5, store, projectID)
   let imgSources = imgArr.map((src, i) => {
     return {
       src,
@@ -72,7 +89,7 @@ const loadFile = async pdfBinary => {
 }
 
 const getProject = async id => {
-  fetchingProject.value = true
+  fetchingProject.value = id
   let { data: result } = await axios.get(`%BASE_URL%/getproject/${id}`)
   store.commit('setProjectID', id)
   if (result.type === 'pdf') {
@@ -92,9 +109,8 @@ const getProject = async id => {
     store.commit('setClipboard', clipboard)
     store.commit('setTotalMarks', marks.total)
     router.push('/editor')
-    // console.log(binaryStringToJSON(jsonBinary))
   }
-  fetchingProject.value = false
+  fetchingProject.value = null
 }
 
 const deleteProject = async id => {
@@ -108,6 +124,10 @@ const deleteProject = async id => {
 
 const goToDocs = () => {
   router.push('/docs')
+}
+
+const goToSettings = () => {
+  router.push('/settings')
 }
 
 watch(gettingProjects, () => {
@@ -141,13 +161,20 @@ watch(nav, () => {
     <div ref="nav" class="nav">
       <div class="nav-left">
         <div class="logo">Mulyankan</div>
-        <div class="title">Your Projects</div>
-        <button class="file-upload-btn" @click="openFileInput">Upload</button>
+        <div class="title">{{ $t('Home.projectsTitle') }}</div>
+        <button class="file-upload-btn" @click="openFileInput">
+          {{ $t('Home.upload') }}
+        </button>
       </div>
       <div class="nav-right">
         <span class="text" @click="goToDocs"
-          >Confused? 👉🏻 <span class="cta">Docs</span>
+          >{{ $t('Home.confused') }} 👉🏻
+          <span class="cta">{{ $t('Home.docs') }}</span>
         </span>
+        <span class="text" @click="goToSettings"
+          >{{ $t('Home.customisation') }} 👉🏻
+          <span class="cta">{{ $t('Home.settings') }}</span></span
+        >
       </div>
     </div>
     <div
@@ -158,10 +185,12 @@ watch(nav, () => {
       <div class="nav-left">
         <div class="logo">Mulyankan</div>
         <span> - </span>
-        <div class="title">Your Projects</div>
+        <div class="title">{{ $t('Home.projectsTitle') }}</div>
       </div>
       <div class="nav-right">
-        <button class="file-upload-btn" @click="openFileInput">Upload</button>
+        <button class="file-upload-btn" @click="openFileInput">
+          {{ $t('Home.upload') }}
+        </button>
       </div>
     </div>
     <input
@@ -173,9 +202,11 @@ watch(nav, () => {
     />
     <div class="projects-loading" v-if="projects.length === 0">
       <span v-if="!gettingProjects">
-        No projects found. Upload a PDF to get started.
+        {{ $t('Home.noProjects') }}
       </span>
-      <span v-if="gettingProjects"> Loading Projects {{ dots }} </span>
+      <span v-if="gettingProjects">
+        {{ $t('Home.loadingProjects') }} {{ dots }}
+      </span>
     </div>
     <div class="projects" v-if="projects.length > 0">
       <div
@@ -204,7 +235,10 @@ watch(nav, () => {
             "
           >
             <icon-delete
-              v-if="deletingProject !== project.key && !fetchingProject"
+              v-if="
+                deletingProject !== project.key &&
+                fetchingProject !== project.key
+              "
             />
             <icon-loading v-else />
           </button>
@@ -224,6 +258,9 @@ watch(nav, () => {
   justify-content space-between
 
   .nav-right
+    display flex
+    align-items flex-end
+    flex-direction column
     .text
       display flex
       align-items center

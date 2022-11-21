@@ -9,7 +9,7 @@ const store = useStore()
 const progress = ref(0)
 
 const goBack = () => {
-  router.push('/editor')
+  router.back()
 }
 
 const updateProgress = val => {
@@ -44,8 +44,10 @@ onMounted(() => {
       <span @click="goBack" class="back"><icon-arrow-left /></span>
       <span>Mulyankan</span>
     </div>
-    <div class="title">Download</div>
-    <button class="file-download-btn" @click="download">Download</button>
+    <div class="title">{{ $t('Download.title') }}</div>
+    <button class="file-download-btn" @click="download">
+      {{ $t('Download.download') }}
+    </button>
 
     <div class="progress" v-if="progress > 0">Progress: {{ progress }}%</div>
   </div>
