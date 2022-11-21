@@ -50,7 +50,7 @@ watch(
 <template>
   <div class="clipboard">
     <div class="clipboard-empty" v-if="clipboard.length === 0">
-      Clipboard is empty. When you copy some items, they will appear here.
+      {{ $t('ClipboardTab.empty') }}
     </div>
     <div class="clipboard-item" v-for="(item, index) in clipboard">
       <button class="delete-item-btn" @click="deleteItem(index)">

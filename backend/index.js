@@ -82,6 +82,37 @@ app.get('/languages', async (req, res) => {
   res.json(languages)
 })
 
+app.get('/settings', async (req, res) => {
+  let base = deta.Base('settings')
+  let settings = await base.fetch()
+  if (settings.items.length === 0) {
+    await base.put('en', 'locale')
+    await base.put('#ff0000', 'color')
+    settings = await base.fetch()
+  }
+  res.json(settings)
+})
+
+app.post('/updatesettings', async (req, res) => {
+  let base = deta.Base('settings')
+  let prevSettingsList = await base.fetch()
+  let prevSettings = prevSettingsList.items.reduce((acc, setting) => {
+    acc[setting.key] = setting.value
+    return acc
+  }, {})
+  let newSettings = req.body.data.settings
+  let diff = {}
+  for (let newSetting in newSettings) {
+    if (prevSettings[newSetting] !== newSettings[newSetting]) {
+      diff[newSetting] = newSettings[newSetting]
+    }
+  }
+  for (difference in diff) {
+    await base.put(diff[difference], difference)
+  }
+  res.json(diff)
+})
+
 app.post('/getlang', async (req, res) => {
   const locale = req.body.data.locale
   if (!translations[locale]) res.json({ error: 'Language not found' })

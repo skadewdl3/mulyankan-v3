@@ -7,10 +7,11 @@ const getPath = locale => {
 
 // Just add your language to this list with proper name and locale.
 // The locale should be the same as the file name in the languages folder.
+// Please make sure that the name of the language is in the language itself.
 
 const languages = [
   { name: 'English', locale: 'en' },
-  { name: 'Marathi', locale: 'mr' }
+  { name: 'मराठी', locale: 'mr' }
 ]
 
 // const translations = {

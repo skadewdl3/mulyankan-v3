@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import { updateSavedPDF } from '@/logic/pdfFunctions'
 
 import MarkingTab from '@/components/editor/tabs/MarkingTab.vue'
-import MathTab from '@/components/editor/tabs/MathTab.vue'
+// import MathTab from '@/components/editor/tabs/MathTab.vue'
 import ClipboardTab from '@/components/editor/tabs/ClipboardTab.vue'
 
 const store = useStore()
@@ -73,12 +73,12 @@ const tabs = [
     name: 'Editor.clipboard',
     component: ClipboardTab,
     id: 'clipboard'
-  },
-  {
-    name: 'Editor.math',
-    component: MathTab,
-    id: 'math'
   }
+  // {
+  //   name: 'Editor.math',
+  //   component: MathTab,
+  //   id: 'math'
+  // }
 ]
 </script>
 
@@ -125,7 +125,6 @@ const tabs = [
       </div>
       <div class="controls-content">
         <MarkingTab v-if="currentTab === 'marking'" />
-        <MathTab v-if="currentTab === 'math'" />
         <ClipboardTab v-if="currentTab === 'clipboard'" />
       </div>
     </div>

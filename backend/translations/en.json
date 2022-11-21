@@ -4,7 +4,8 @@
     "upload": "Upload",
     "confused": "Confused ?",
     "docs": "Docs",
-    "changeLanguage": "Change Language",
+    "customisation": "Customisation ?",
+    "settings": "Settings",
     "noProjects": "No projects found. Upload a PDF to get started.",
     "loadingProjects": "Loading Projects"
   },
@@ -30,6 +31,23 @@
   },
   "MarkingTab": {
     "textbox": "Textbox",
-    "markbox": "Markbox"
+    "markbox": "Markbox",
+    "quickMarkingSection": "Quick Marking",
+    "textSection": "Text",
+    "fontSection": "Font",
+    "symbolsSection": "Symbols",
+    "colorsSection": "Colors"
+  },
+  "ClipboardTab": {
+    "empty": "Clipboard is empty. When you copy some items, they will appear here."
+  },
+
+  "Download": {
+    "title": "Download",
+    "download": "Download"
+  },
+  "Settings": {
+    "title": "Settings",
+    "changeLanguage": "Change Default Language"
   }
 }

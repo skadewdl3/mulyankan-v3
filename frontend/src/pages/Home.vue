@@ -2,7 +2,6 @@
 import { ref, onMounted, watch, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { changeLanguage } from '@/logic/translator'
 import {
   pdfToBinaryString,
   pdfBinaryToImages,
@@ -26,9 +25,17 @@ const stickyNav = ref(false)
 let dotsInterval = null
 
 onBeforeMount(async () => {
+  let { data: settingsList } = await axios.get('%BASE_URL%/settings')
+  let settings = settingsList.items.reduce((acc, setting) => {
+    acc[setting.key] = setting.value
+    return acc
+  }, {})
+  console.log(settings)
+  store.commit('setDefaultSettings', settings)
+
   let { data } = await axios.post('%BASE_URL%/getlang', {
     data: {
-      locale: 'en'
+      locale: store.state.defaultSettings.locale
     }
   })
   store.state.fallbackTranslation = data.translation
@@ -119,6 +126,10 @@ const goToDocs = () => {
   router.push('/docs')
 }
 
+const goToSettings = () => {
+  router.push('/settings')
+}
+
 watch(gettingProjects, () => {
   if (gettingProjects) {
     dotsInterval = setInterval(() => {
@@ -160,9 +171,10 @@ watch(nav, () => {
           >{{ $t('Home.confused') }} 👉🏻
           <span class="cta">{{ $t('Home.docs') }}</span>
         </span>
-        <span class="text" @click="changeLanguage('mr')">{{
-          $t('Home.changeLanguage')
-        }}</span>
+        <span class="text" @click="goToSettings"
+          >{{ $t('Home.customisation') }} 👉🏻
+          <span class="cta">{{ $t('Home.settings') }}</span></span
+        >
       </div>
     </div>
     <div
@@ -246,6 +258,9 @@ watch(nav, () => {
   justify-content space-between
 
   .nav-right
+    display flex
+    align-items flex-end
+    flex-direction column
     .text
       display flex
       align-items center

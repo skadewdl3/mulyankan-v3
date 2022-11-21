@@ -92,6 +92,10 @@ const setNumPages = (state, val) => {
   state.numPages = val
 }
 
+const setDefaultSettings = (state, val) => {
+  state.defaultSettings = val
+}
+
 export default {
   setImageSources,
   setImages,
@@ -110,5 +114,6 @@ export default {
   maxZoom,
   setPreprocessInstructions,
   setProjectID,
-  setNumPages
+  setNumPages,
+  setDefaultSettings
 }

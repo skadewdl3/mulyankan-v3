@@ -6,7 +6,9 @@
     "docs": "येथे शिका",
     "changeLanguage": "भाषा बदला",
     "noProjects": "कोणतेही प्रकल्प सापडले नाही. तपासण्यासाठी PDF अपलोड करा.",
-    "loadingProjects": "प्रकल्प लोड करीत आहोत"
+    "loadingProjects": "प्रकल्प लोड करीत आहोत",
+    "customisation": "बदल हवेत ?",
+    "settings": "सेटिंग्ज"
   },
   "Preprocess": {
     "preprocess": "रूपांतर करा",
@@ -36,5 +38,17 @@
     "fontSection": "शब्दशैली",
     "symbolsSection": "चिन्हं",
     "colorsSection": "रंग"
+  },
+
+  "ClipboardTab": {
+    "empty": "क्लिपबोर्ड रिकामा आहे. एखादी गोष्ट कॉपी केल्यावर ते इथे दिसेल."
+  },
+  "Download": {
+    "title": "डाऊनलोड",
+    "download": "डाउनलोड करा"
+  },
+  "Settings": {
+    "title": "सेटिंग्ज",
+    "changeLanguage": "भाषा बदला"
   }
 }
