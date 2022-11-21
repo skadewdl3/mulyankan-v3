@@ -9,20 +9,16 @@ const {
   deleteProject
 } = require('./js/detaFunctions')
 const { Deta } = require('deta')
-const { projectKey } = require('./js/credentials')
+const { projectKey: defaultProjectKey } = require('./js/credentials')
 const { getDocs, docsStructure } = require('./js/docs')
 const { languages, getTranslations } = require('./js/translations')
+
+let projectKey = process.env.DETA_PROJECT_KEY || defaultProjectKey
 
 let docs = getDocs()
 let translations = getTranslations()
 
-let env = process.env.NODE_ENV || 'development'
-let deta
-if (env === 'development') {
-  deta = Deta(projectKey)
-} else {
-  deta = Deta()
-}
+const deta = Deta(projectKey)
 
 const app = express()
 app.use(bodyParser.json())
