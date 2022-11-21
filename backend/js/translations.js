@@ -11,7 +11,8 @@ const getPath = locale => {
 
 const languages = [
   { name: 'English', locale: 'en' },
-  { name: 'मराठी', locale: 'mr' }
+  { name: 'मराठी', locale: 'mr' },
+  { name: 'русский', locale: 'ru' }
 ]
 
 // const translations = {
