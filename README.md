@@ -53,6 +53,6 @@ Mulyankan wants to support teachers in all countries, hence we've included trans
 
 1) Fork the repo to your account on GitHub.
 2) Create a new branch for translations.
-3) Go into the backend/translaitons folder (translations are fetched as needed from the server).
-4) Follow the instructions in the translations.js file.
+3) Go into the backend/translaitons folder. You will need to add a JSON file with all translations here. (translations are fetched as needed from the server).
+4) Follow the instructions in the js/translations.js file. Please add the translation with it's name and locale code to the array.
 5) Create a pull request and I'll try to merge it ASAP.
