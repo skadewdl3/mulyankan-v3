@@ -37,7 +37,8 @@
     "textSection": "शब्द आणि गुण",
     "fontSection": "शब्दशैली",
     "symbolsSection": "चिन्हं",
-    "colorsSection": "रंग"
+    "colorsSection": "रंग",
+    "quickMarking": "आउट ऑफ"
   },
 
   "ClipboardTab": {
@@ -50,5 +51,11 @@
   "Settings": {
     "title": "सेटिंग्ज",
     "changeLanguage": "भाषा बदला"
+  },
+
+  "Menu": {
+    "copy": "कॉपी करा",
+    "paste": "पेस्ट करा",
+    "delete": "काढून टाका"
   }
 }

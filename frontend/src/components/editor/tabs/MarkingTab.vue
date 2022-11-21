@@ -210,7 +210,7 @@ const updateTotalMarks = val => {
             draggable="true"
             @dragstart="e => quickMark(e)"
           >
-            out of
+            {{ $t('MarkingTab.quickMarking') }}
           </div>
           <div
             class="total-marks"

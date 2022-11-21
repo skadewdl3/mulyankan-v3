@@ -13,7 +13,7 @@ const isVisible = ref(store.state.menu.show)
 
 const items = [
   {
-    name: 'Copy',
+    name: 'Menu.copy',
     icon: 'icon-copy',
     action: () =>
       copySelectedObject(store.getters.getActiveCanvas, selectedObj =>
@@ -21,7 +21,7 @@ const items = [
       )
   },
   {
-    name: 'Paste',
+    name: 'Menu.paste',
     icon: 'icon-paste',
     action: () =>
       pasteFromClipboard(
@@ -32,7 +32,7 @@ const items = [
       )
   },
   {
-    name: 'Delete',
+    name: 'Menu.delete',
     icon: 'icon-delete',
     action: () => deleteSelectedObject(store.getters.getActiveCanvas)
   }
@@ -58,7 +58,7 @@ watch(
   >
     <div v-for="item in items" class="menu-item" @click="item.action">
       <component :is="item.icon" class="menu-item-icon" />
-      <span class="menu-item-name">{{ item.name }}</span>
+      <span class="menu-item-name">{{ $t(item.name) }}</span>
     </div>
   </div>
 </template>

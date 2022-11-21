@@ -36,7 +36,8 @@
     "textSection": "Text",
     "fontSection": "Font",
     "symbolsSection": "Symbols",
-    "colorsSection": "Colors"
+    "colorsSection": "Colors",
+    "quickMarking": "out of"
   },
   "ClipboardTab": {
     "empty": "Clipboard is empty. When you copy some items, they will appear here."
@@ -49,5 +50,10 @@
   "Settings": {
     "title": "Settings",
     "changeLanguage": "Change Default Language"
+  },
+  "Menu": {
+    "copy": "Copy",
+    "paste": "Paste",
+    "delete": "Delete"
   }
 }
