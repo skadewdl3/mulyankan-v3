@@ -16,6 +16,7 @@ const generateValidID = async (drive, setID) => {
 }
 
 const uploadPDF = async (drive, base, { name, data }) => {
+  console.log(name)
   let id = ''
   let setID = x => (id = x)
   await generateValidID(drive, setID)

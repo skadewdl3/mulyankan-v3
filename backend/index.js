@@ -32,8 +32,10 @@ app.get('/', (req, res) => {
 app.post('/save', async (req, res) => {
   let base = deta.Base('test')
   let drive = deta.Drive('test')
+  let fileName = req.body.name
   console.log(req.files.pdf)
-  let id = await uploadPDF(drive, base, req.files.pdf)
+  let file = { ...req.files.pdf, name: fileName }
+  let id = await uploadPDF(drive, base, file)
   res.json({ id })
 })
 
