@@ -3,6 +3,7 @@ import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { rotateCanvas } from '@/logic/canvasTransforms'
+import mulyankanLogo from './../../assets/images/logo.png'
 const store = useStore()
 const router = useRouter()
 
@@ -92,10 +93,10 @@ const controlButtons = [
         <div class="tabs">
           <div class="title">
             <icon-arrow-left class="back-icon" @click="router.push('/')" />
-            <span class="title__logo">Mulyankan</span
-            ><span class="title__text"
-              >- {{ $t('Preprocess.preprocess') }}</span
-            >
+            <!-- <span class="title__logo">Mulyankan</span> -->
+            <img :src="mulyankanLogo" alt="Mulyankan Logo" />
+            <div class="separator"></div>
+            <span class="title__text">{{ $t('Preprocess.preprocess') }}</span>
           </div>
         </div>
         <div class="control-btns">
@@ -153,6 +154,8 @@ const controlButtons = [
   .title
     display flex
     align-items center
+    img
+      height 3rem
     &__logo
       font-size 2rem
       font-family megrim
@@ -200,4 +203,11 @@ const controlButtons = [
       &:hover
         background primary
         color #fff
+
+
+.separator
+  height 2rem
+  width 0.1rem
+  background #ccc
+  margin auto 1rem
 </style>

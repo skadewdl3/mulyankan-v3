@@ -1,4 +1,6 @@
 <script setup>
+import mulyankanLogo from './../assets/images/logo-text.png'
+
 import { ref, onMounted, watch, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -155,7 +157,9 @@ watch(nav, () => {
   <div class="home">
     <div ref="nav" class="nav">
       <div class="nav-left">
-        <div class="logo">Mulyankan</div>
+        <div class="logo">
+          <img :src="mulyankanLogo" alt="Mulyankan Logo" />
+        </div>
         <div class="title">{{ $t('Home.projectsTitle') }}</div>
         <button class="file-upload-btn" @click="openFileInput">
           {{ $t('Home.upload') }}
@@ -297,6 +301,10 @@ watch(nav, () => {
     .title
       font-size 2rem
       font-weight 400
+
+.logo
+  img
+    height 3rem
 
 .file-upload-btn
   background primary
