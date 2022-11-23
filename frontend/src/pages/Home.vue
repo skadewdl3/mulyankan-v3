@@ -1,5 +1,4 @@
 <script setup>
-import Setup from '@/pages/Setup.vue'
 import { ref, onMounted, watch, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -26,11 +25,7 @@ const stickyNav = ref(false)
 let dotsInterval = null
 
 onBeforeMount(async () => {
-  let { data: settingsList } = await axios.get('%BASE_URL%/settings')
-  let settings = settingsList.items.reduce((acc, setting) => {
-    acc[setting.key] = setting.value
-    return acc
-  }, {})
+  let { data: settings } = await axios.get('%BASE_URL%/settings')
   console.log(settings)
   store.commit('setDefaultSettings', settings)
 
@@ -47,7 +42,6 @@ onMounted(async () => {
   store.commit('setControls', { show: false })
   gettingProjects.value = true
   let { data } = await axios.get('%BASE_URL%/projects')
-  console.log(data)
   if (data.items.length === 0) gettingProjects.value = false
   setTimeout(() => {
     projects.value = data.items

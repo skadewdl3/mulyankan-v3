@@ -25,7 +25,9 @@ import {
   CloseOutlined,
   DownloadOutlined,
   ProjectOutlined,
-  LoadingOutlined
+  LoadingOutlined,
+  LeftOutlined,
+  RightOutlined
 } from '@ant-design/icons-vue'
 import './style.css'
 import App from './App.vue'
@@ -60,7 +62,9 @@ const icons = [
   { name: 'icon-close', component: CloseOutlined },
   { name: 'icon-download', component: DownloadOutlined },
   { name: 'icon-project', component: ProjectOutlined },
-  { name: 'icon-loading', component: LoadingOutlined }
+  { name: 'icon-loading', component: LoadingOutlined },
+  { name: 'icon-left', component: LeftOutlined },
+  { name: 'icon-right', component: RightOutlined }
 ]
 
 icons.forEach(icon => app.component(icon.name, icon.component))

@@ -15,11 +15,7 @@ onMounted(async () => {
   let { data: languages } = await axios.get('%BASE_URL%/languages')
   languageList.value = languages
 
-  let { data: settingsList } = await axios.get('%BASE_URL%/settings')
-  let settings = settingsList.items.reduce((acc, setting) => {
-    acc[setting.key] = setting.value
-    return acc
-  }, {})
+  let { data: settings } = await axios.get('%BASE_URL%/settings')
   store.commit('setDefaultSettings', settings)
   console.log(store.state.defaultSettings)
   changeLanguage(store.state.defaultSettings.locale)

@@ -82,12 +82,16 @@ app.get('/languages', async (req, res) => {
 
 app.get('/settings', async (req, res) => {
   let base = deta.Base('settings')
-  let settings = await base.fetch()
-  if (settings.items.length === 0) {
+  let settingsList = await base.fetch()
+  if (settingsList.items.length === 0) {
     await base.put('en', 'locale')
     await base.put('#ff0000', 'color')
-    settings = await base.fetch()
+    settingsList = await base.fetch()
   }
+  let settings = settingsList.items.reduce((acc, setting) => {
+    acc[setting.key] = setting.value
+    return acc
+  }, {})
   res.json(settings)
 })
 
@@ -133,6 +137,26 @@ app.get('/refreshdocs', (req, res) => {
 app.get('/refreshtl', (req, res) => {
   translations = getTranslations()
   res.json({ message: 'Translations refreshed' })
+})
+
+app.get('/setup', async (req, res) => {
+  let base = deta.Base('setup')
+  let setupList = await base.fetch()
+  if (setupList.items.length === 0) {
+    await base.put('incomplete', 'status')
+    setupList = await base.fetch()
+  }
+  let setup = setupList.items.reduce((acc, setting) => {
+    acc[setting.key] = setting.value
+    return acc
+  }, {})
+  res.json(setup)
+})
+
+app.post('/setup', async (req, res) => {
+  let base = deta.Base('setup')
+  await base.put(req.body.status, 'status')
+  res.json({ message: `Status set to ${req.body.status}` })
 })
 
 const port = process.env.PORT || 8080
