@@ -36,7 +36,8 @@
     "textSection": "Мәтін",
     "fontSection": "Қаріп",
     "symbolsSection": "Рәміздер",
-    "colorsSection": "Түстер"
+    "colorsSection": "Түстер",
+    "quickMarking": "бастап"
   },
   "ClipboardTab": {
     "empty": "Алмасу буфері бос. Бір нәрсені көшіргенде, ол осы жерде көрсетіледі."
