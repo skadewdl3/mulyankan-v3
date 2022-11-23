@@ -9,10 +9,15 @@ const generateDisplayConfig = arr => {
     let config = {}
     let type = obj.type
     if (type === 'image') {
+      let src = `%IMG_URL%/images/${obj.id}.svg`
+      if (src.startsWith('%WINDOW_URL%')) {
+        src = src.replace('%WINDOW_URL%', `https://${window.location.host}`)
+      }
       config = {
         type: 'image',
         filter: getFilter(obj.imgColor),
-        id: obj.id
+        id: obj.id,
+        src: src
       }
       // get image display config
     } else if (type === 'textbox') {
@@ -62,15 +67,7 @@ watch(
         draggable="true"
         @dragstart="e => addCopiedObject(e, index)"
       >
-        <img
-          :src="
-            '%IMG_URL%' === '%WINDOW_URL%'
-              ? `https://${window.location.host}/images/${item.id}.svg`
-              : `%IMG_URL%/images/${item.id}.svg`
-          "
-          :alt="item.id"
-          :style="{ filter: item.filter }"
-        />
+        <img :src="item.src" :alt="item.id" :style="{ filter: item.filter }" />
       </div>
       <div
         class="clipboard-item-text"

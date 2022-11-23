@@ -163,10 +163,13 @@ export const resumeCanvases = pages => {
         if (obj.type === 'image') {
           let srcs = obj.src.split('/')
           console.log('this ran')
+          console.log(srcs)
           let src = `%IMG_URL%/images/${srcs[srcs.length - 1]}`
+          console.log(src)
           if (src.startsWith('%WINDOW_URL%')) {
-            src = src.replace('%WINDOW_URL%', window.location.host)
+            src = src.replace('%WINDOW_URL%', `https://${window.location.host}`)
           }
+          console.log(src)
           return {
             ...obj,
             src
