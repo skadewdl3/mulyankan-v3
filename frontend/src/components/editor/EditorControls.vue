@@ -3,6 +3,7 @@ import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { updateSavedPDF } from '@/logic/pdfFunctions'
+import mulyankanLogo from './../../assets/images/logo.png'
 
 import MarkingTab from '@/components/editor/tabs/MarkingTab.vue'
 // import MathTab from '@/components/editor/tabs/MathTab.vue'
@@ -21,7 +22,7 @@ watch([currentTab, activeTab], () => {
   if (!currentTabEl || !activeTabEl) return
   activeTabEl.style.width = `${currentTabEl.offsetWidth + 20}px`
   activeTabEl.style.left = `${currentTabEl.offsetLeft - 10}px`
-  activeTabEl.style.height = `${currentTabEl.offsetHeight + 16}px`
+  activeTabEl.style.height = `${currentTabEl.offsetHeight + 20}px`
 })
 
 const controlButtons = [
@@ -89,8 +90,10 @@ const tabs = [
         <div class="controls__top-left">
           <div class="title">
             <icon-arrow-left class="back-icon" @click="router.push('/')" />
-            <span class="title__logo">Mulyankan</span
-            ><span class="title__text">- {{ $t('Editor.editor') }}</span>
+            <!-- <span class="title__logo">Mulyankan</span> -->
+            <img :src="mulyankanLogo" alt="Mulyankan Logo" />
+            <div class="separator"></div>
+            <span class="title__text">{{ $t('Editor.editor') }}</span>
           </div>
           <div class="separator"></div>
           <div class="tabs">
@@ -195,6 +198,8 @@ const tabs = [
   .title
     display flex
     align-items center
+    img
+      height 3rem
     &__logo
       font-size 2rem
       font-family megrim
@@ -248,7 +253,7 @@ const tabs = [
   height 2rem
   width 0.1rem
   background #ccc
-  margin 0 1rem
+  margin auto 1rem
 
 .controls-content
   padding 0.5rem 1rem

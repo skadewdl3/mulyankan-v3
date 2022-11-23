@@ -1,4 +1,5 @@
 <script setup>
+import mulyankanLogo from './../assets/images/logo-text.png'
 import axios from 'axios'
 import { useStore } from 'vuex'
 import { onMounted, ref, watch, computed } from 'vue'
@@ -72,7 +73,8 @@ const goBack = () => {
   <div class="settings">
     <div class="logo">
       <span @click="goBack" class="back"><icon-arrow-left /></span>
-      <span>Mulyankan</span>
+      <!-- <span>Mulyankan</span> -->
+      <img :src="mulyankanLogo" alt="Mulyankan Logo" />
     </div>
     <div class="title">{{ $t('Settings.title') }}</div>
 
