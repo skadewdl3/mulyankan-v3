@@ -63,7 +63,11 @@ watch(
         @dragstart="e => addCopiedObject(e, index)"
       >
         <img
-          :src="`%IMG_URL%/images/${item.id}.svg`"
+          :src="
+            '%IMG_URL%' === '%WINDOW_URL%'
+              ? `https://${window.location.host}/images/${item.id}.svg`
+              : `%IMG_URL%/images/${item.id}.svg`
+          "
           :alt="item.id"
           :style="{ filter: item.filter }"
         />

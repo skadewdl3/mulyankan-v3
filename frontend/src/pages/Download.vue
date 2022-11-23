@@ -58,26 +58,6 @@ onMounted(() => {
   background neutral
   container()
 
-.logo
-  font-family megrim
-  font-size 2.5rem
-  font-weight bold
-  color primary
-  display flex
-  align-items center
-.title
-  font-size 4rem
-  font-weight 700
-
-.back
-  font-size 1.5rem
-  color #000
-  margin-right 1rem
-  cursor pointer
-  transition all .2s ease-in-out
-  &:hover
-    color primary
-
 .file-download-btn
   background primary
   color #fff

@@ -25,11 +25,7 @@ const stickyNav = ref(false)
 let dotsInterval = null
 
 onBeforeMount(async () => {
-  let { data: settingsList } = await axios.get('%BASE_URL%/settings')
-  let settings = settingsList.items.reduce((acc, setting) => {
-    acc[setting.key] = setting.value
-    return acc
-  }, {})
+  let { data: settings } = await axios.get('%BASE_URL%/settings')
   console.log(settings)
   store.commit('setDefaultSettings', settings)
 
@@ -46,7 +42,6 @@ onMounted(async () => {
   store.commit('setControls', { show: false })
   gettingProjects.value = true
   let { data } = await axios.get('%BASE_URL%/projects')
-  console.log(data)
   if (data.items.length === 0) gettingProjects.value = false
   setTimeout(() => {
     projects.value = data.items
@@ -302,15 +297,6 @@ watch(nav, () => {
     .title
       font-size 2rem
       font-weight 400
-
-.logo
-  font-family megrim
-  font-size 2.5rem
-  font-weight bold
-  color primary
-.title
-  font-size 4rem
-  font-weight 700
 
 .file-upload-btn
   background primary

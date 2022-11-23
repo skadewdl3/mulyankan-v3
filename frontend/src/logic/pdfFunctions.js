@@ -73,6 +73,7 @@ export const pdfBinaryToImages = async (data, processNow, store, projectID) => {
 export const savePDF = async file => {
   const formData = new FormData()
   formData.append('pdf', file)
+  formData.append('name', file.name)
 
   // Send to server
   let { data } = await axios.post('%BASE_URL%/save', formData, {

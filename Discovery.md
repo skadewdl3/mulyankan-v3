@@ -8,14 +8,14 @@ homepage: 'https://github.com/skadewdl3/mulyankan-v3'
 
 ## What is Mulyankan ?
 
-_Mulyankan_, (Sanskrit for evaluation) is an app that firmly believes that a teacher's personal touch is parmount to education.
+_Mulyankan_, (Sanskrit for evaluation) is a PDF markup tool geared towards teachers. We firmly believe that a teacher's personal touch is parmount to education.
 
-That's why, with a **beautiful** and **easy-to-use** UI, Mulyankan provides a fast, efficient way of checking exam papers (PDFs).
+Since the COVID-19 pandemic, teachers have had to check some/most of their exam papers online. While tools like Google Forms are not always viable for written tests, conventional PDF editors are too expensive for the average teacher. This is where Mulyankan comes in.
 
 ## Features of Mulyankan -
 
 - [ ] **Free. Forever.** - We believe education should not be hindered by factors like money, hence Mulyankan is, and always will be free.
-- [ ] **Easy To Use** - We partenered up with teachers to ensure the user-experience is just right. Even a new user will feel right at home.
+- [ ] **Easy To Use** - We partenered up with teachers to ensure the user-experience is just right. Even a new user will feel right at home with the Mulyankan's **beautiful** interface.
 - [ ] **Rich feature set** - Mulyankan has all the features you need, without the ones you don't. Be it tilted, blurry PDFs, Mulyankan has you covered!
 - [ ] **Cloud Saving** - In a hurry? Don't worry - just press a button and leave the rest to us. With a safe and private cloud backup feature, we'll make sure you don't lose any progress!
 

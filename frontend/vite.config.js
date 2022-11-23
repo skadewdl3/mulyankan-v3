@@ -16,10 +16,7 @@ export default defineConfig({
       },
       {
         search: '%IMG_URL%',
-        replace:
-          env === 'development'
-            ? ''
-            : 'https://dev-seal-mulyankan.skadewdl3.deta.app'
+        replace: env === 'development' ? '' : '%WINDOW_URL%'
       }
     ])
   ],
