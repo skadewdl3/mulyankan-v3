@@ -36,7 +36,8 @@
     "textSection": "Текст",
     "fontSection": "Шрифт",
     "symbolsSection": "Символы",
-    "colorsSection": "Цвета"
+    "colorsSection": "Цвета",
+    "quickMarking": "из"
   },
   "ClipboardTab": {
     "empty": "Буфер обмена пуст. Когда вы что-то скопируете, оно отобразиться тут."
