@@ -35,7 +35,6 @@ const pageWidth = ref(canvasContainer.value?.offsetWidth)
 watch(
   () => store.state.imageSources,
   () => {
-    console.log(store.state.imageSources.length, store.state.numPages)
     if (store.state.imageSources.length === store.state.numPages) {
       store.commit('forceRefresh')
     }

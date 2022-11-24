@@ -3,25 +3,23 @@
 
 //now = 5
 
-const lazyLoadPDF = (store, { doc, now, projectID }) => {
+const lazyLoadPDF = async (store, { doc, now, projectID }) => {
   for (let i = now + 1; i <= doc.numPages; i++) {
-    doc.getPage(i).then(page => {
-      let viewport = page.getViewport({ scale: 4 })
-      let canvas = document.createElement('canvas')
-      canvas.width = viewport.width
-      canvas.height = viewport.height
-      let canvasContext = canvas.getContext('2d')
-      let task = page.render({ canvasContext, viewport })
-      task.promise.then(() => {
-        store.commit('setImageSources', [
-          ...store.state.imageSources,
-          {
-            src: canvas.toDataURL(),
-            id: `${projectID}-${now}`
-          }
-        ])
-      })
-    })
+    let page = await doc.getPage(i)
+    let viewport = page.getViewport({ scale: 4 })
+    let canvas = document.createElement('canvas')
+    canvas.width = viewport.width
+    canvas.height = viewport.height
+    let canvasContext = canvas.getContext('2d')
+    let task = page.render({ canvasContext, viewport })
+    await task.promise
+    store.commit('setImageSources', [
+      ...store.state.imageSources,
+      {
+        src: canvas.toDataURL(),
+        id: `${projectID}-${i}`
+      }
+    ])
   }
 }
 

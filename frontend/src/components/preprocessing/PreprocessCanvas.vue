@@ -116,7 +116,7 @@ watch(canvas, () => {
   // Create the canvas using fabric js
   let fcanvas = createCanvas(
     `${store.state.projectID}-${props.index}`,
-    `${store.state.projectID}-${props.index}`,
+    props.id ? props.id : `${store.state.projectID}-${props.index}`,
     props.src,
     pageWidth,
     store.state.zoom

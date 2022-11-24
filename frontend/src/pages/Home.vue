@@ -65,7 +65,7 @@ const processFile = async e => {
   let imgSources = imgArr.map((src, i) => {
     return {
       src,
-      id: `${projectID}-${i}`
+      id: `${projectID}-${i + 1}`
     }
   })
   store.commit('setImageSources', imgSources)
@@ -78,7 +78,7 @@ const loadFile = async pdfBinary => {
   let imgSources = imgArr.map((src, i) => {
     return {
       src,
-      id: `${store.state.projectID}-${i}`
+      id: `${store.state.projectID}-${i + 1}`
     }
   })
   store.commit('setImageSources', imgSources)
