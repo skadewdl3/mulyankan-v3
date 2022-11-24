@@ -12,6 +12,7 @@ const { Deta } = require('deta')
 const { projectKey: defaultProjectKey } = require('./js/credentials')
 const { getDocs, docsStructure } = require('./js/docs')
 const { languages, getTranslations } = require('./js/translations')
+const { test } = require('./js/pdfFunctions')
 
 let projectKey = process.env.DETA_PROJECT_KEY || defaultProjectKey
 
@@ -157,6 +158,13 @@ app.post('/setup', async (req, res) => {
   let base = deta.Base('setup')
   await base.put(req.body.status, 'status')
   res.json({ message: `Status set to ${req.body.status}` })
+})
+
+app.post('/test', async (req, res) => {
+  let drive = deta.Drive('test')
+  let base = deta.Base('test')
+  let id = req.body.id
+  let json = await test(drive, base, id)
 })
 
 const port = process.env.PORT || 8080

@@ -119,6 +119,11 @@ const deleteProject = async id => {
   deletingProject.value = null
 }
 
+const deliverProject = async id => {
+  let res = await axios.post(`%BASE_URL%/test`, { id })
+  console.log(res.data)
+}
+
 const goToDocs = () => {
   router.push('/docs')
 }
@@ -223,8 +228,27 @@ watch(nav, () => {
         </div>
         <div class="project-content project-right">
           <button
-            :class="`delete-btn ${
-              deletingProject === project.key ? 'delete-btn-inactive' : ''
+            :class="`project-btn ${
+              deletingProject === project.key ? 'project-btn-inactive' : ''
+            }`"
+            @click="
+              e => {
+                e.stopImmediatePropagation()
+                deliverProject(project.key)
+              }
+            "
+          >
+            <icon-deliver
+              v-if="
+                deletingProject !== project.key &&
+                fetchingProject !== project.key
+              "
+            />
+            <icon-loading v-else />
+          </button>
+          <button
+            :class="`project-btn ${
+              deletingProject === project.key ? 'project-btn-inactive' : ''
             }`"
             @click="
               e => {
@@ -343,7 +367,7 @@ watch(nav, () => {
 
 .project-content
   display flex
-.delete-btn
+.project-btn
   background red
   padding 0.5rem
   border-radius 0.5rem

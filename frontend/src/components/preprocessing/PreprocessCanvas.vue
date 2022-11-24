@@ -100,7 +100,7 @@ const canvasControls = [
       let newImages = store.state.images.filter((_, i) => i !== props.index)
       store.dispatch('addPreprocessInstruction', del(props.id))
       store.commit('setImageSources', newSources)
-
+      store.commit('setNumPages', newSources.length)
       store.commit('setImages', newImages)
     }
   }
