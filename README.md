@@ -5,8 +5,7 @@ _Mulyankan_ (meaning 'evaluation' in Sanskrit) is a PDF mark-up tool geared towa
 Since the COVID-19 pandemic, teachers have had to check some/most of their exam papers online. While tools like Google Forms are not alaways viable for written tests,
 conventional PDF editors are too expensive for the average teacher. This is where Mulyankan comes in.
 
-![image](https://user-images.githubusercontent.com/43989259/202834454-d5f8d58d-0f5a-40f8-81dc-06510a2bf11d.png)
-
+![image](https://user-images.githubusercontent.com/43989259/203680296-88971046-55e0-4040-b479-4cd6e65c143f.png)
 
 
 # Why Mulyankan ?
