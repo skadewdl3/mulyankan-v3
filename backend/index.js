@@ -161,10 +161,13 @@ app.post('/setup', async (req, res) => {
 })
 
 app.post('/test', async (req, res) => {
+  let start = process.hrtime()
   let drive = deta.Drive('test')
   let base = deta.Base('test')
   let id = req.body.id
   let json = await test(drive, base, id)
+  let end = process.hrtime(start)
+  console.info('Execution time (hr): %ds %dms', end[0], end[1] / 1000000)
 })
 
 const port = process.env.PORT || 8080

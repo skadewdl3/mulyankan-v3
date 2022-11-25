@@ -179,6 +179,7 @@ export const resumeCanvases = pages => {
         }
       })
       fcanvas.rawObjects = newRawObjetcs
+      fcanvas.id = id
       fcanvases.push(fcanvas)
       if (i === pages.length - 1) resolve(fcanvases)
     })

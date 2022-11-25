@@ -99,6 +99,8 @@ export const updateSavedPDF = store => {
         obj.toJSON(['imgColor', 'textType', 'id', 'zoom'])
       )
       let id = fcanvas.id
+      console.log(fcanvas)
+      console.log(id)
       acc = [...acc, { id, objects }]
       return acc
     }, [])
