@@ -303,7 +303,7 @@ const addText = async (objects, backgroundImages, doc) => {
             text.fontSize * text.lineHeight * scaleY * text.scaleY
           let xCoord = text.left * scaleX
           // IDK where the 0.785 came from. I pulled it out of my ass so it aligns properly.
-          let yCoord = page.getHeight() - text.top * scaleY - 0.785 * lineHeight
+          let yCoord = page.getHeight() - text.top * scaleY - 0.9 * lineHeight
           let font = fonts[text.fontFamily]
           let { r, g, b } = hexToRgb(text.fill)
           r = r / 255
