@@ -28,7 +28,6 @@ let dotsInterval = null
 
 onBeforeMount(async () => {
   let { data: settings } = await axios.get('%BASE_URL%/settings')
-  console.log(settings)
   store.commit('setDefaultSettings', settings)
 
   let { data } = await axios.post('%BASE_URL%/getlang', {
@@ -73,12 +72,12 @@ const processFile = async e => {
   router.push('/preprocess')
 }
 
-const loadFile = async pdfBinary => {
-  let imgArr = await pdfBinaryToImages(pdfBinary, 5, store)
+const loadFile = async (pdfBinary, id) => {
+  let imgArr = await pdfBinaryToImages(pdfBinary, 5, store, id)
   let imgSources = imgArr.map((src, i) => {
     return {
       src,
-      id: `${store.state.projectID}-${i + 1}`
+      id: `${id}-${i + 1}`
     }
   })
   store.commit('setImageSources', imgSources)
@@ -91,7 +90,7 @@ const getProject = async id => {
   store.commit('setProjectID', id)
   if (result.type === 'pdf') {
     let pdfBinary = bufferToArrayBuffer(result.buffer.data)
-    await loadFile(pdfBinary)
+    await loadFile(pdfBinary, id)
   } else {
     let jsonBinary = bufferToArrayBuffer(result.buffer.data)
     let { pages, preprocess, style, marks, clipboard } =
@@ -112,16 +111,10 @@ const getProject = async id => {
 
 const deleteProject = async id => {
   deletingProject.value = id
-  console.log(id)
   let res = await axios.get(`%BASE_URL%/deleteproject/${id}`)
   let { data } = await axios.get('%BASE_URL%/projects')
   projects.value = data.items
   deletingProject.value = null
-}
-
-const deliverProject = async id => {
-  let res = await axios.post(`%BASE_URL%/test`, { id })
-  console.log(res.data)
 }
 
 const goToDocs = () => {
@@ -227,25 +220,6 @@ watch(nav, () => {
           </div>
         </div>
         <div class="project-content project-right">
-          <button
-            :class="`project-btn ${
-              deletingProject === project.key ? 'project-btn-inactive' : ''
-            }`"
-            @click="
-              e => {
-                e.stopImmediatePropagation()
-                deliverProject(project.key)
-              }
-            "
-          >
-            <icon-deliver
-              v-if="
-                deletingProject !== project.key &&
-                fetchingProject !== project.key
-              "
-            />
-            <icon-loading v-else />
-          </button>
           <button
             :class="`project-btn ${
               deletingProject === project.key ? 'project-btn-inactive' : ''

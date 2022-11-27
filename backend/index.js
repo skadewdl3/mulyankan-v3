@@ -6,18 +6,20 @@ const {
   updatePDF,
   uploadPDF,
   getProject,
-  deleteProject
+  deleteProject,
+  downloadPDF
 } = require('./js/detaFunctions')
 const { Deta } = require('deta')
 const { projectKey: defaultProjectKey } = require('./js/credentials')
 const { getDocs, docsStructure } = require('./js/docs')
 const { languages, getTranslations } = require('./js/translations')
-const { test } = require('./js/pdfFunctions')
+const { getSymbols } = require('./js/pdfFunctions')
 
 let projectKey = process.env.DETA_PROJECT_KEY || defaultProjectKey
 
 let docs = getDocs()
 let translations = getTranslations()
+let symbols = getSymbols()
 
 const deta = Deta(projectKey)
 
@@ -25,6 +27,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(cors())
 app.use(fileUpload())
+app.use(express.static('public'))
 
 app.get('/', (req, res) => {
   res.json({ message: 'API is working' })
@@ -34,7 +37,6 @@ app.post('/save', async (req, res) => {
   let base = deta.Base('test')
   let drive = deta.Drive('test')
   let fileName = req.body.name
-  console.log(req.files.pdf)
   let file = { ...req.files.pdf, name: fileName }
   let id = await uploadPDF(drive, base, file)
   res.json({ id })
@@ -45,7 +47,6 @@ app.post('/update/:id', async (req, res) => {
   let drive = deta.Drive('test')
 
   let id = req.params.id
-  console.log(req.files.pdf.data)
   await updatePDF(drive, id, req.files.pdf.data)
   res.json({ received: req.files.pdf.data.toString() })
 })
@@ -119,7 +120,6 @@ app.post('/updatesettings', async (req, res) => {
 app.post('/getlang', async (req, res) => {
   const locale = req.body.data.locale
   if (!translations[locale]) res.json({ error: 'Language not found' })
-  console.log(translations[locale])
   res.json(translations[locale])
 })
 
@@ -160,14 +160,26 @@ app.post('/setup', async (req, res) => {
   res.json({ message: `Status set to ${req.body.status}` })
 })
 
-app.post('/test', async (req, res) => {
-  let start = process.hrtime()
-  let drive = deta.Drive('test')
-  let base = deta.Base('test')
+// app.post('/test', async (req, res) => {
+//   let start = process.hrtime()
+//   let drive = deta.Drive('test')
+//   let base = deta.Base('test')
+//   let id = req.body.id
+//   let json = await test(drive, base, id)
+//   let end = process.hrtime(start)
+//   console.info('Execution time (hr): %ds %dms', end[0], end[1] / 1000000)
+// })
+
+app.post('/download', async (req, res) => {
   let id = req.body.id
-  let json = await test(drive, base, id)
-  let end = process.hrtime(start)
-  console.info('Execution time (hr): %ds %dms', end[0], end[1] / 1000000)
+  let drive = deta.Drive('test')
+  let pdfBuffer = await downloadPDF(drive, id)
+  res.json(pdfBuffer)
+})
+
+app.post('/symbol', (req, res) => {
+  let id = req.body.id
+  res.json(symbols[id])
 })
 
 const port = process.env.PORT || 8080

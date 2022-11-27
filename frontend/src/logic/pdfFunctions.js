@@ -18,6 +18,20 @@ export const binaryStringToJSON = ab => {
   })
 }
 
+export const binaryStringToBase64 = ab => {
+  return new Promise((resolve, reject) => {
+    let blob = new Blob([ab])
+
+    let fr = new FileReader()
+
+    fr.onload = () => {
+      resolve(fr.result)
+    }
+    fr.onerror = err => reject(err)
+    fr.readAsDataURL(blob)
+  })
+}
+
 export const bufferToArrayBuffer = buf => {
   const ab = new ArrayBuffer(buf.length)
   const view = new Uint8Array(ab)
@@ -99,8 +113,6 @@ export const updateSavedPDF = store => {
         obj.toJSON(['imgColor', 'textType', 'id', 'zoom'])
       )
       let id = fcanvas.id
-      console.log(fcanvas)
-      console.log(id)
       acc = [...acc, { id, objects }]
       return acc
     }, [])

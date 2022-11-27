@@ -13,6 +13,12 @@ const showControls = ref(false)
 const setShowControls = val => {
   showControls.value = val
 }
+watch(
+  () => store.state.preprocessInstructions,
+  () => {
+    console.log(store.state.preprocessInstructions)
+  }
+)
 </script>
 
 <template>

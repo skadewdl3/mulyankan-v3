@@ -18,7 +18,6 @@ onMounted(async () => {
 
   let { data: settings } = await axios.get('%BASE_URL%/settings')
   store.commit('setDefaultSettings', settings)
-  console.log(store.state.defaultSettings)
   changeLanguage(store.state.defaultSettings.locale)
 })
 
@@ -60,7 +59,6 @@ const changeLang = async locale => {
   }
   store.commit('setDefaultSettings', newSettings)
   let res = await updateSettings()
-  console.log(res)
   changeLanguage(locale)
 }
 

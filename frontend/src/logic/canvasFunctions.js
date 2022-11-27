@@ -7,6 +7,7 @@ import {
   dropEventListener,
   textChangeEventListener
 } from './canvasEventListeners'
+import { roundOff } from '../store/mutations'
 
 const backgroundImageConfig = {
   evented: false, // Prevents events from being fired on the background image
@@ -16,18 +17,15 @@ const backgroundImageConfig = {
   hasRotatingPoint: false
 }
 
-const addBackgroundImage = (fcanvas, src, pageWidth, zoom) => {
+const addBackgroundImage = (fcanvas, src, pageWidth, store, zoom) => {
   fabric.Image.fromURL(
     src,
     img => {
-      let orientation = img.width > img.height ? 'landscape' : 'portrait'
       let scaleFactor =
-        (orientation === 'portrait'
-          ? pageWidth / img.width
-          : pageWidth / img.height) * zoom
-
-      let width = img.width * scaleFactor
-      let height = img.height * scaleFactor
+        store.state.scaleFactor || (pageWidth / img.width) * zoom
+      if (!store.state.scaleFactor) store.commit('setScaleFactor', scaleFactor)
+      let width = roundOff(img.width * scaleFactor, 1)
+      let height = roundOff(img.height * scaleFactor, 1)
 
       // Resize canvas to be size of background image
       fcanvas.setWidth(width)
@@ -47,9 +45,17 @@ const addBackgroundImage = (fcanvas, src, pageWidth, zoom) => {
   )
 }
 
-export const createCanvas = (canvasID, projectID, src, pageWidth, zoom) => {
+export const createCanvas = (
+  canvasID,
+  projectID,
+  src,
+  pageWidth,
+  // pageHeight,
+  store,
+  zoom
+) => {
   const fcanvas = new fabric.Canvas(canvasID)
-  addBackgroundImage(fcanvas, src, pageWidth, zoom)
+  addBackgroundImage(fcanvas, src, pageWidth, store, zoom)
   fcanvas.id = projectID
   fcanvas.renderAll()
   return fcanvas
@@ -87,7 +93,6 @@ export const loadCanvas = async (refCanvas, index, pageWidth, store) => {
             height: img.height * img.scaleY
           })
           fcanvas.fireRightClick = true
-          // fcanvas.filterBackend = new fabric.WebglFilterBackend()
           dropEventListener(
             fcanvas,
             () => store.dispatch('setActiveCanvas', index),
@@ -162,14 +167,10 @@ export const resumeCanvases = pages => {
         if (i === 0) return obj
         if (obj.type === 'image') {
           let srcs = obj.src.split('/')
-          console.log('this ran')
-          console.log(srcs)
           let src = `%IMG_URL%/images/${srcs[srcs.length - 1]}`
-          console.log(src)
           if (src.startsWith('%WINDOW_URL%')) {
             src = src.replace('%WINDOW_URL%', `https://${window.location.host}`)
           }
-          console.log(src)
           return {
             ...obj,
             src

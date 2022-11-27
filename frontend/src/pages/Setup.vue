@@ -117,7 +117,6 @@ const updateSettings = updates => {
     ...settings.value,
     ...updates
   }
-  console.log(settings.value)
 }
 const doLater = () => {
   axios.post('%BASE_URL%/setup', { status: 'later' })

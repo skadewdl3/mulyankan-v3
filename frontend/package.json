@@ -16,6 +16,7 @@
     "jspdf": "^2.5.1",
     "lodash.throttle": "^4.1.1",
     "marked": "^4.2.2",
+    "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^3.0.279",
     "stylus": "^0.59.0",
     "stylus-loader": "^7.1.0",

@@ -112,13 +112,15 @@ watch(canvas, () => {
 
   // Get the width of the users screen and set the canvas width accordingly
   const pageWidth = document.querySelector('.canvases').offsetWidth
+  const pageHeight = document.querySelector('.canvases').offsetHeight
 
   // Create the canvas using fabric js
   let fcanvas = createCanvas(
     `${store.state.projectID}-${props.index}`,
-    props.id ? props.id : `${store.state.projectID}-${props.index}`,
+    props.id ? props.id : `${store.state.projectID}-${props.index + 1}`,
     props.src,
     pageWidth,
+    store,
     store.state.zoom
   )
 

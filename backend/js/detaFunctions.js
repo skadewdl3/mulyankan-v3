@@ -16,7 +16,6 @@ const generateValidID = async (drive, setID) => {
 }
 
 const uploadPDF = async (drive, base, { name, data }) => {
-  console.log(name)
   let id = ''
   let setID = x => (id = x)
   await generateValidID(drive, setID)
@@ -40,7 +39,6 @@ const getProject = async (drive, base, id) => {
 }
 
 const deleteProject = async (drive, base, id) => {
-  console.log(id)
   await base.delete(id).catch(err => {
     return { type: 'error', message: err }
   })
@@ -51,9 +49,23 @@ const deleteProject = async (drive, base, id) => {
   return { type: 'delete', message: `Project deleted.` }
 }
 
+const downloadPDF = async (drive, id) => {
+  try {
+    let res = await drive.get(`${id}.pdf`)
+    let buffer = Buffer.from(await res.arrayBuffer())
+    return buffer
+  } catch (err) {
+    console.log(err)
+    return {
+      err
+    }
+  }
+}
+
 module.exports = {
   updatePDF,
   uploadPDF,
   getProject,
-  deleteProject
+  deleteProject,
+  downloadPDF
 }

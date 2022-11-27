@@ -1,6 +1,8 @@
 // Called if the PDF has more than 5 pages
 // Loads PDF pages past 5 in the background while showing the first 5
 
+import { toRaw } from 'vue'
+
 //now = 5
 
 const lazyLoadPDF = async (store, { doc, now, projectID }) => {
@@ -72,9 +74,11 @@ const deleteFromClipboard = (store, index) => {
 }
 
 const addPreprocessInstruction = (store, instruction) => {
-  let newInstructions = [...store.state.preprocessInstructions, instruction]
+  let newInstructions = [
+    ...toRaw(store.state.preprocessInstructions),
+    instruction
+  ]
   store.commit('setPreprocessInstructions', newInstructions)
-  console.log(store.state.preprocessInstructions)
 }
 
 export default {
