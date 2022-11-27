@@ -13,13 +13,14 @@ const { Deta } = require('deta')
 const { projectKey: defaultProjectKey } = require('./js/credentials')
 const { getDocs, docsStructure } = require('./js/docs')
 const { languages, getTranslations } = require('./js/translations')
-const { getSymbols } = require('./js/pdfFunctions')
+const { getSymbols, getFonts } = require('./js/pdfFunctions')
 
 let projectKey = process.env.DETA_PROJECT_KEY || defaultProjectKey
 
 let docs = getDocs()
 let translations = getTranslations()
 let symbols = getSymbols()
+let fonts = getFonts()
 
 const deta = Deta(projectKey)
 
@@ -178,6 +179,10 @@ app.post('/download', async (req, res) => {
 })
 
 app.post('/symbol', (req, res) => {
+  let id = req.body.id
+  res.json(symbols[id])
+})
+app.post('/font', (req, res) => {
   let id = req.body.id
   res.json(symbols[id])
 })

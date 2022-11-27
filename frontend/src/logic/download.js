@@ -332,26 +332,50 @@ const addText = async (objects, backgroundImages, doc) => {
             color: rgb(r, g, b)
           })
         })
+      } else if (reducedRotation === 90) {
+        texts.forEach(async text => {
+          let scaleX = page.getWidth() / (bg.height * bg.scaleY)
+          let scaleY = page.getHeight() / (bg.width * bg.scaleX)
+          console.log(scaleX, scaleY)
+          let textWidth = text.width * text.scaleX * scaleX
+          let textHeight = text.height * text.scaleY * scaleY
+          let lineHeight =
+            text.fontSize * text.lineHeight * scaleY * text.scaleY
+          // let xCoord = text.left * scaleX
+          let xCoord = text.top * scaleY + 0.9 * lineHeight
+          let yCoord = text.left * scaleX
+          // IDK where the 0.785 came from. I pulled it out of my ass so it aligns properly.
+          // let yCoord = page.getHeight() - text.top * scaleY - 0.785 * lineHeight
+          let font = fonts[text.fontFamily]
+          let { r, g, b } = hexToRgb(text.fill)
+          r = r / 255
+          g = g / 255
+          b = b / 255
+
+          /*
+          img.left -> bg.width * scaleX
+          xcoord -> pageWidth
+
+          img.width * img.scaleX -> bg.width * scaleX
+          width -> pageWidth
+
+          img.width * img.scaleX / scaleX
+          */
+          page.drawText(text.text, {
+            width: textWidth,
+            height: textHeight,
+            lineHeight,
+            maxWidth: textWidth,
+            size: text.fontSize * scaleY * text.scaleY,
+            x: xCoord,
+            y: yCoord,
+            font,
+            rotate: degrees(90),
+            color: rgb(r, g, b)
+          })
+        })
       }
-      //  else if (reducedRotation === 90) {
-      //   imgs.forEach(async img => {
-      //     let id = img.src.split('/').slice(-1)[0].split('.')[0]
-      //     let pdfImg = await doc.embedPng(symbols[id])
-      //     let scaleY = page.getHeight() / (bg.width * bg.scaleX)
-      //     let scaleX = page.getWidth() / (bg.height * bg.scaleY)
-      //     let imgWidth = img.width * img.scaleX * scaleX
-      //     let imgHeight = img.height * img.scaleY * scaleY
-      //     let xCoord = img.top * scaleY + imgHeight
-      //     let yCoord = img.left * scaleX
-      //     page.drawImage(pdfImg, {
-      //       width: imgWidth,
-      //       height: imgHeight,
-      //       x: xCoord,
-      //       y: yCoord,
-      //       rotate: degrees(90)
-      //     })
-      //   })
-      // } else if (reducedRotation === 180) {
+      // else if (reducedRotation === 180) {
       //   imgs.forEach(async img => {
       //     let id = img.src.split('/').slice(-1)[0].split('.')[0]
       //     let pdfImg = await doc.embedPng(symbols[id])
