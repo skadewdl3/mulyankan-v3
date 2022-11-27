@@ -24,13 +24,21 @@ watch(
 <template>
   <Setup />
   <Menu />
-  <PreprocessControls
-    v-if="store.state.controlMode === 'preprocess' && store.state.showControls"
-  />
-  <EditorControls
-    v-if="store.state.controlMode === 'editor' && store.state.showControls"
-  />
-  <router-view :setShowControls="setShowControls"></router-view>
+  <Suspense>
+    <PreprocessControls
+      v-if="
+        store.state.controlMode === 'preprocess' && store.state.showControls
+      "
+    />
+  </Suspense>
+  <Suspense>
+    <EditorControls
+      v-if="store.state.controlMode === 'editor' && store.state.showControls"
+    />
+  </Suspense>
+  <Suspense>
+    <router-view :setShowControls="setShowControls"></router-view>
+  </Suspense>
 </template>
 
 <style lang="stylus" scoped></style>

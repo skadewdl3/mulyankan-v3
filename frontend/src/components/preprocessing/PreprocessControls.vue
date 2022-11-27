@@ -2,8 +2,8 @@
 import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { rotateCanvas } from '@/logic/canvasTransforms'
 import mulyankanLogo from './../../assets/images/logo.png'
+const { rotateCanvas } = await import('@/logic/canvasTransforms')
 const store = useStore()
 const router = useRouter()
 

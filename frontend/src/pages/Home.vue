@@ -4,15 +4,16 @@ import mulyankanLogo from './../assets/images/logo-text.png'
 import { ref, onMounted, watch, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import {
+import axios from 'axios'
+const {
   pdfToBinaryString,
   pdfBinaryToImages,
   bufferToArrayBuffer,
   binaryStringToJSON
-} from '@/logic/pdfFunctions'
-import { savePDF } from '@/logic/pdfFunctions'
-import axios from 'axios'
-import { resumeCanvases } from '@/logic/canvasFunctions'
+} = await import('@/logic/pdfFunctions')
+// import { savePDF } from '@/logic/pdfFunctions'
+const { savePDF } = await import('@/logic/pdfFunctions')
+const { resumeCanvases } = await import('@/logic/canvasFunctions')
 const store = useStore()
 const router = useRouter()
 

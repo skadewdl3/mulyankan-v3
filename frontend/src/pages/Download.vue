@@ -3,11 +3,14 @@ import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { downloadPDF } from '@/logic/pdfFunctions'
-import {
-  executePreprocessing,
-  executeEditing,
-  retrieveDocument
-} from '@/logic/download'
+// import {
+//   executePreprocessing,
+//   executeEditing,
+//   retrieveDocument
+// } from '@/logic/download'
+const { retrieveDocument, executeEditing, executePreprocessing } = await import(
+  '@/logic/download'
+)
 const router = useRouter()
 const store = useStore()
 

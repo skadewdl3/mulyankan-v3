@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
-import { getFilter } from '@/logic/colorCalculator'
+const { getFilter } = await import('@/logic/colorCalculator')
 const store = useStore()
 
 const generateDisplayConfig = arr => {

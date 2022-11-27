@@ -2,12 +2,14 @@
 import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { updateSavedPDF } from '@/logic/pdfFunctions'
 import mulyankanLogo from './../../assets/images/logo.png'
-
 import MarkingTab from '@/components/editor/tabs/MarkingTab.vue'
-// import MathTab from '@/components/editor/tabs/MathTab.vue'
 import ClipboardTab from '@/components/editor/tabs/ClipboardTab.vue'
+const { updateSavedPDF } = await import('@/logic/pdfFunctions')
+
+// const MarkingTab = import('@/components/editor/tabs/MarkingTab.vue')
+// import MathTab from '@/components/editor/tabs/MathTab.vue'
+// const ClipboardTab = import('@/components/editor/tabs/ClipboardTab.vue')
 
 const store = useStore()
 const router = useRouter()

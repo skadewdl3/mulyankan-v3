@@ -2,8 +2,8 @@
 import { defineProps, watch, ref } from 'vue'
 import { createCanvas } from '@/logic/canvasFunctions'
 import { useStore } from 'vuex'
-import { resizeCanvas, rotateCanvas } from '@/logic/canvasTransforms'
-import { del, switchPlaces } from '@/logic/preprocessInstructions'
+const { resizeCanvas, rotateCanvas } = await import('@/logic/canvasTransforms')
+const { del, switchPlaces } = await import('@/logic/preprocessInstructions')
 const store = useStore()
 
 const canvas = ref(null)

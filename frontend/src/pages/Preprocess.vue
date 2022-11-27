@@ -36,6 +36,7 @@ watch(
   () => store.state.imageSources,
   () => {
     if (store.state.imageSources.length === store.state.numPages) {
+      console.log(store.state.imageSources)
       store.commit('forceRefresh')
     }
   }
@@ -56,14 +57,18 @@ onUnmounted(() => {
 
 <template>
   <div class="preprocess">
-    <div class="canvases" ref="canvasContainer">
+    <div
+      class="canvases"
+      ref="canvasContainer"
+      :key="store.state.forceRefreshKey"
+    >
       <PreprocessCanvas
         v-for="(data, index) in store.state.imageSources"
         :index="index"
         :src="data.src"
         :id="data.id"
         :pageWidth="pageWidth"
-        :key="`${data.id}-${data.src}-${store.state.forceRefreshKey}`"
+        :key="`${data.id}-${data.src}`"
       />
     </div>
   </div>
