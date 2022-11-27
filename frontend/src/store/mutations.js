@@ -1,4 +1,4 @@
-const roundOff = (num, scale) => {
+export const roundOff = (num, scale) => {
   if (!('' + num).includes('e')) {
     return +(Math.round(num + 'e+' + scale) + 'e-' + scale)
   } else {
@@ -96,6 +96,10 @@ const setDefaultSettings = (state, val) => {
   state.defaultSettings = val
 }
 
+const setScaleFactor = (state, val) => {
+  state.scaleFactor = val
+}
+
 export default {
   setImageSources,
   setImages,
@@ -115,5 +119,6 @@ export default {
   setPreprocessInstructions,
   setProjectID,
   setNumPages,
-  setDefaultSettings
+  setDefaultSettings,
+  setScaleFactor
 }

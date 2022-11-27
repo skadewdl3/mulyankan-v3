@@ -3,6 +3,11 @@ import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { downloadPDF } from '@/logic/pdfFunctions'
+import {
+  executePreprocessing,
+  executeEditing,
+  retrieveDocument
+} from '@/logic/download'
 const router = useRouter()
 const store = useStore()
 
@@ -31,6 +36,20 @@ const download = () => {
   store.commit('resetZoom')
 }
 
+const getProgress = () => {
+  return progress.value
+}
+
+const deliver = async () => {
+  let doc = await retrieveDocument(updateProgress)
+  let preprocessedDoc = await executePreprocessing(
+    doc,
+    updateProgress,
+    getProgress
+  )
+  let editedDoc = await executeEditing(preprocessedDoc, updateProgress)
+}
+
 onMounted(() => {
   if (store.state.images.length === 0) {
     router.push('/')
@@ -45,9 +64,11 @@ onMounted(() => {
       <span>Mulyankan</span>
     </div>
     <div class="title">{{ $t('Download.title') }}</div>
-    <button class="file-download-btn" @click="download">
+    <!-- <button class="file-download-btn" @click="download">
       {{ $t('Download.download') }}
-    </button>
+    </button> -->
+
+    <button class="file-download-btn" @click="deliver">Deliver</button>
 
     <div class="progress" v-if="progress > 0">Progress: {{ progress }}%</div>
   </div>

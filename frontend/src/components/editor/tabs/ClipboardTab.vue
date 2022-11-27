@@ -10,11 +10,9 @@ const generateDisplayConfig = arr => {
     let type = obj.type
     if (type === 'image') {
       let src = `%IMG_URL%/images/${obj.id}.svg`
-      console.log(src)
       if (src.startsWith('%WINDOW_URL%')) {
         src = src.replace('%WINDOW_URL%', `https://${window.location.host}`)
       }
-      console.log(src)
       config = {
         type: 'image',
         filter: getFilter(obj.imgColor),

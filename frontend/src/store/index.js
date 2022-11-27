@@ -41,7 +41,8 @@ export const store = createStore({
       defaultSettings: {
         locale: 'en',
         color: '#ff0000'
-      }
+      },
+      scaleFactor: null
     }
   },
   mutations,

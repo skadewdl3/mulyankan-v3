@@ -23,10 +23,19 @@ const pageWidth = ref(canvasContainer.value?.offsetWidth)
 
 // window.addEventListener('resize', updatePageWidth)
 
+// watch(
+//   () => store.state.imageSources,
+//   () => {
+//     if (store.state.imageSources.length === store.state.images.length) {
+//       store.commit('forceRefresh')
+//     }
+//   }
+// )
+
 watch(
   () => store.state.imageSources,
   () => {
-    if (store.state.imageSources.length === store.state.images.length) {
+    if (store.state.imageSources.length === store.state.numPages) {
       store.commit('forceRefresh')
     }
   }

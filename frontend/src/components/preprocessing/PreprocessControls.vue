@@ -10,9 +10,9 @@ const router = useRouter()
 const controlsInactive = ref(true)
 
 watch(
-  () => store.state.images,
+  () => store.state.imageSources,
   () => {
-    if (store.state.images.length === store.state.numPages) {
+    if (store.state.imageSources.length === store.state.numPages) {
       controlsInactive.value = false
     } else {
       controlsInactive.value = true
