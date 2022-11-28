@@ -1,89 +1,10 @@
-import { PDFDocument, degrees, rgb } from 'pdf-lib'
-import { store } from '@/store/index'
-import { toRaw } from 'vue'
-import axios from 'axios'
-import { bufferToArrayBuffer, binaryStringToBase64 } from '@/logic/pdfFunctions'
-import { roundOff } from '@/store/mutations'
 import fontKit from '@pdf-lib/fontkit'
-import { hexToRgb } from './colorCalculator'
-
-const downloadURI = (uri, name) => {
-  var link = document.createElement('a')
-  link.download = name
-  link.href = uri
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-}
-
-export const retrieveDocument = async updateProgress => {
-  updateProgress(1)
-  let { data: buffer } = await axios.post('%BASE_URL%/download', {
-    id: store.state.projectID
-  })
-  let arrayBuffer = bufferToArrayBuffer(buffer.data)
-  let doc = await PDFDocument.load(arrayBuffer)
-  updateProgress(5)
-  return doc
-}
-
-export const executePreprocessing = async (doc, updateProgress) => {
-  let instructions = [...toRaw(store.state.preprocessInstructions)]
-
-  let deletions = instructions.reduce((acc, instruction) => {
-    if (instruction.type === 'delete') {
-      let id = instruction.id
-      let deleteIndex = parseInt(id.split('-').slice(-1)[0] - 1)
-      acc.push(deleteIndex)
-    }
-    return acc
-  }, [])
-  let rotations = instructions.reduce((acc, instruction) => {
-    if (instruction.type === 'rotate' && !deletions.includes(instruction.id)) {
-      acc.push({
-        angle: instruction.angle,
-        rotateIndex: parseInt(instruction.id.split('-').slice(-1)[0] - 1)
-      })
-    }
-    return acc
-  }, [])
-  let switches = instructions.reduce((acc, instruction) => {
-    if (
-      instruction.type === 'switch' &&
-      instruction.switch.reduce((a, c) => {
-        a = a && !deletions.includes(c.id)
-        return a
-      }, true)
-    ) {
-      let firstID = instruction.switch[0]
-      let secondID = instruction.switch[1]
-
-      let firstSwitchIndex = parseInt(firstID.split('-').slice(-1)[0] - 1)
-      let secondSwitchIndex = parseInt(secondID.split('-').slice(-1)[0] - 1)
-      acc.push([firstSwitchIndex, secondSwitchIndex])
-    }
-    return acc
-  }, [])
-  deletions.forEach((deleteIndex, i) => {
-    doc.removePage(deleteIndex)
-  })
-  updateProgress(20)
-  rotations.forEach(async ({ angle, rotateIndex }) => {
-    updateProgress(20)
-    let page = await doc.getPage(rotateIndex)
-    page.setRotation(degrees(page.getRotation().angle + angle))
-  })
-  updateProgress(35)
-  let pages = await doc.getPages()
-  switches.forEach(async ([firstIndex, secondIndex], i) => {
-    doc.removePage(firstIndex)
-    doc.insertPage(firstIndex, pages[secondIndex])
-    doc.removePage(secondIndex)
-    doc.insertPage(secondIndex, pages[firstIndex])
-  })
-  updateProgress(50)
-  return doc
-}
+import { degrees, rgb } from 'pdf-lib'
+import { getReducedAngle } from '../helpers'
+import { toRaw } from 'vue'
+import { store } from '@/store/index'
+import { roundOff } from '../helpers'
+import { downloadURI } from '../helpers'
 
 export const executeEditing = async (doc, updateProgress) => {
   doc.registerFontkit(fontKit)
@@ -117,29 +38,6 @@ export const executeEditing = async (doc, updateProgress) => {
   let dataurl = await newDoc.saveAsBase64({ dataUri: true })
   downloadURI(dataurl, 'test.pdf')
   return doc
-}
-
-const getReducedAngle = rotation => {
-  /*
-  This function is used to reduce any angle from 0 - Infinity to the principal range of 0 - 360 degrees
-  sin 0 = 0   cos0 = 1 (Note that 360 deg is equivalent to 0 deg)
-  sin 90 = 1  cos90 = 0
-  sin 180 = 0 cos180 = -1
-  sin 270 = -1 cos270 = 0
-  */
-
-  const toRadians = angle => angle * (Math.PI / 180)
-  const sine = angle => roundOff(Math.sin(toRadians(angle)), 1)
-  const cosine = angle => roundOff(Math.cos(toRadians(angle)), 1)
-  if (sine(rotation) === 0 && cosine(rotation) === 1) {
-    return 0
-  } else if (sine(rotation) === 1 && cosine(rotation) === 0) {
-    return 90
-  } else if (sine(rotation) === 0 && cosine(rotation) === -1) {
-    return 180
-  } else if (sine(rotation) === -1 && cosine(rotation) === 0) {
-    return 270
-  }
 }
 
 const addSymbols = async (objects, backgroundImages, doc) => {

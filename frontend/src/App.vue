@@ -22,7 +22,6 @@ watch(
 </script>
 
 <template>
-  <Setup />
   <Menu />
   <Suspense>
     <PreprocessControls

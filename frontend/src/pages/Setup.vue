@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import axios from 'axios'
-import { changeLanguage } from '@/logic/translator'
+const { changeLanguage } = await import('@/logic/translator')
 
 const setupStage = ref(0)
 const store = useStore()

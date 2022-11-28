@@ -19,8 +19,6 @@ let projectKey = process.env.DETA_PROJECT_KEY || defaultProjectKey
 
 let docs = getDocs()
 let translations = getTranslations()
-let symbols = getSymbols()
-let fonts = getFonts()
 
 const deta = Deta(projectKey)
 
@@ -63,7 +61,9 @@ app.get('/getproject/:id', async (req, res) => {
   let drive = deta.Drive('test')
 
   let id = req.params.id
+  console.log(id)
   let r = await getProject(drive, base, id)
+  console.log(r)
   res.json(r)
 })
 
@@ -176,15 +176,6 @@ app.post('/download', async (req, res) => {
   let drive = deta.Drive('test')
   let pdfBuffer = await downloadPDF(drive, id)
   res.json(pdfBuffer)
-})
-
-app.post('/symbol', (req, res) => {
-  let id = req.body.id
-  res.json(symbols[id])
-})
-app.post('/font', (req, res) => {
-  let id = req.body.id
-  res.json(symbols[id])
 })
 
 const port = process.env.PORT || 8080

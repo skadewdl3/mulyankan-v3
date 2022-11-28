@@ -2,15 +2,14 @@
 import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { downloadPDF } from '@/logic/pdfFunctions'
 // import {
 //   executePreprocessing,
 //   executeEditing,
 //   retrieveDocument
 // } from '@/logic/download'
-const { retrieveDocument, executeEditing, executePreprocessing } = await import(
-  '@/logic/download'
-)
+const { retrieveDocument } = await import('@/logic/download/retrieveDocument')
+const { executePreprocessing } = await import('@/logic/download/preprocess')
+const { executeEditing } = await import('@/logic/download/edit')
 const router = useRouter()
 const store = useStore()
 
@@ -27,16 +26,6 @@ const updateProgress = val => {
       progress.value = 0
     }, 1000)
   }
-}
-
-const download = () => {
-  store.commit('maxZoom')
-  downloadPDF(
-    store.state.images,
-    updateProgress,
-    store.state.preprocessInstructions
-  )
-  store.commit('resetZoom')
 }
 
 const getProgress = () => {

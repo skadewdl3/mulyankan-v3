@@ -4,6 +4,7 @@ import mulyankanLogo from './../assets/images/logo-text.png'
 import { ref, onMounted, watch, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import Setup from '@/pages/Setup.vue'
 import axios from 'axios'
 const {
   pdfToBinaryString,
@@ -154,6 +155,9 @@ watch(nav, () => {
 
 <template>
   <div class="home">
+    <Suspense>
+      <Setup />
+    </Suspense>
     <div ref="nav" class="nav">
       <div class="nav-left">
         <div class="logo">
