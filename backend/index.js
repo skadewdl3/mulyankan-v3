@@ -13,7 +13,6 @@ const { Deta } = require('deta')
 const { projectKey: defaultProjectKey } = require('./js/credentials')
 const { getDocs, docsStructure } = require('./js/docs')
 const { languages, getTranslations } = require('./js/translations')
-const { getSymbols, getFonts } = require('./js/pdfFunctions')
 
 let projectKey = process.env.DETA_PROJECT_KEY || defaultProjectKey
 
