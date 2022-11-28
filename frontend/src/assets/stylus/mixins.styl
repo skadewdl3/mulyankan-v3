@@ -1,0 +1,60 @@
+mobile()
+  @media (max-width: 640px)
+    {block}
+
+tablet()
+  @media (max-width: 800px)
+    {block}
+
+desktop()
+  @media (max-width: 1200px)
+    {block}
+
+atMobile()
+  @media (min-width: 640px)
+    {block}
+
+atTablet()
+  @media (min-width: 800px)
+    {block}
+
+atDesktop()
+  @media (min-width: 1200px)
+    {block}
+
+// Used on most pages to set padding of root element
+container()
+  width 100%
+  min-height 100vh
+  height 100%
+  +mobile()
+    padding 2rem 1rem
+  +atMobile()
+    padding 2rem 5rem
+  +atTablet()
+    padding 4rem 8rem
+  +atDesktop()
+    padding 4rem 15rem
+
+  .logo
+    font-family megrim
+    font-size 2.5rem
+    font-weight bold
+    color primary
+    display flex
+    align-items center
+    img
+      height 3rem
+
+  .title
+    font-size 4rem
+    font-weight 700
+
+  .back
+    font-size 1.5rem
+    color #000
+    margin-right 1rem
+    cursor pointer
+    transition all .2s ease-in-out
+    &:hover
+      color primary

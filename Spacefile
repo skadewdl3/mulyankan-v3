@@ -1,0 +1,21 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+icon: ./logo.png
+app_name: "Mulyankan"
+micros:
+    - name: frontend
+      src: frontend
+      engine: vue
+      primary: true
+
+    - name: backend
+      src: backend
+      engine: nodejs16
+      primary: false
+      run: "node index.js"
+      path: api
+      presets:
+        env:
+          - name: NODE_ENV
+            description: Sets the nodejs environment to production
+            default: production

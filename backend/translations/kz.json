@@ -1,0 +1,53 @@
+{
+  "Home": {
+    "projectsTitle": "Сіздің жобаларыңыз",
+    "upload": "Жүктеп алу",
+    "confused": "Сұрақтар ?",
+    "docs": "Құжаттама",
+    "customisation": "Баптау ?",
+    "settings": "Параметрлер",
+    "noProjects": "Жобалар табылмады. Бастау үшін PDF файлын жүктеп алыңыз",
+    "loadingProjects": "Жобаларды жүктеп салу"
+  },
+  "Preprocess": {
+    "preprocess": "Алдын ала өңдеу",
+    "editor": "Өңдеу",
+    "zoomIn": "Масштабтау",
+    "zoomOut": "Алыстау",
+    "resetZoom": "Стандартты үлкейту",
+    "rotateAllRight": "Оңға бұру",
+    "rotateAllLeft": "Солға бұру"
+  },
+  "Editor": {
+    "editor": "Редактор",
+    "marking": "Белгілер",
+    "clipboard": "Айырбас буфері",
+    "math": "Математика",
+    "resetZoom": "Стандартты үлкейту",
+    "zoomIn": "Масштабтау",
+    "zoomOut": "Алыстау",
+    "saveToCloud": "Бұлтқа сақтаңыз",
+    "download": "Жүктеп алу"
+  },
+  "MarkingTab": {
+    "textbox": "Мәтін блогы",
+    "markbox": "Ескертпе блогы",
+    "quickMarkingSection": "Бағалау",
+    "textSection": "Мәтін",
+    "fontSection": "Қаріп",
+    "symbolsSection": "Рәміздер",
+    "colorsSection": "Түстер"
+  },
+  "ClipboardTab": {
+    "empty": "Алмасу буфері бос. Бір нәрсені көшіргенде, ол осы жерде көрсетіледі."
+  },
+
+  "Download": {
+    "title": "Жүктеп алу",
+    "download": "Жүктеп алу"
+  },
+  "Settings": {
+    "title": "Параметрлер",
+    "changeLanguage": "Тіл параметрлерін өзгерту"
+  }
+}

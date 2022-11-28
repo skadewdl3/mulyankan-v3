@@ -1,0 +1,42 @@
+/* Importing fonts - Poppins and Megrim */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Dancing+Script:wght@400;700&family=Megrim&family=Poppins:wght@100;300;400;500;700&family=Source+Serif+Pro:wght@400;700&display=swap');
+
+/* Universal CSS Reset to ensure consistency across all browsers */
+* {
+  padding: 0;
+  border: 0;
+  margin: 0;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* Sets 1rem = 10px */
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Styles for the documentation */
+
+.doc p {
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.doc h1 {
+  font-size: 3rem;
+  font-weight: 400;
+}
+
+.doc h2 {
+  font-size: 2.5rem;
+  font-weight: 400;
+}
+
+.doc h3 {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
