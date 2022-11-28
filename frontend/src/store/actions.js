@@ -2,6 +2,7 @@
 // Loads PDF pages past 5 in the background while showing the first 5
 
 import { toRaw } from 'vue'
+import { isNumber } from '@/helpers/miscellaneous'
 
 //now = 5
 
@@ -23,19 +24,6 @@ const lazyLoadPDF = async (store, { doc, now, projectID }) => {
       }
     ])
   }
-}
-
-/*
-isNumber code courtesy of: Dan
-Stackoverflow Post: https://stackoverflow.com/questions/175739/how-can-i-check-if-a-string-is-a-valid-number
-Dan's Profile: https://stackoverflow.com/users/17121/dan
-*/
-export const isNumber = str => {
-  // we only process strings!
-  if (typeof str != 'string') return false
-  // use type coercion to parse the entirety of the string (parseFloat alone does not do this)
-  // and ensure strings of whitespace fail
-  return !isNaN(str) && !isNaN(parseFloat(str))
 }
 
 // Update the marks on the canvas when any markbox changes

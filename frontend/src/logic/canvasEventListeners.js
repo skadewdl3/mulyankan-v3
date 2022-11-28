@@ -29,7 +29,7 @@ const addImage = (fcanvas, id, coords, zoom, { color }) => {
   // Create a fabric image from the source in assets folder
 
   fabric.Image.fromURL(
-    `/images/${id}.svg`,
+    `%BASE_URL%/svgs/${id}.svg`,
     img => {
       // Scale the image according to zoom level
       let scaleFactorX = (defaultImageConfig.width / img.width) * zoom

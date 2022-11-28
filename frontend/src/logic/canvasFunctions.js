@@ -7,7 +7,7 @@ import {
   dropEventListener,
   textChangeEventListener
 } from './canvasEventListeners'
-import { roundOff } from '../store/mutations'
+import { roundOff } from '@/helpers/miscellaneous'
 
 const backgroundImageConfig = {
   evented: false, // Prevents events from being fired on the background image
@@ -167,10 +167,8 @@ export const resumeCanvases = pages => {
         if (i === 0) return obj
         if (obj.type === 'image') {
           let srcs = obj.src.split('/')
-          let src = `%IMG_URL%/images/${srcs[srcs.length - 1]}`
-          if (src.startsWith('%WINDOW_URL%')) {
-            src = src.replace('%WINDOW_URL%', `https://${window.location.host}`)
-          }
+          let src = `%BASE_URL%/svgs/${srcs[srcs.length - 1]}`
+          console.log(src)
           return {
             ...obj,
             src

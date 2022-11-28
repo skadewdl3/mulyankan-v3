@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
-const { getFilter } = await import('@/logic/colorCalculator')
+const { getFilter } = await import('@/helpers/color')
 const store = useStore()
 
 const generateDisplayConfig = arr => {
@@ -9,10 +9,7 @@ const generateDisplayConfig = arr => {
     let config = {}
     let type = obj.type
     if (type === 'image') {
-      let src = `%IMG_URL%/images/${obj.id}.svg`
-      if (src.startsWith('%WINDOW_URL%')) {
-        src = src.replace('%WINDOW_URL%', `https://${window.location.host}`)
-      }
+      let src = `%BASE_URL%/svgs/${obj.id}.svg`
       config = {
         type: 'image',
         filter: getFilter(obj.imgColor),

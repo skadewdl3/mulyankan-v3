@@ -10,7 +10,7 @@ import DoubleUnderlineSymbol from './../../../assets/images/double-underline.svg
 import TextboxIcon from './../../../assets/images/textbox.svg'
 import MarkboxIcon from './../../../assets/images/markbox.svg'
 
-const { getFilter } = await import('@/logic/colorCalculator')
+const { getFilter } = await import('@/helpers/color')
 const { isNumber } = await import('@/store/actions')
 
 const store = useStore()
