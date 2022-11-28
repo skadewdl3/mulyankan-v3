@@ -1,0 +1,123 @@
+
+Validating Spacefile...
+
+[1m✓[0m Icon
+[1m✓[0m Micro "frontend"
+[1m✓[0m Micro "backend"
+                                                      
+Your Spacefile looks good, proceeding with your push!!
+                                                      
+failed to get console mode for stdout: The handle is invalid.
+failed to get console mode for stderr: The handle is invalid.
+[?25l⣽  Working on starting your build...
+[0D[1A[0D[2K⣻  Working on starting your build...
+[0D[1A[0D[2K⢿  Working on starting your build...
+[0D[1A[0D[2K⡿  Working on starting your build...
+[0D[1A[0D[2K⣟  Working on starting your build...
+[0D[1A[0D[2K⣯  Working on starting your build...
+[0D[1A[0D[2K[1m✓[0m Successfully started your build!
+[0D[2K[?25h[?1002l[?1003lfailed to get console mode for stdout: The handle is invalid.
+failed to get console mode for stderr: The handle is invalid.
+[?25l⣽  Pushing your spacefile...
+[0D[1A[0D[2K⣻  Pushing your spacefile...
+[0D[1A[0D[2K[1m✓[0m Successfully pushed your Spacefile!
+[0D[2K[?25h[?1002l[?1003lfailed to get console mode for stdout: The handle is invalid.
+failed to get console mode for stderr: The handle is invalid.
+[?25l⣽  Pushing your icon...
+[0D[1A[0D[2K⣻  Pushing your icon...
+[0D[1A[0D[2K⢿  Pushing your icon...
+[0D[1A[0D[2K⡿  Pushing your icon...
+[0D[1A[0D[2K[1m✓[0m Successfully pushed your icon!
+[0D[2K[?25h[?1002l[?1003lfailed to get console mode for stdout: The handle is invalid.
+failed to get console mode for stderr: The handle is invalid.
+[?25l⣽  Pushing your Discovery file...
+[0D[1A[0D[2K⣻  Pushing your Discovery file...
+[0D[1A[0D[2K[1m✓[0m Successfully pushed your Discovery file!
+[0D[2K[?25h[?1002l[?1003l[1m~[0m Pushing your code & running build process...
+
+2022/11/28 14:44:57 Parsing Spacefile...
+2022/11/28 14:44:57 Scanned micros:
+2022/11/28 14:44:57 └ frontend
+2022/11/28 14:44:57 └ backend
+2022/11/28 14:44:57 Packaging code for micros...
+2022/11/28 14:44:57 [backend] installing deps
+2022/11/28 14:44:57 [frontend] installing deps
+2022/11/28 14:45:11 [backend] running command: npm install
+2022/11/28 14:45:11 [backend] 
+2022/11/28 14:45:11 [backend] added 105 packages, and audited 106 packages in 10s
+2022/11/28 14:45:11 [backend] 
+2022/11/28 14:45:11 [backend] 10 packages are looking for funding
+2022/11/28 14:45:11 [backend]   run `npm fund` for details
+2022/11/28 14:45:11 [backend] 
+2022/11/28 14:45:11 [backend] found 0 vulnerabilities
+2022/11/28 14:45:11 [backend] npm notice 
+2022/11/28 14:45:11 [backend] npm notice New major version of npm available! 8.15.0 -> 9.1.2
+2022/11/28 14:45:11 [backend] npm notice Changelog: <https://github.com/npm/cli/releases/tag/v9.1.2>
+2022/11/28 14:45:11 [backend] npm notice Run `npm install -g npm@9.1.2` to update!
+2022/11/28 14:45:11 [backend] npm notice 
+2022/11/28 14:45:11 [backend] pruning dev deps
+2022/11/28 14:45:15 [backend] running command: npm prune --production --force
+2022/11/28 14:45:15 [backend] npm WARN config production Use `--omit=dev` instead.
+2022/11/28 14:45:15 [backend] npm WARN using --force Recommended protections disabled.
+2022/11/28 14:45:15 [backend] 
+2022/11/28 14:45:15 [backend] up to date, audited 106 packages in 4s
+2022/11/28 14:45:15 [backend] 
+2022/11/28 14:45:15 [backend] 10 packages are looking for funding
+2022/11/28 14:45:15 [backend]   run `npm fund` for details
+2022/11/28 14:45:15 [backend] 
+2022/11/28 14:45:15 [backend] found 0 vulnerabilities
+2022/11/28 14:45:15 [backend] zipping code package
+2022/11/28 14:45:20 [backend] ingesting entry files
+2022/11/28 14:45:33 [frontend] running command: npm install
+2022/11/28 14:45:33 [frontend] npm WARN deprecated w3c-hr-time@1.0.2: Use your platform's native performance.now() and performance.timeOrigin.
+2022/11/28 14:45:33 [frontend] 
+2022/11/28 14:45:33 [frontend] added 292 packages, and audited 293 packages in 32s
+2022/11/28 14:45:33 [frontend] 
+2022/11/28 14:45:33 [frontend] 26 packages are looking for funding
+2022/11/28 14:45:33 [frontend]   run `npm fund` for details
+2022/11/28 14:45:33 [frontend] 
+2022/11/28 14:45:33 [frontend] found 0 vulnerabilities
+2022/11/28 14:45:33 [frontend] npm notice 
+2022/11/28 14:45:33 [frontend] npm notice New major version of npm available! 8.15.0 -> 9.1.2
+2022/11/28 14:45:33 [frontend] npm notice Changelog: <https://github.com/npm/cli/releases/tag/v9.1.2>
+2022/11/28 14:45:33 [frontend] npm notice Run `npm install -g npm@9.1.2` to update!
+2022/11/28 14:45:33 [frontend] npm notice 
+2022/11/28 14:45:33 [frontend] running commands
+2022/11/28 14:46:04 [frontend] running command: /bin/bash -c node --max-old-space-size=8000 $(which npm) run build
+2022/11/28 14:46:04 [frontend] 
+2022/11/28 14:46:04 [frontend] > mulyankan-v3-vue@0.0.0 build
+2022/11/28 14:46:04 [frontend] > vite build
+2022/11/28 14:46:04 [frontend] 
+2022/11/28 14:46:04 [frontend] vite v3.2.3 building for production...
+2022/11/28 14:46:04 [frontend] transforming...
+2022/11/28 14:46:04 [frontend] Use of eval is strongly discouraged, as it poses security risks and may cause issues with minification
+2022/11/28 14:46:04 [frontend] 
+2022/11/28 14:46:04 [frontend] <--- Last few GCs --->
+2022/11/28 14:46:04 [frontend] 
+2022/11/28 14:46:04 [frontend] [89:0x4ebb730]    28376 ms: Mark-sweep 488.0 (506.1) -> 484.1 (506.1) MB, 993.1 / 0.0 ms  (average mu = 0.164, current mu = 0.100) allocation failure scavenge might not succeed
+2022/11/28 14:46:04 [frontend] [89:0x4ebb730]    29400 ms: Mark-sweep 488.2 (506.1) -> 484.2 (506.1) MB, 996.7 / 0.0 ms  (average mu = 0.099, current mu = 0.027) allocation failure scavenge might not succeed
+2022/11/28 14:46:04 [frontend] 
+2022/11/28 14:46:04 [frontend] 
+2022/11/28 14:46:04 [frontend] <--- JS stacktrace --->
+2022/11/28 14:46:04 [frontend] 
+2022/11/28 14:46:04 [frontend] FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+2022/11/28 14:46:04 [frontend]  1: 0xb02930 node::Abort() [node]
+2022/11/28 14:46:04 [frontend]  2: 0xa18149 node::FatalError(char const*, char const*) [node]
+2022/11/28 14:46:04 [frontend]  3: 0xcdd16e v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, bool) [node]
+2022/11/28 14:46:04 [frontend]  4: 0xcdd4e7 v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, bool) [node]
+2022/11/28 14:46:04 [frontend]  5: 0xe94b55  [node]
+2022/11/28 14:46:04 [frontend]  6: 0xe95636  [node]
+2022/11/28 14:46:04 [frontend]  7: 0xea3b5e  [node]
+2022/11/28 14:46:04 [frontend]  8: 0xea45a0 v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [node]
+2022/11/28 14:46:04 [frontend]  9: 0xea751e v8::internal::Heap::AllocateRawWithRetryOrFailSlowPath(int, v8::internal::AllocationType, v8::internal::AllocationOrigin, v8::internal::AllocationAlignment) [node]
+2022/11/28 14:46:04 [frontend] 10: 0xe68792 v8::internal::Factory::AllocateRaw(int, v8::internal::AllocationType, v8::internal::AllocationAlignment) [node]
+2022/11/28 14:46:04 [frontend] 11: 0xe630ac v8::internal::FactoryBase<v8::internal::Factory>::AllocateRawArray(int, v8::internal::AllocationType) [node]
+2022/11/28 14:46:04 [frontend] 12: 0xe63185 v8::internal::FactoryBase<v8::internal::Factory>::NewFixedArrayWithFiller(v8::internal::Handle<v8::internal::Map>, int, v8::internal::Handle<v8::internal::Oddball>, v8::internal::AllocationType) [node]
+2022/11/28 14:46:04 [frontend] 13: 0x10c6543 v8::internal::Handle<v8::internal::NameDictionary> v8::internal::HashTable<v8::internal::NameDictionary, v8::internal::NameDictionaryShape>::NewInternal<v8::internal::Isolate>(v8::internal::Isolate*, int, v8::internal::AllocationType) [node]
+2022/11/28 14:46:04 [frontend] 14: 0x10c65e9 v8::internal::Handle<v8::internal::NameDictionary> v8::internal::BaseNameDictionary<v8::internal::NameDictionary, v8::internal::NameDictionaryShape>::New<v8::internal::Isolate>(v8::internal::Isolate*, int, v8::internal::AllocationType, v8::internal::MinimumCapacity) [node]
+2022/11/28 14:46:04 [frontend] 15: 0xe705d8 v8::internal::Factory::NewSlowJSObjectFromMap(v8::internal::Handle<v8::internal::Map>, int, v8::internal::AllocationType, v8::internal::Handle<v8::internal::AllocationSite>) [node]
+2022/11/28 14:46:04 [frontend] 16: 0x1066e84 v8::internal::JSObject::ObjectCreate(v8::internal::Isolate*, v8::internal::Handle<v8::internal::Object>) [node]
+2022/11/28 14:46:04 [frontend] 17: 0x11ead8b v8::internal::Runtime_ObjectCreate(int, unsigned long*, v8::internal::Isolate*) [node]
+2022/11/28 14:46:04 [frontend] 18: 0x15d5439  [node]
+2022/11/28 14:46:04 [frontend] Aborted
+2022/11/28 14:46:04 [frontend] ERROR: failed to package code files, failed to run command node --max-old-space-size=8000 $(which npm) run build, exit status 134

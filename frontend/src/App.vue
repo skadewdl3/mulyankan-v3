@@ -1,11 +1,11 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, defineAsyncComponent, watch } from 'vue'
 import { useStore } from 'vuex'
 
-import Setup from '@/pages/Setup.vue'
-import PreprocessControls from '@/components/preprocessing/PreprocessControls.vue'
-import EditorControls from '@/components/editor/EditorControls.vue'
-import Menu from '@/components/Menu.vue'
+// import Setup from '@/pages/Setup.vue'
+// import PreprocessControls from '@/components/preprocessing/PreprocessControls.vue'
+// import EditorControls from '@/components/editor/EditorControls.vue'
+// import Menu from '@/components/Menu.vue'
 const store = useStore()
 
 const showControls = ref(false)
@@ -13,6 +13,16 @@ const showControls = ref(false)
 const setShowControls = val => {
   showControls.value = val
 }
+
+const Setup = defineAsyncComponent(() => import('@/pages/Setup.vue'))
+const PreprocessControls = defineAsyncComponent(() =>
+  import('@/components/preprocessing/PreprocessControls.vue')
+)
+const EditorControls = defineAsyncComponent(() =>
+  import('@/components/editor/EditorControls.vue')
+)
+const Menu = defineAsyncComponent(() => import('@/components/Menu.vue'))
+
 watch(
   () => store.state.preprocessInstructions,
   () => {

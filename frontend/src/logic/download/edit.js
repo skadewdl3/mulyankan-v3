@@ -2,12 +2,11 @@ import { degrees, rgb } from 'pdf-lib'
 import { store } from '@/store/index'
 import { toRaw } from 'vue'
 import axios from 'axios'
-import fontKit from '@pdf-lib/fontkit'
 import { hexToRgb } from '@/helpers/color'
 import { getReducedAngle, downloadURI } from '@/helpers/miscellaneous'
 
 export const executeEditing = async (doc, updateProgress) => {
-  doc.registerFontkit(fontKit)
+  doc.registerFontkit(window.fontkit)
   let fcanvases = toRaw(store.state.images)
   let pages = fcanvases.reduce((acc, fcanvas) => {
     let objects = fcanvas._objects.map(obj =>
