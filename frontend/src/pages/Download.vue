@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 const { retrieveDocument } = await import('@/logic/download/retrieveDocument')
 const { executeEditing } = await import('@/logic/download/edit')
 const { executePreprocessing } = await import('@/logic/download/preprocess')
+const { downloadPDF } = await import('@/logic/download/oldDownload')
 const router = useRouter()
 const store = useStore()
 
@@ -37,6 +38,9 @@ const deliver = async () => {
   let editedDoc = await executeEditing(preprocessedDoc, updateProgress)
 }
 
+const download = async () => {
+  downloadPDF(store.state.images, updateProgress)
+}
 onMounted(() => {
   if (store.state.images.length === 0) {
     router.push('/')
@@ -51,11 +55,15 @@ onMounted(() => {
       <span>Mulyankan</span>
     </div>
     <div class="title">{{ $t('Download.title') }}</div>
-    <!-- <button class="file-download-btn" @click="download">
-      {{ $t('Download.download') }}
-    </button> -->
+    <div class="download-options">
+      <button class="file-download-btn" @click="download">
+        {{ $t('Download.download') }}
+      </button>
 
-    <button class="file-download-btn" @click="deliver">Deliver</button>
+      <button class="file-download-btn" @click="deliver">
+        Deliver - Beta (there may be bugs)
+      </button>
+    </div>
 
     <div class="progress" v-if="progress > 0">Progress: {{ progress }}%</div>
   </div>
@@ -65,6 +73,13 @@ onMounted(() => {
 .download
   background neutral
   container()
+
+.download-options
+  display flex
+  flex-direction column
+  align-items flex-start
+  button
+    margin-bottom 2rem
 
 .file-download-btn
   background primary

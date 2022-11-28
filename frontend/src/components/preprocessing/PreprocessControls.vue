@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { rotateCanvas } from '@/logic/canvasTransforms'
@@ -9,16 +9,16 @@ const router = useRouter()
 
 const controlsInactive = ref(true)
 
-watch(
-  () => store.state.imageSources,
-  () => {
+onMounted(() => {
+  let interval = setInterval(() => {
+    console.log(store.state.imageSources.length, store.state.numPages)
+
     if (store.state.imageSources.length === store.state.numPages) {
       controlsInactive.value = false
-    } else {
-      controlsInactive.value = true
+      clearInterval(interval)
     }
-  }
-)
+  }, 500)
+})
 const controlButtons = [
   {
     text: 'Preprocess.rotateAllLeft',

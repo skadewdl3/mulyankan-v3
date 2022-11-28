@@ -12,34 +12,11 @@ const canvasContainer = ref(null)
 // Default values for the pageWidth is width of canvasContainer
 const pageWidth = ref(canvasContainer.value?.offsetWidth)
 
-// Updates the pageWidth when window is resized (throttled to run only once every 300ms)
-// const updatePageWidth = throttle(
-//   () => {
-//     pageWidth.value = canvasContainer.value?.offsetWidth
-//   },
-//   300,
-//   { leading: false }
-// )
-
-// window.addEventListener('resize', updatePageWidth)
-
-// watch(
-//   () => store.state.imageSources,
-//   () => {
-//     if (store.state.imageSources.length === store.state.images.length) {
-//       store.commit('forceRefresh')
-//     }
-//   }
-// )
-
-watch(
-  () => store.state.imageSources,
-  () => {
-    if (store.state.imageSources.length === store.state.numPages) {
-      store.commit('forceRefresh')
-    }
+watch([() => store.state.imageSources, () => store.state.numPages], () => {
+  if (store.state.imageSources.length === store.state.numPages) {
+    store.commit('forceRefresh')
   }
-)
+})
 
 onMounted(async () => {
   if (store.state.imageSources.length === 0) {
@@ -47,6 +24,15 @@ onMounted(async () => {
     return
   }
   store.commit('setControls', { show: true, mode: 'preprocess' })
+
+  let interval = setInterval(() => {
+    console.log(store.state.imageSources.length, store.state.numPages)
+
+    if (store.state.imageSources.length === store.state.numPages) {
+      store.commit('forceRefresh')
+      clearInterval(interval)
+    }
+  }, 500)
 })
 
 onUnmounted(() => {
