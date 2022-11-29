@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
-import StringReplace from 'vite-plugin-string-replace'
+const StringReplace = require('vite-plugin-string-replace')
 
 let env = process.env.NODE_ENV || 'development'
 

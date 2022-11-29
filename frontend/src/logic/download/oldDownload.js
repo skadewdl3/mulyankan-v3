@@ -1,7 +1,6 @@
-import jspdf from 'jspdf'
-
 export const downloadPDF = (fcanvases, updateProgress) => {
   // Initialize doc using default config
+  let jspdf = window.jspdf.jsPDF
   let doc = new jspdf('1', 'pt', 'a4')
 
   //

@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <script
-      src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"
+      src="https://unpkg.com/@pdf-lib/fontkit@latest/dist/fontkit.umd.min.js"
+      async
+    ></script>
+    <script
+      src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"
       async
     ></script>
     <title>Mulyankan</title>
@@ -15,6 +19,8 @@
     <script type="module" src="/src/main.js"></script>
     <script>
       console.log(window.fontkit)
+      console.log(window)
+      console.log(window.jspdf)
     </script>
   </body>
 </html>
